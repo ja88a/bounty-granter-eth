@@ -7,3 +7,5 @@ The idea is to enable project initiators and sub-DAO/committees to propose dev p
 More details are available in the project [Wiki](./wiki).
 
 This project is developped in the context of the [ETHGlobal Online 2022 hackathon](https://ethglobal.com/events/ethonline2022).
+
+Status: ***Experimental Work in Progress***
