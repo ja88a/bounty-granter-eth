@@ -117,6 +117,9 @@ dist
 **/node_modules
 packages/**/data
 
+build
+dist
+
 # secrets
 .secret
 
