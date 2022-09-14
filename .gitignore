@@ -114,11 +114,11 @@ dist
 /.pnp
 .pnp.js
 
+# Build artifacts
 **/node_modules
-packages/**/data
-
-build
-dist
+**/data
+**/build
+**/dist
 
 # secrets
 .secret

@@ -5,16 +5,19 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
+    "clean": "npx shx rm -rf ./dist ./build ./*.tsbuildinfo ./yarn-error.log*",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract",
     "create-local": "graph create --node http://localhost:8020/ scaffold-eth/your-contract",
     "remove-local": "graph remove --node http://localhost:8020/ scaffold-eth/your-contract",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 scaffold-eth/your-contract"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 scaffold-eth/your-contract",
+    "reset": "yarn remove-local && yarn clean && npx shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.18.0",
     "@graphprotocol/graph-ts": "0.18.0"
   },
   "devDependencies": {
-    "mustache": "^3.1.0"
+    "mustache": "^3.1.0",
+    "shx": "^0.3.4"
   }
 }

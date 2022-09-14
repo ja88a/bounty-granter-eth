@@ -13,6 +13,11 @@
     "stop-optimism": "cd optimism/ops && make down",
     "run-graph-node": "cd graph-node && docker-compose up",
     "remove-graph-node": "cd graph-node && docker-compose down",
-    "clean-graph-node": "rm -rf graph-node/data/"
+    "clean-graph-node": "shx rm -rf graph-node/data/",
+    "clean": "yarn clean-graph-node && npx shx rm -rf ./deployments ./build ./*.tsbuildinfo ./yarn-error.log*",
+    "reset": "yarn remove-graph-node && yarn clean && npx shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml"
+  },
+  "devDependencies": {
+    "shx": "^0.3.4"
   }
 }
