@@ -71,7 +71,7 @@ packages/webui$ yarn serve
 This mono repo structure has been initiated from a [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) boilerplate.
 
 ### Front-End
-Package: **[bg-webui](./packages/bg-webui)**
+Package: **[webui](./packages/webui)**
 
 A React responsive Web UI based on , Wagmi, Ethers, create-react-app, Material UI, Tailwind CSS.
 
