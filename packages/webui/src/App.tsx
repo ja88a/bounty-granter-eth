@@ -7,7 +7,7 @@ import ProTip from './components/ProTip';
 import Copyright from './components/Copyright';
 
 import '@rainbow-me/rainbowkit/styles.css';
-import { ConnectButton, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, chain, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -18,13 +18,13 @@ const { chains, provider, webSocketProvider } = configureChains(
     chain.polygon,
     chain.optimism,
     chain.arbitrum,
-    ...(process.env.TESTNETS_ENABLE === 'true'
+    ...(process.env.REACT_APP_TESTNETS_ENABLE === 'true'
       ? [chain.hardhat, chain.goerli, chain.polygonMumbai, chain.optimismGoerli]
       : []),
   ],
   [
     alchemyProvider({
-      apiKey: process.env.ALCHEMY_APIKEY,
+      apiKey: process.env.REACT_APP_ALCHEMY_APIKEY,
     }),
     publicProvider(),
   ]
@@ -43,6 +43,8 @@ const wagmiClient = createClient({
 });
 
 export default function App() {
+  if (process.env.REACT_APP_DEBUG === 'true')
+    console.log("Alchemy="+process.env.REACT_APP_ALCHEMY_APIKEY +"\nTestnets="+process.env.REACT_APP_TESTNETS_ENABLE);
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
