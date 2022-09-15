@@ -36,8 +36,22 @@ $ pnpm -r install
 
 You can install the modules individually by using the command:
 ```sh
-packages/webui$ pnpm install
+packages/X$ pnpm install
 ```
+
+## Building on-chain
+Start a local Hardhat chain: 	``yarn chain``
+
+Generate a deployer address: 	``yarn generate``
+
+View your deployer address: 	``yarn account``
+
+Deploy your contract: 		    ``yarn deploy``
+
+Verify the deployed contract: 	``yarn verify``
+
+Tip: Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in ``packages/hardhat/hardhat.config.js``.
+
 
 ## Running the Web UI locally
 ### Dev mode
@@ -49,10 +63,16 @@ OR
 packages/webui$ yarn start
 ```
 
-### Production mode
+### Production build
 ```sh
 packages/webui$ yarn build
 packages/webui$ yarn serve
+```
+
+### Deployment
+Deploy the webui/build on [surge.sh](https://surge.sh): 
+```sh
+yarn surge
 ```
 
 
