@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const { utils } = require("ethers");
 const fs = require("fs");
 const chalk = require("chalk");
@@ -224,6 +225,15 @@ module.exports = {
   solidity: {
     compilers: [
       {
+        version: "0.8.17",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
+      {
         version: "0.8.4",
         settings: {
           optimizer: {
@@ -244,7 +254,7 @@ module.exports = {
     ],
   },
   ovm: {
-    solcVersion: "0.8.2",
+    solcVersion: "0.8.17",
   },
   namedAccounts: {
     deployer: {
