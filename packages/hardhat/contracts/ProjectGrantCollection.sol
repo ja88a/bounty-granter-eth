@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 import "./IProjectGrantCollection.sol";
 
-abstract contract AProjectGrantCollection is IProjectGrantCollection,
-    ERC721,
+abstract contract ProjectGrantCollection is IProjectGrantCollection,
+//    ERC721,
     ERC721Enumerable,
     ERC721URIStorage,
     Ownable

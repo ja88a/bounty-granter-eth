@@ -3,46 +3,46 @@ lockfileVersion: 5.4
 specifiers:
   '@eth-optimism/hardhat-ovm': ^0.2.4
   '@nomiclabs/hardhat-ethers': npm:hardhat-deploy-ethers
-  '@nomiclabs/hardhat-etherscan': ^3.1.0
+  '@nomiclabs/hardhat-etherscan': ^2.1.8
   '@nomiclabs/hardhat-waffle': ^2.0.3
-  '@openzeppelin/contracts': ^4.7.3
-  '@openzeppelin/contracts-upgradeable': ^4.7.3
-  '@tenderly/hardhat-tenderly': ^1.1.6
-  chai: ^4.3.6
-  chalk: ^5.0.1
-  dotenv: ^16.0.2
+  '@openzeppelin/contracts': ^4.4.1
+  '@openzeppelin/contracts-upgradeable': ^4.4.1
+  '@tenderly/hardhat-tenderly': ^1.0.13
+  chai: ^4.2.0
+  chalk: ^4.1.0
+  dotenv: ^8.2.0
   eslint: ^7.5.0
   eslint-config-airbnb: ^18.2.0
   eslint-config-prettier: ^6.11.0
   eslint-plugin-babel: ^5.3.1
   eslint-plugin-prettier: ^3.4.0
-  ethereum-waffle: ^3.4.4
-  ethers: ^5.7.1
-  hardhat: ^2.11.1
-  hardhat-deploy: ^0.11.15
+  ethereum-waffle: ^3.1.1
+  ethers: ^5.4.4
+  hardhat: ^2.8.0
+  hardhat-deploy: ^0.9.24
   node-watch: ^0.7.3
   qrcode-terminal: ^0.12.0
-  ramda: ^0.28.0
+  ramda: ^0.27.1
   shx: ^0.3.4
 
 dependencies:
   '@eth-optimism/hardhat-ovm': 0.2.4_m6mqkssayq57in66acoqjc722q
   '@nomiclabs/hardhat-ethers': /hardhat-deploy-ethers/0.3.0-beta.13_m6mqkssayq57in66acoqjc722q
-  '@nomiclabs/hardhat-etherscan': 3.1.0_hardhat@2.11.1
+  '@nomiclabs/hardhat-etherscan': 2.1.8_hardhat@2.11.1
   '@nomiclabs/hardhat-waffle': 2.0.3_ktvh4o2vfjaxeqkzhfb3wecpgu
   '@openzeppelin/contracts': 4.7.3
   '@openzeppelin/contracts-upgradeable': 4.7.3
   '@tenderly/hardhat-tenderly': 1.1.6_hardhat@2.11.1
   chai: 4.3.6
-  chalk: 5.0.1
-  dotenv: 16.0.2
+  chalk: 4.1.2
+  dotenv: 8.6.0
   ethereum-waffle: 3.4.4
   ethers: 5.7.1
   hardhat: 2.11.1
-  hardhat-deploy: 0.11.15
+  hardhat-deploy: 0.9.29_hardhat@2.11.1
   node-watch: 0.7.3
   qrcode-terminal: 0.12.0
-  ramda: 0.28.0
+  ramda: 0.27.2
 
 devDependencies:
   eslint: 7.32.0
@@ -815,23 +815,21 @@ packages:
       hardhat: 2.11.1
     dev: false
 
-  /@nomiclabs/hardhat-etherscan/3.1.0_hardhat@2.11.1:
-    resolution: {integrity: sha512-JroYgfN1AlYFkQTQ3nRwFi4o8NtZF7K/qFR2dxDUgHbCtIagkUseca9L4E/D2ScUm4XT40+8PbCdqZi+XmHyQA==}
+  /@nomiclabs/hardhat-etherscan/2.1.8_hardhat@2.11.1:
+    resolution: {integrity: sha512-0+rj0SsZotVOcTLyDOxnOc3Gulo8upo0rsw/h+gBPcmtj91YqYJNhdARHoBxOhhE8z+5IUQPx+Dii04lXT14PA==}
     peerDependencies:
       hardhat: ^2.0.4
     dependencies:
       '@ethersproject/abi': 5.7.0
       '@ethersproject/address': 5.7.0
       cbor: 5.2.0
-      chalk: 2.4.2
       debug: 4.3.4
       fs-extra: 7.0.1
       hardhat: 2.11.1
-      lodash: 4.17.21
+      node-fetch: 2.6.7
       semver: 6.3.0
-      table: 6.8.0
-      undici: 5.10.0
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -1299,6 +1297,7 @@ packages:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
       uri-js: 4.4.1
+    dev: true
 
   /ansi-colors/4.1.1:
     resolution: {integrity: sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA==}
@@ -1442,6 +1441,7 @@ packages:
   /astral-regex/2.0.0:
     resolution: {integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==}
     engines: {node: '>=8'}
+    dev: true
 
   /async-eventemitter/0.2.4:
     resolution: {integrity: sha512-pd20BwL7Yt1zwDFy+8MX8F1+WCT8aQeKj0kQnTrH9WaeRETlRamVhD0JtRPmrV4GfOJ2F9CvdQkZeZhnh2TuHw==}
@@ -2466,11 +2466,6 @@ packages:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
 
-  /chalk/5.0.1:
-    resolution: {integrity: sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==}
-    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: false
-
   /check-error/1.0.2:
     resolution: {integrity: sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==}
     dev: false
@@ -3063,9 +3058,9 @@ packages:
     resolution: {integrity: sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==}
     dev: false
 
-  /dotenv/16.0.2:
-    resolution: {integrity: sha512-JvpYKUmzQhYoIFgK2MOnF3bciIZoItIIoryihy0rIA+H4Jy0FmgyKYAHCTN98P5ybGSJcIFbh6QKeJdtZd1qhA==}
-    engines: {node: '>=12'}
+  /dotenv/8.6.0:
+    resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
+    engines: {node: '>=10'}
     dev: false
 
   /dotignore/0.1.2:
@@ -4535,6 +4530,41 @@ packages:
       - utf-8-validate
     dev: false
 
+  /hardhat-deploy/0.9.29_hardhat@2.11.1:
+    resolution: {integrity: sha512-8tIGszPFmOaXtyloCbASiZPvoAgLNGGL/Ubys3YW/oj4dvoPa8G6YDyaOCdsAhsENZ+QgR280NFSG9JdN7SU9Q==}
+    peerDependencies:
+      '@ethersproject/hardware-wallets': ^5.0.14
+      hardhat: ^2.6.8
+    dependencies:
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/abstract-signer': 5.7.0
+      '@ethersproject/address': 5.7.0
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/constants': 5.7.0
+      '@ethersproject/contracts': 5.7.0
+      '@ethersproject/providers': 5.7.1
+      '@ethersproject/solidity': 5.7.0
+      '@ethersproject/transactions': 5.7.0
+      '@ethersproject/wallet': 5.7.0
+      '@types/qs': 6.9.7
+      axios: 0.21.4_debug@4.3.4
+      chalk: 4.1.2
+      chokidar: 3.5.3
+      debug: 4.3.4
+      enquirer: 2.3.6
+      form-data: 4.0.0
+      fs-extra: 10.1.0
+      hardhat: 2.11.1
+      match-all: 1.2.6
+      murmur-128: 0.2.1
+      qs: 6.11.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   /hardhat/2.11.1:
     resolution: {integrity: sha512-7FoyfKjBs97GHNpQejHecJBBcRPOEhAE3VkjSWXB3GeeiXefWbw+zhRVOjI4eCsUUt7PyNFAdWje/lhnBT9fig==}
     engines: {node: ^14.0.0 || ^16.0.0 || ^18.0.0}
@@ -5249,6 +5279,7 @@ packages:
 
   /json-schema-traverse/1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
+    dev: true
 
   /json-schema/0.4.0:
     resolution: {integrity: sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==}
@@ -5565,6 +5596,7 @@ packages:
 
   /lodash.truncate/4.4.2:
     resolution: {integrity: sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==}
+    dev: true
 
   /lodash/4.17.20:
     resolution: {integrity: sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==}
@@ -6712,8 +6744,8 @@ packages:
     dev: false
     optional: true
 
-  /ramda/0.28.0:
-    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
+  /ramda/0.27.2:
+    resolution: {integrity: sha512-SbiLPU40JuJniHexQSAgad32hfwd+DRUdwF2PlVuI5RZD0/vahUco7R8vD86J/tcEKKF9vZrUVwgtmGCqlCKyA==}
     dev: false
 
   /randombytes/2.1.0:
@@ -7266,6 +7298,7 @@ packages:
       ansi-styles: 4.3.0
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
+    dev: true
 
   /snapdragon-node/2.1.1:
     resolution: {integrity: sha512-O27l4xaMYt/RSQ5TR3vpWCAB5Kb/czIcqUFOM/C4fYcLnbZUc1PkjTAMjof2pBWaSTwOUd6qUHcFGVGj7aIwnw==}
@@ -7615,6 +7648,7 @@ packages:
       slice-ansi: 4.0.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
+    dev: true
 
   /tape/4.16.0:
     resolution: {integrity: sha512-mBlqYFr2mHysgCFXAuSarIQ+ffhielpb7a5/IbeOhMaLnQYhkJLUm6CwO1RszWeHRxnIpMessZ3xL2Cfo94BWw==}

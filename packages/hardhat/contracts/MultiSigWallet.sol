@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity 0.8.16;
 
 contract MultiSigWallet {
     event Deposit(address indexed sender, uint amount, uint balance);
@@ -27,7 +27,9 @@ contract MultiSigWallet {
         uint numConfirmations;
     }
 
-    Transaction[] public transactions;
+    //Transaction[] public transactions;
+    uint private transactionNum;
+    mapping(uint256 => Transaction) public transactions;
 
     modifier onlyOwner() {
         require(isOwner[msg.sender], "must be owner");
@@ -35,7 +37,7 @@ contract MultiSigWallet {
     }
 
     modifier txExists(uint _txIndex) {
-        require(_txIndex < transactions.length, "tx does not exist");
+        require(_txIndex < transactionNum, "tx does not exist");
         _;
     }
 
@@ -82,17 +84,14 @@ contract MultiSigWallet {
         uint _value,
         bytes memory _data
     ) public onlyOwner {
-        uint txIndex = transactions.length;
+        uint txIndex = transactionNum++;
 
-        transactions.push(
-            new Transaction{
-                to: _to,
-                value: _value,
-                data: _data,
-                executed: false,
-                numConfirmations: 0
-            }
-        );
+        Transaction storage newTx = transactions[txIndex];
+        newTx.to = _to;
+        newTx.value = _value;
+        newTx.data = _data;
+        newTx.executed = false;
+        newTx.numConfirmations = 0;
 
         emit SubmitTransaction(msg.sender, txIndex, _to, _value, _data);
     }
@@ -156,7 +155,7 @@ contract MultiSigWallet {
     }
 
     function getTransactionCount() public view returns (uint) {
-        return transactions.length;
+        return transactionNum;
     }
 
     function getTransaction(uint _txIndex)
