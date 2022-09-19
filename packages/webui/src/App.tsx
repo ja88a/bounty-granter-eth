@@ -14,8 +14,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, chain, createClient, WagmiConfig } from 'wagmi';
 
-//import { Init as AutInit } from '@aut-protocol/d-aut';
-import { Init } from '@aut-protocol/d-aut';
+import { Init as AutInit } from '@aut-protocol/d-aut';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -52,8 +51,12 @@ export default function App() {
     console.log("Alchemy="+process.env.REACT_APP_ALCHEMY_APIKEY +"\nTestnets="+process.env.REACT_APP_TESTNETS_ENABLE);
   }
 
+  // Communities:
+  //    Web3Hack: 0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C
+  //    SeaShepherd: 0xB866Ee8a2396ab82cD0489be87D9692F057c9c29
+
   useEffect(() => {
-    Init();
+    AutInit();
   }, []);
 
   return (
@@ -62,7 +65,8 @@ export default function App() {
         <Container id='AppRootContainer'>
           <ResponsiveAppBar />
           <div className="my-4">
-            <d-aut network="goerli" button-type="round-bright" dao-expander="0xE94773E3Af67b28adF0935aD9B0D1CcFc8917dA1"></d-aut>
+                       
+            <d-aut network="goerli" button-type="round-bright" dao-expander="0xB866Ee8a2396ab82cD0489be87D9692F057c9c29"></d-aut>
             <Slider
               className="my-4"
               defaultValue={30}
