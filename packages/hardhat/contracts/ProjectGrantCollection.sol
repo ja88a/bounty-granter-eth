@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.2;  //Do not change the solidity version as it negativly impacts submission grading
+pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -7,31 +7,41 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract YourCollectible is
+import "./IProjectGrantCollection.sol";
+
+abstract contract AProjectGrantCollection is IProjectGrantCollection,
     ERC721,
     ERC721Enumerable,
     ERC721URIStorage,
     Ownable
 {
+    string public version;
+
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("YourCollectible", "YCB") {}
+    /**
+     * @dev Constructor
+     * @param name Name of the collection, e.g. 'Project grants V1'
+     * @param tokenSymbol Symbol the token for this collection of project grants
+     * @param collVersion Version of the project grants collection, e.g. '1.0.3'
+     */
+    constructor(string memory name, string memory tokenSymbol, string memory collVersion) ERC721(name, tokenSymbol) {
+        version = collVersion;
+    }
 
     function _baseURI() internal pure override returns (string memory) {
         return "https://ipfs.io/ipfs/";
     }
 
-    function mintItem(address to, string memory uri) public returns (uint256) {
+    function mintItem(address to, string memory uri) external returns (uint256) {
         _tokenIdCounter.increment();
         uint256 tokenId = _tokenIdCounter.current();
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
         return tokenId;
     }
-
-    // The following functions are overrides required by Solidity.
 
     function _beforeTokenTransfer(
         address from,
