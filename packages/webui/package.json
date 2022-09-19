@@ -22,7 +22,7 @@
     "reset": "yarn clean && npx shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml",
     "serve": "npx serve -s build",
     "ship": "yarn surge",
-    "surge": "nxp shx cp build/index.html build/200.html && surge ./build",
+    "surge": "npx shx cp build/index.html build/200.html && surge ./build",
     "s3": "node ./scripts/s3.js",
     "start": "react-scripts start",
     "test": "react-scripts test",
