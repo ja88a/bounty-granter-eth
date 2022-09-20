@@ -23,18 +23,18 @@ describe("🚩 Challenge 0: 🎟 Simple NFT Example 🤓", function () {
 
   // console.log("hre:",Object.keys(hre)) // <-- you can access the hardhat runtime env here
 
-  describe("YourCollectible", function () {
+  describe("ProjectGrant", function () {
 
     let contractArtifact;
     if (process.env.CONTRACT_ADDRESS) {
-      contractArtifact = `contracts/${process.env.CONTRACT_ADDRESS}.sol:YourCollectible`
+      contractArtifact = `contracts/${process.env.CONTRACT_ADDRESS}.sol:ProjectGrant`
     } else {
-      contractArtifact = "contracts/YourCollectible.sol:YourCollectible";
+      contractArtifact = "contracts/ProjectGrant.sol:ProjectGrant";
     }
 
     it("Should deploy the contract", async function () {
-      const YourCollectible = await ethers.getContractFactory(contractArtifact);
-      myContract = await YourCollectible.deploy();
+      const ProjectGrant = await ethers.getContractFactory(contractArtifact);
+      myContract = await ProjectGrant.deploy();
       console.log("\t"," 🛰  Contract deployed on", myContract.address);
     });
 

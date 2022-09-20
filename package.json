@@ -23,10 +23,10 @@
     ]
   },
   "scripts": {
-    "react-app:build": "yarn workspace @bounty-granter-eth/webui build --max-old-space-size=12288",
-    "react-app:eject": "yarn workspace @bounty-granter-eth/webui eject",
-    "react-app:start": "yarn workspace @bounty-granter-eth/webui start",
-    "react-app:test": "yarn workspace @bounty-granter-eth/webui test",
+    "webui:build": "yarn workspace @bounty-granter-eth/webui build --max-old-space-size=12288",
+    "webui:eject": "yarn workspace @bounty-granter-eth/webui eject",
+    "webui:start": "yarn workspace @bounty-granter-eth/webui start",
+    "webui:test": "yarn workspace @bounty-granter-eth/webui test",
     "build": "yarn workspace @bounty-granter-eth/webui build --max-old-space-size=12288",
     "prettier": "yarn workspace @bounty-granter-eth/webui prettier",
     "theme": "yarn workspace @bounty-granter-eth/webui theme",

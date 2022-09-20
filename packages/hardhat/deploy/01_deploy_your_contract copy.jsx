@@ -23,8 +23,13 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     log: true,
   });
 
+  await deploy("ProjectGrantCollectionV1", {
+    from: deployer,
+    log: true,
+  });
+
   // Getting a previously deployed contract
-  const projectGrant = await ethers.getContract("ProjectGrantFactory", deployer);
+  const projectGrantFactory = await ethers.getContract("ProjectGrantFactory", deployer);
 
   // TODO Verify the contract with Etherscan for public chains
   // if (chainId !== "31337") {
