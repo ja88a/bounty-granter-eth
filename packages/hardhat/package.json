@@ -1,11 +1,12 @@
 {
   "name": "@bounty-granter-eth/hardhat",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "description": "",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "clean": "npx hardhat clean && npx shx rm -rf ./deployments ./cache ./build ./*.tsbuildinfo ./yarn-error.log*",
-    "reset": "yarn clean && npx shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml",
+    "clean": "shx rm -rf ./*.tsbuildinfo ./yarn-error.log* && hardhat clean",
+    "reset": "yarn clean && shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml ./cache ./deployments ./artefacts",
     "chain": "hardhat node --network hardhat --no-deploy",
     "fork": "hardhat node --no-deploy --network hardhat --fork https://mainnet.infura.io/v3/460f40a260564ac4a4f4b3fffb032dad",
     "test": "hardhat test",
@@ -21,24 +22,40 @@
     "mint": "hardhat run scripts/mint.js",
     "verify": "hardhat etherscan-verify --api-key PSW8C433Q667DVEX5BCRMGNAH9FSGFZ7Q8"
   },
+  "bake": {
+    "description": "Scaffold a basic ES6 setup",
+    "scripts": {
+      "start": "echo Starting generation of default template",
+      "prestart": "echo prestart",
+      "poststart": "echo poststart",
+      "install": "npm install --loglevel warn --cache-min Infinity",
+      "preinstall": "echo Installing dependencies ...",
+      "postinstall": "npm ls --depth 0"
+    }
+  },
   "dependencies": {
-    "@eth-optimism/hardhat-ovm": "^0.2.4",
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
-    "@nomiclabs/hardhat-etherscan": "^2.1.8",
-    "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@openzeppelin/contracts": "^4.4.1",
-    "@openzeppelin/contracts-upgradeable": "^4.4.1",
-    "@tenderly/hardhat-tenderly": "^1.0.13",
+    "@nomiclabs/hardhat-etherscan": "^3.0.1",
+    "@openzeppelin/contracts": "^4.7.3",
+    "@tenderly/hardhat-tenderly": "^1.0.10",
+    "@typechain/ethers-v5": "^10.1.0",
+    "@typechain/hardhat": "^6.1.2",
+    "@types/mocha": "^9.1.0",
     "chai": "^4.2.0",
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
-    "ethereum-waffle": "^3.1.1",
     "ethers": "^5.4.4",
-    "hardhat": "^2.8.0",
-    "hardhat-deploy": "^0.9.24",
-    "node-watch": "^0.7.3",
+    "hardhat": "^2.10.2",
+    "hardhat-abi-exporter": "^2.8.0",
+    "hardhat-deploy": "^0.9.0",
+    "hardhat-gas-reporter": "^1.0.4",
+    "node-watch": "^0.7.0",
     "qrcode-terminal": "^0.12.0",
-    "ramda": "^0.27.1"
+    "ramda": "^0.27.1",
+    "solidity-coverage": "^0.7.21"
   },
   "devDependencies": {
     "eslint": "^7.5.0",

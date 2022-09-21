@@ -70,13 +70,14 @@
     "deploy-and-graph": "yarn deploy && yarn graph-ship-local",
     "mint": "yarn workspace @bounty-granter-eth/hardhat mint",
 
-    "clean": "npx shx rm -rf ./dist ./build ./*.tsbuildinfo ./yarn-error.log*",
-    "reset": "yarn clean && npx shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml",
+    "clean": "shx rm -rf ./dist ./build ./*.tsbuildinfo ./yarn-error.log*",
+    "reset": "yarn clean && shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml",
     "install:all": "pnpm -r install",
-    "clean:all": "yarn clean && yarn workspaces run clean",
-    "reset:all": "yarn reset && yarn workspaces run reset"
+    "clean:all": "yarn workspaces run clean && yarn clean",
+    "reset:all": "yarn workspaces run reset && yarn reset"
   },
   "devDependencies": {
+    "pnpm": "^7.12.1",
     "shx": "^0.3.4"
   }
 }

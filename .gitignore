@@ -153,3 +153,6 @@ coverage
 .idea
 .vscode
 .dependencygraph/setting.json
+
+*-tmp/
+*.tmp.*
