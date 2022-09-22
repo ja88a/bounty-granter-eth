@@ -3,8 +3,9 @@ pragma solidity 0.8.16;
 
 // import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 // import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 
-interface IProjectGrantCollection
+interface IProjectGrantCollection is IERC721Metadata
 {
     // function mintItem(address to, string memory uri) external returns (uint256);
 

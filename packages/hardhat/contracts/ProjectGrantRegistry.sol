@@ -4,8 +4,9 @@ pragma solidity 0.8.16;
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./ProjectGrantCollection.sol";
+import "./AccessControlMember.sol";
 
-contract ProjectGrantRegistry {
+contract ProjectGrantRegistry is AccessControlMember {
 
     struct ProjectGrant {
         address collection; // the project grant contract address
@@ -30,7 +31,10 @@ contract ProjectGrantRegistry {
         uint256 timestamp
     );
 
-    constructor() {}
+    constructor(address _community, address _committee) 
+        AccessControlMember(_community, _committee) 
+    {
+    }
 
     /**
      * @dev Register a new project grant

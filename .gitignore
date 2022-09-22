@@ -154,5 +154,8 @@ coverage
 .vscode
 .dependencygraph/setting.json
 
+# local cooking
 *-tmp/
 *.tmp.*
+package_*.json
+hardhat.config_*.js

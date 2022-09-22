@@ -6,9 +6,10 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./AccessController.sol";
 import "./ProjectGrantCollection.sol";
 import "./ProjectGrantRegistry.sol";
+import "./AccessControlMember.sol";
 
 // @title Factory of new project grant tokens and management of collections
-contract ProjectGrantFactory is AccessController {
+contract ProjectGrantFactory is AccessControlMember {
 
     // uint256 internal projectGrantCollectionNum = 0;
     // /** @dev Set of available project grant collections */
@@ -29,9 +30,9 @@ contract ProjectGrantFactory is AccessController {
 
     // not all of the fields are necessary, but they sure are useful
     event CreateProjectGrant(
+        address creator,
         uint256 indexed tokenId,
         address indexed collectionAddress,
-        address creator,
         string name,
         address committee,
         uint256 timestamp
@@ -40,8 +41,12 @@ contract ProjectGrantFactory is AccessController {
     /**
      * @dev Constructor of the factory
      * @param _pgRegistry Address of the registry where newly created project grants are reported
+     * @param _owningCommunity Address of the owning community group
+     * @param _adminCommittee Address of the committe with admin rights
      */
-    constructor(address _pgRegistry) {
+    constructor(address _pgRegistry, address _owningCommunity, address _adminCommittee)
+        AccessControlMember(_owningCommunity, _adminCommittee)
+    {
         projectGrantRegistry = _pgRegistry;
     }
 
@@ -51,10 +56,9 @@ contract ProjectGrantFactory is AccessController {
      */
     function registerProjectGrantCollection(address _collAddress)
         public
-        onlyRole(ADMIN)
+        onlyRole(ADMIN) // TODO TEMP Review Admin Vs. Community Role (or specific commitee membership & role)
     {
         // => Checks
-        // FIXME Check msg.sender is admin
 
         // TODO Check collectionAddress inherits ProjectGrantCollection
         // Check that a collection name and version number are provided
@@ -110,6 +114,14 @@ contract ProjectGrantFactory is AccessController {
     {
         return(projectGrantCollections);
     }
+    
+    function getProjectGrantCollectionByIndex(uint256 index)
+        public
+        view
+        returns(address)
+    {
+        return(projectGrantCollections[index]);
+    }
 
     /**
      * @dev Create a new Project Grant part of a given collection and assign its owning committee
@@ -119,10 +131,13 @@ contract ProjectGrantFactory is AccessController {
      */
     function createProjectGrant(uint256 _collectionIndex, string calldata _projectGrantName, address _assignedCommittee)
         public
+        onlyCommitteeMember(_assignedCommittee)
     {
         // => Checks
         // TODO Check assignedCommittee is legit
         // TODO Check sender is at least part of the DAO [and sub-DAO]
+        //require(hasRole(ADMIN, msg.sender)); // FIXME TEMP: Not just admin but member of the DAO
+        //require(isCommunityMember(), "Allowed to community members only");
 
         require(
             _collectionIndex >= 0 && _collectionIndex < projectGrantCollections.length, 
@@ -144,9 +159,9 @@ contract ProjectGrantFactory is AccessController {
         
         // => Interactions
         emit CreateProjectGrant(
+            msg.sender,
             tokenId,
             address(projectGrantCollection),
-            msg.sender,
             _projectGrantName,
             _assignedCommittee,
             block.timestamp
