@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 
-//import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -11,7 +11,7 @@ import "./IProjectGrantCollection.sol";
 import "./AccessControlMember.sol";
 
 abstract contract ProjectGrantCollection is IProjectGrantCollection,
-//    ERC721,
+    ERC721,
     ERC721Enumerable,
     ERC721URIStorage,
     Ownable,
@@ -33,9 +33,9 @@ abstract contract ProjectGrantCollection is IProjectGrantCollection,
      * @param _community Community owning that collection
      * @param _committee Owning committee which members have privileges [per their role]
      */
-    constructor(string memory name, string memory tokenSymbol, string memory _version, address _community, address _committee) 
+    constructor(string memory name, string memory tokenSymbol, string memory _version, address _community, address _committee, address _admin) 
         ERC721(name, tokenSymbol)
-        AccessControlMember(_community, _committee)
+        AccessControlMember(_community, _committee, _admin)
     {
         version = _version;
     }
@@ -46,7 +46,7 @@ abstract contract ProjectGrantCollection is IProjectGrantCollection,
 
     function mintItem(address to, string memory uri) 
         external 
-        onlyCommitteeMember()
+        onlyCommitteeMember(address(0))
         returns (uint256) 
     {
         // require(
@@ -78,7 +78,7 @@ abstract contract ProjectGrantCollection is IProjectGrantCollection,
     function tokenURI(uint256 tokenId)
         public
         view
-        override(ERC721, ERC721URIStorage)
+        override(ERC721, ERC721URIStorage, IERC721Metadata)
         returns (string memory)
     {
         return super.tokenURI(tokenId);
@@ -87,7 +87,7 @@ abstract contract ProjectGrantCollection is IProjectGrantCollection,
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(AccessControlEnumerable, ERC721, ERC721Enumerable)
+        override(AccessControlEnumerable, ERC721, ERC721Enumerable, IERC165)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);

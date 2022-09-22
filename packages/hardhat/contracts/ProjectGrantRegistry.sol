@@ -13,14 +13,16 @@ contract ProjectGrantRegistry is AccessControlMember {
         uint256 tokenId; // unique token ID of the project grant in its collection
     }
     
+    /** @dev Count of actual number of registered project grants */
     uint32 private projectGrantNum = 0;
 
     /** @dev List of the registered project grants */
     mapping(uint256 => ProjectGrant) internal projectGrants;
 
+    /** Reference to the funds treasury associated to this registry */
     address internal treasury;
 
-    // not all of the fields are necessary, but they sure are useful
+    /** @dev Effective registration of a new Project Grant in the Registry */
     event RegisterProjectGrant(
         uint256 indexed index,
         uint256 indexed tokenId,
@@ -31,8 +33,8 @@ contract ProjectGrantRegistry is AccessControlMember {
         uint256 timestamp
     );
 
-    constructor(address _community, address _committee) 
-        AccessControlMember(_community, _committee) 
+    constructor(address _community, address _committee, address _admin) 
+        AccessControlMember(_community, _committee, _admin) 
     {
     }
 

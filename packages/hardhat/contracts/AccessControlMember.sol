@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 pragma solidity 0.8.16;
 
-//import "./AccessController.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "./AccessController.sol";
+//import "@openzeppelin/contracts/access/AccessControl.sol";
 
-abstract contract AccessControlMember is AccessControl {
+abstract contract AccessControlMember is AccessController {
 
     // fn: onlyCommunityMember()
     // fn{}: require(hasRole(ADMIN, msg.sender));
@@ -101,17 +101,6 @@ abstract contract AccessControlMember is AccessControl {
         _checkIfMemberOfCommunity(community, _msgSender());
     }
 
-    function _checkIfMemberOfCommunity(address _community, address _account) 
-        internal
-        view
-        virtual
-        returns (bool isMember)
-    {
-        // TODO AUT integration to check for BG DAO membership
-        //require()
-        return true;
-    }
-
     /**
      * @dev Access guard. Limit access to a member of a given committee
      */
@@ -154,6 +143,17 @@ abstract contract AccessControlMember is AccessControl {
         }
         targetCommittee[1] = adminCommittee;
         memberOfCommittee = _checkIfMemberOfCommittee(_msgSender(), targetCommittee);
+    }
+
+    function _checkIfMemberOfCommunity(address _community, address _account) 
+        internal
+        view
+        virtual
+        returns (bool isMember)
+    {
+        // TODO AUT integration to check for BG DAO membership
+        //require()
+        return true;
     }
 
     function _checkIfMemberOfCommittee(address _account, address[] memory _committee) 

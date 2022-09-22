@@ -41,11 +41,12 @@ contract ProjectGrantFactory is AccessControlMember {
     /**
      * @dev Constructor of the factory
      * @param _pgRegistry Address of the registry where newly created project grants are reported
-     * @param _owningCommunity Address of the owning community group
-     * @param _adminCommittee Address of the committe with admin rights
+     * @param _community Address of the owning community group (DAO)
+     * @param _owner Committee owner of this factory (sub-DAO)
+     * @param _admin Committee with admin rights (sub-DAO)
      */
-    constructor(address _pgRegistry, address _owningCommunity, address _adminCommittee)
-        AccessControlMember(_owningCommunity, _adminCommittee)
+    constructor(address _pgRegistry, address _community, address _owner, address _admin)
+        AccessControlMember(_community, _owner, _admin)
     {
         projectGrantRegistry = _pgRegistry;
     }
@@ -56,11 +57,11 @@ contract ProjectGrantFactory is AccessControlMember {
      */
     function registerProjectGrantCollection(address _collAddress)
         public
-        onlyRole(ADMIN) // TODO TEMP Review Admin Vs. Community Role (or specific commitee membership & role)
+        onlyAdmin // TODO Review Admin Vs. Community Role (or specific commitee member role)
     {
         // => Checks
-
         // TODO Check collectionAddress inherits ProjectGrantCollection
+
         // Check that a collection name and version number are provided
         string memory collLabel = ProjectGrantCollection(_collAddress).name();
         string memory collVersion = ProjectGrantCollection(_collAddress).version();
@@ -74,6 +75,7 @@ contract ProjectGrantFactory is AccessControlMember {
             bytes(collLabel).length < 120, 
             "ProjectGrantFactory: Collection name is too long - Max length is 120, without special characters"
         );
+
         // TODO Check that the version follows the pattern x.y
 
         // Check if collection is not already registered
