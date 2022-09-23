@@ -8,8 +8,6 @@ const { ethers } = require("hardhat");
 
 const CHAIN_ID_LOCAL = "31337";
 
-// Hardhat deploy community plugin: https://github.com/wighawag/hardhat-deploy/tree/master
-
 module.exports = async ({ 
   getNamedAccounts, 
   deployments, 
@@ -20,23 +18,19 @@ module.exports = async ({
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  await deploy("ProjectGrantRegistry", {
+  await deploy("projectGrantFactory", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
-    args: [ 
-      "0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F", // community DAO
-      "0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C", // owner committee sub-DAO
-      "0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C"  // admin committee sub-DAO
-    ],
+    //args: [ "Hello", ethers.utils.parseEther("1.5") ],
     //gasLimit: 4000000, 
     //waitConfirmations: 5,
     log: true
   });
 
   // Getting a previously deployed contract
-  //  /!\ Error: ERROR processing /home/simon/dev/workspace/bounty-granter-eth_tmp-tes/deploy/00_deploy_ProjectGrantRegistry.js:
+  //  /!\ Error: ERROR processing /home/simon/dev/workspace/bounty-granter-eth_tmp-tes/deploy/00_deploy_projectGrantFactory.js:
   //  TypeError: ethers.getContract is not a function
-  //const projectGrantRegistry = await ethers.getContract("ProjectGrantRegistry", deployer);
+  //const projectGrantRegistry = await ethers.getContract("projectGrantFactory", deployer);
 
   // Verify from the command line by running `yarn verify`
 
@@ -47,7 +41,7 @@ module.exports = async ({
   //     await sleep(3000); // wait 3 seconds for deployment to propagate bytecode
   //     await run("verify:verify", {
   //       address: projectGrantRegistry.address,
-  //       contract: "contracts/ProjectGrantRegistry.sol:ProjectGrantRegistry",
+  //       contract: "contracts/projectGrantFactory.sol:projectGrantFactory",
   //       // contractArguments: [yourToken.address],
   //     });
   //   } catch (e) {
@@ -106,4 +100,4 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-module.exports.tags = ["ProjectGrantRegistry"];
+module.exports.tags = ["projectGrantFactory"];

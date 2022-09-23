@@ -46,11 +46,11 @@ Generate a deployer address: 	``yarn generate``
 
 View your deployer address: 	``yarn account``
 
-Deploy your contract: 		    ``yarn deploy``
+Deploy the contracts: 		    ``yarn deploy``
 
-Verify the deployed contract: 	``yarn verify``
+Verify the deployed contracts: 	``yarn verify``
 
-Tip: Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in ``packages/hardhat/hardhat.config.js``.
+Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in ``packages/hardhat/hardhat.config.js``.
 
 
 ## Running the Web UI locally
@@ -66,7 +66,7 @@ packages/webui$ yarn start
 ### Production build
 ```sh
 packages/webui$ yarn build
-packages/webui$ yarn serve
+packages/webui$ yarn serve # Run locally
 ```
 
 ### Deployment
@@ -74,6 +74,7 @@ Deploy the webui/build on [surge.sh](https://surge.sh):
 ```sh
 yarn surge
 ```
+The generated static web resources can be deployed on [IPFS](https://ipfs.tech/), [Surge](https://surge.sh) or [AWS S3](https://aws.amazon.com/s3/). Refer to dedicated deployment scripts in `packages/webui/package.json`.
 
 
 ## Technical Modules
@@ -90,9 +91,7 @@ A React responsive Web UI based on:
 * [Wagmi](https://wagmi.sh/)
 * [Ethers](https://github.com/ethers-io/ethers.js/)
 * [RainbowKit](https://www.rainbowkit.com/)
-* and friends: refer to `package.json`.
-
-The generated static web resources can be deployed on [Surge](https://surge.sh), [AWS S3](https://aws.amazon.com/s3/) or preferably on [IPFS](https://ipfs.tech/).
+* and friends: refer to `packages/webui/package.json`.
 
 ### Smart Contracts
 Package: **[hardhat](./packages/hardhat)**
