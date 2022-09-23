@@ -1,5 +1,40 @@
 
-Credits to [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) for this [Hardhat](https://hardhat.org) development framework integration.
+
+## BountyGranter on-chain Contracts
+
+Solidity verion: `0.8.16`
+
+Location: [/contracts](./contracts)
+
+Available contracts:
+* Access controllers for allowing access to contract methods or finer grain permissions: 
+  * Support for classic ACL
+  * Community (DAO) or Committee (sub-DAO) membership validation
+  * Role-based verfication of the message sender (committee member) to grant permissions
+* Project grants management:
+  * [Registry](./contracts/ProjectGrantRegistry.sol) of project grants
+  * [Factory](./contracts/ProjectGrantFactory.sol) of project grants for a given committee
+  * [Extended ERC721](./contracts/ProjectGrantCollection.sol) collections of non-fungible tokens for the project grants definition
+* 
+
+## Contracts Build & Deployment
+
+nodejs: `16.x` LTS
+
+Installation:
+```sh
+pnpm install # or yarn
+```
+
+Generate a contract deployer account: 	``yarn compile``
+
+Generate a contract deployer account: 	``yarn generate``
+
+View your deployer account address: 	``yarn account``
+
+Deploy your contracts: 		            ``yarn deploy``
+
+Verify the deployed contract: 	        ``yarn verify``
 
 
 ## Hardhat Local Chain
@@ -21,22 +56,17 @@ Chain ID: 31337
 Token: ETH
 ```
 
-## Contracts Build & Deployment
-
-Generate a contract deployer account: 	``yarn compile``
-
-Generate a contract deployer account: 	``yarn generate``
-
-View your deployer account address: 	``yarn account``
-
-Deploy your contracts: 		            ``yarn deploy``
-
-Verify the deployed contract: 	        ``yarn verify``
-
-
 ## Default Network
 
 Refer to ``defaultNetwork`` set in ``packages/hardhat/hardhat.config.js``.
 
 It is overridden by using the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``
 
+
+## Credits
+
+Credits go to [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) and NomicLabs [Hardhat](https://hardhat.org) for this development, test and integration framework of solidity contracts.
+
+[OpenZeppelin contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) are integrated.
+
+Refer to [package.json]() for the complete list of dependencies this module is developped from.

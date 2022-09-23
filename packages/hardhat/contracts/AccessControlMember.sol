@@ -6,13 +6,11 @@ import "./AccessController.sol";
 
 abstract contract AccessControlMember is AccessController {
 
-    // fn: onlyCommunityMember()
-    // fn{}: require(hasRole(ADMIN, msg.sender));
-
-    // fn: nonReentrant
+    // fn: onlyCommitteeMember(address(0))
+    // fn{}: require(isCommitteeMember(_committee));
 
     /** @dev Community owning the module */
-    address internal community;
+    address internal ownerCommunity;
 
     /** @dev Committee group owning the module */
     address internal ownerCommittee;
@@ -24,40 +22,43 @@ abstract contract AccessControlMember is AccessController {
         address sender,
         address changedContract,
         bytes32 committeeType,
-        address newCommittee
+        address newCommittee,
+        uint256 timestamp
     );
 
     constructor(address _community, address _ownwerCommittee, address _adminCommittee) {
         // TODO Check validity of specified community & committee
-        community = _community;
+        ownerCommunity = _community;
         ownerCommittee = _ownwerCommittee;
         adminCommittee = _adminCommittee;
     }
 
     /** 
      * @dev Get the module's memberships info
-     * @return owningCommunity The community owning the contract
-     * @return owningCommittee The committee owning the contract
-     * @return administratingCommittee The committee with privileges to administrate the contract
+     * @return community The community owning the contract
+     * @return committee The committee owning the contract
+     * @return admin The committee with privileges to administrate the contract
      */
     function memberships()
         public
         view
-        returns (address owningCommunity, address owningCommittee, address administratingCommittee)
+        returns (address community, address committee, address admin)
     {
-        owningCommunity = community;
-        owningCommittee = ownerCommittee;
-        administratingCommittee = adminCommittee;
+        community = ownerCommunity;
+        committee = ownerCommittee;
+        admin = adminCommittee;
     }
 
     /**
      * @dev Change the committee in charge of administrating this contract. Change restricted to *Admin members* only.
      * @param _committee New committee administrator of the contract
+     * @return The newly set admin committee
      */
     function changeCommitteeAdmin(address _committee) 
         public
         virtual
         onlyAdmin
+        returns(address)
     {
         adminCommittee = _committee;
 
@@ -65,18 +66,23 @@ abstract contract AccessControlMember is AccessController {
             msg.sender,
             address(this),
             "admin",
-            _committee
+            _committee,
+            block.timestamp
         );
+
+        return adminCommittee;
     }
 
     /**
      * @dev Change the committee in charge of administrating this contract. Change restricted to *Admin members* only.
      * @param _committee New committee owner of the contract
+     * @return The newly set owner committee
      */
     function changeCommitteeOwner(address _committee) 
         public
         virtual
         onlyAdmin
+        returns (address)
     {
         ownerCommittee = _committee;
 
@@ -84,12 +90,15 @@ abstract contract AccessControlMember is AccessController {
             msg.sender,
             address(this),
             "owner",
-            _committee
+            _committee,
+            block.timestamp
         );
+
+        return ownerCommittee;
     }
 
     modifier onlyCommunityMember() {
-        _checkIfMemberOfCommunity(community, _msgSender());
+        _checkIfMemberOfCommunity(ownerCommunity, _msgSender());
         _;
     }
 
@@ -98,7 +107,7 @@ abstract contract AccessControlMember is AccessController {
         view
         virtual 
     {
-        _checkIfMemberOfCommunity(community, _msgSender());
+        _checkIfMemberOfCommunity(ownerCommunity, _msgSender());
     }
 
     /**
@@ -149,11 +158,11 @@ abstract contract AccessControlMember is AccessController {
         internal
         view
         virtual
-        returns (bool isMember)
+        returns (address partOfCommunity)
     {
         // TODO AUT integration to check for BG DAO membership
         //require()
-        return true;
+        return _community;
     }
 
     function _checkIfMemberOfCommittee(address _account, address[] memory _committee) 

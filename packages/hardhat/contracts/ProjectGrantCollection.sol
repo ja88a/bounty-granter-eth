@@ -10,7 +10,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./IProjectGrantCollection.sol";
 import "./AccessControlMember.sol";
 
-abstract contract ProjectGrantCollection is IProjectGrantCollection,
+abstract contract ProjectGrantCollection is 
+    IProjectGrantCollection,
     ERC721,
     ERC721Enumerable,
     ERC721URIStorage,
@@ -40,22 +41,23 @@ abstract contract ProjectGrantCollection is IProjectGrantCollection,
         version = _version;
     }
 
-    function _baseURI() internal pure override returns (string memory) {
+    function _baseURI() 
+        internal 
+        pure 
+        override 
+        returns (string memory) 
+    {
         return "https://ipfs.io/ipfs/";
     }
 
-    function mintItem(address to, string memory uri) 
+    function mintItem(address _committee, string memory uri) 
         external 
-        onlyCommitteeMember(address(0))
+        onlyCommitteeMember(_committee)
         returns (uint256) 
     {
-        // require(
-        //     checkMemberHasRole(roles_mint),
-        //     "ProjectGrant: Minting not allowed -  "
-        // );
         _tokenIdCounter.increment();
         uint256 tokenId = _tokenIdCounter.current();
-        _safeMint(to, tokenId);
+        _safeMint(_committee, tokenId);
         _setTokenURI(tokenId, uri);
         return tokenId;
     }
@@ -78,7 +80,7 @@ abstract contract ProjectGrantCollection is IProjectGrantCollection,
     function tokenURI(uint256 tokenId)
         public
         view
-        override(ERC721, ERC721URIStorage, IERC721Metadata)
+        override(ERC721, ERC721URIStorage, IProjectGrantCollection)
         returns (string memory)
     {
         return super.tokenURI(tokenId);
@@ -87,9 +89,9 @@ abstract contract ProjectGrantCollection is IProjectGrantCollection,
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(AccessControlEnumerable, ERC721, ERC721Enumerable, IERC165)
+        override(AccessControlEnumerable, ERC721, ERC721Enumerable, IProjectGrantCollection)
         returns (bool)
     {
-        return super.supportsInterface(interfaceId);
+        return interfaceId == type(IProjectGrantCollection).interfaceId || super.supportsInterface(interfaceId);
     }
 }

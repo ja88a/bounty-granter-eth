@@ -31,7 +31,8 @@ abstract contract AccessControlRole is AccessControlMember {
         address sender,
         address changedContract,
         address committee,
-        bytes32[] actions
+        bytes32[] actions,
+        uint256 timestamp
     );
 
     /** @dev Effective change on committee member roles allowed to perform an action */
@@ -40,7 +41,8 @@ abstract contract AccessControlRole is AccessControlMember {
         address changedContract,
         bytes32 action,
         address committee,
-        bytes32[] roles
+        bytes32[] roles,
+        uint256 timestamp
     );
 
     /**
@@ -185,7 +187,8 @@ abstract contract AccessControlRole is AccessControlMember {
             msg.sender,
             address(this),
             _committee,
-            actionsSet
+            actionsSet,
+            block.timestamp
         );
     }
 
@@ -250,7 +253,8 @@ abstract contract AccessControlRole is AccessControlMember {
             address(this),
             _action,
             _committee,
-            _roles
+            _roles,
+            block.timestamp
         );
     }
 
@@ -262,12 +266,13 @@ abstract contract AccessControlRole is AccessControlMember {
     function changeCommitteeOwner(address _committee) override
         public
         onlyAdmin
+        returns(address)
     {
         bytes32[] memory empty = new bytes32[](0);
         for (uint256 i=0; i < actionsCommittee.length; i++) {
             actionRolesCommittee[actionsCommittee[i]] = empty;
         }
-        super.changeCommitteeOwner(_committee);
+        return super.changeCommitteeOwner(_committee);
     }
 
     
@@ -279,11 +284,12 @@ abstract contract AccessControlRole is AccessControlMember {
     function changeCommitteeAdmin(address _committee) override
         public
         onlyAdmin
+        returns (address)
     {
         bytes32[] memory empty = new bytes32[](0);
         for (uint256 i=0; i < actionsAdmin.length; i++) {
             actionRolesAdmin[actionsAdmin[i]] = empty;
         }
-        super.changeCommitteeAdmin(_committee);
+        return super.changeCommitteeAdmin(_committee);
     }
 }

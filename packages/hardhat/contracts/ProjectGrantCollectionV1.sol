@@ -12,8 +12,11 @@ contract ProjectGrantCollectionV1 is ProjectGrantCollection
         address _community,
         address _committee,
         address _admin
-    ) 
-        ProjectGrantCollection(_name, _tokenSymbol, _version, _community, _committee, _admin) 
+        ) 
+        ProjectGrantCollection(
+            _name, _tokenSymbol, _version, 
+            _community, _committee, _admin
+        ) 
     {}
 
 }
