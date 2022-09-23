@@ -1,4 +1,4 @@
-# Bebop Bounty Granter
+# Bebop Bounty Granter on ETH
 
 ## General
 
