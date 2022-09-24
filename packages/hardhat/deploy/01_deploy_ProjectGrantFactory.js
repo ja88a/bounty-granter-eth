@@ -18,10 +18,15 @@ module.exports = async ({
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  await deploy("projectGrantFactory", {
+  await deploy("ProjectGrantFactory", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
-    //args: [ "Hello", ethers.utils.parseEther("1.5") ],
+    args: [
+      "0x38a024C0b412B9d1db8BC398140D00F5Af3093D4", // PGRegistry fn(chain)
+      "0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F", // community DAO
+      "0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C", // owner committee sub-DAO
+      "0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C"  // admin committee sub-DAO
+    ],
     //gasLimit: 4000000, 
     //waitConfirmations: 5,
     log: true
