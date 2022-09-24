@@ -11,7 +11,6 @@ const { chains, provider, webSocketProvider } = configureChains(
     chain.mainnet,
     chain.polygon,
     chain.optimism,
-    chain.arbitrum,
     ...(process.env.TESTNETS_ENABLE === 'true'
       ? [chain.hardhat, chain.goerli, chain.polygonMumbai, chain.optimismGoerli]
       : []),

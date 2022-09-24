@@ -6,7 +6,7 @@ import ResponsiveAppBar from './components/AppBar';
 import Slider from '@mui/material/Slider';
 import PopoverMenu from './components/PopoverMenu';
 import ProTip from './components/ProTip';
-import Copyright from './components/Copyright';
+import Footer from './components/Footer';
 
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -21,7 +21,6 @@ const { chains, provider, webSocketProvider } = configureChains(
     chain.mainnet,
     chain.polygon,
     chain.optimism,
-    chain.arbitrum,
     ...(process.env.REACT_APP_TESTNETS_ENABLE === 'true'
       ? [chain.hardhat, chain.goerli, chain.polygonMumbai, chain.optimismGoerli]
       : []),
@@ -47,14 +46,11 @@ const wagmiClient = createClient({
 });
 
 export default function App() {
+
   if (process.env.REACT_APP_DEBUG === 'true') {
     console.log("Alchemy="+process.env.REACT_APP_ALCHEMY_APIKEY +"\nTestnets="+process.env.REACT_APP_TESTNETS_ENABLE);
   }
-
-  // Communities:
-  //    Web3Hack: 0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C
-  //    SeaShepherd: 0xB866Ee8a2396ab82cD0489be87D9692F057c9c29
-
+  
   useEffect(() => {
     AutInit();
   }, []);
@@ -66,7 +62,6 @@ export default function App() {
           <ResponsiveAppBar />
           <div className="my-4">
                        
-            <d-aut network="goerli" button-type="round-bright" dao-expander="0xB866Ee8a2396ab82cD0489be87D9692F057c9c29"></d-aut>
             <Slider
               className="my-4"
               defaultValue={30}
@@ -75,8 +70,8 @@ export default function App() {
             />
             <PopoverMenu />
             <ProTip />
-            <Copyright />
           </div>
+          <Footer />
         </Container>
       </RainbowKitProvider>
     </WagmiConfig>

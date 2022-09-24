@@ -10,7 +10,6 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const pages = ['Projects', 'Tasks'];
 //const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -46,7 +45,7 @@ const ResponsiveAppBar = () => {
               textDecoration: 'none',
             }}
           >
-            {process.env.REACT_APP_LABEL_APP}
+            { process.env.REACT_APP_LABEL_APP }
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -116,39 +115,13 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
-          <Box>
-            <ConnectButton />
-          </Box>
+          {/* 
+          // Communities:
+          //    Web3Hack: 0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C
+          //    SeaShepherd: 0xB866Ee8a2396ab82cD0489be87D9692F057c9c29 
+          */}
+          <d-aut network="goerli" button-type="round-bright" dao-expander="0xB866Ee8a2396ab82cD0489be87D9692F057c9c29"></d-aut>
           
-          {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box> */}
         </Toolbar>
       </Container>
     </AppBar>

@@ -31,12 +31,10 @@
     "prettier": "yarn workspace @bounty-granter-eth/webui prettier",
     "theme": "yarn workspace @bounty-granter-eth/webui theme",
     "watch-theme": "yarn workspace @bounty-granter-eth/webui watch",
-
     "ipfs": "yarn workspace @bounty-granter-eth/webui ipfs",
     "surge": "yarn workspace @bounty-granter-eth/webui surge",
     "s3": "yarn workspace @bounty-granter-eth/webui s3",
     "ship": "yarn workspace @bounty-granter-eth/webui ship",
-
     "chain": "yarn workspace @bounty-granter-eth/hardhat chain",
     "fork": "yarn workspace @bounty-granter-eth/hardhat fork",
     "node": "yarn workspace @bounty-granter-eth/hardhat chain",
@@ -49,14 +47,12 @@
     "verify": "yarn workspace @bounty-granter-eth/hardhat verify",
     "balance": "yarn workspace @bounty-granter-eth/hardhat balance",
     "send": "yarn workspace @bounty-granter-eth/hardhat send",
-
     "generate": "yarn workspace @bounty-granter-eth/hardhat generate",
     "account": "yarn workspace @bounty-granter-eth/hardhat account",
     "mineContractAddress": "cd packages/hardhat && npx hardhat mineContractAddress",
     "wallet": "cd packages/hardhat && npx hardhat wallet",
     "fundedwallet": "cd packages/hardhat && npx hardhat fundedwallet",
     "flatten": "cd packages/hardhat && npx hardhat flatten",
-
     "run-graph-node": "yarn workspace @bounty-granter-eth/services run-graph-node",
     "remove-graph-node": "yarn workspace @bounty-granter-eth/services remove-graph-node",
     "clean-graph-node": "yarn workspace @bounty-granter-eth/services clean-graph-node",
@@ -69,7 +65,6 @@
     "graph-ship-local": "yarn graph-prepare && yarn graph-codegen && yarn graph-deploy-local",
     "deploy-and-graph": "yarn deploy && yarn graph-ship-local",
     "mint": "yarn workspace @bounty-granter-eth/hardhat mint",
-
     "clean": "shx rm -rf ./dist ./build ./*.tsbuildinfo ./yarn-error.log*",
     "reset": "yarn clean && shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml",
     "install:all": "pnpm -r install",
@@ -77,7 +72,7 @@
     "reset:all": "yarn workspaces run reset && yarn reset"
   },
   "devDependencies": {
-    "pnpm": "^7.12.1",
+    "pnpm": "^7.12.2",
     "shx": "^0.3.4"
   }
 }

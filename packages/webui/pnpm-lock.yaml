@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@apollo/client': ^3.6.9
   '@apollo/react-hooks': ^4.0.0
-  '@aut-protocol/d-aut': ^1.3.0
+  '@aut-protocol/d-aut': ^1.3.2
   '@babel/core': ^7.19.0
   '@babel/plugin-syntax-flow': ^7.18.6
   '@babel/plugin-transform-react-jsx': ^7.19.0
@@ -57,7 +57,7 @@ specifiers:
 
 dependencies:
   '@apollo/react-hooks': 4.0.0_o264z5epwuajru7y4dsijkqr44
-  '@aut-protocol/d-aut': 1.3.0
+  '@aut-protocol/d-aut': 1.5.0
   '@emotion/react': 11.10.4_iksih6ga4nkhwh2wzqdjne7wyy
   '@emotion/styled': 11.10.4_bo6g5kkyx5y4ealzoy4dxykgri
   '@mui/icons-material': 5.10.3_5evnxlqsqnxmrwqqtdxt2buelq
@@ -183,8 +183,8 @@ packages:
       - subscriptions-transport-ws
     dev: false
 
-  /@aut-protocol/d-aut/1.3.0:
-    resolution: {integrity: sha512-R5aAdAm4nZaXwJchYgu/uiKDnbwQxWMyii5W3GOnyPBynFJYo7Wy6Wr0cjUdDonVd40MowHUIVAhUf53mR09JA==}
+  /@aut-protocol/d-aut/1.5.0:
+    resolution: {integrity: sha512-FIEh3EkQBHgZuQv946lNxe9IPH6QjC6h6bRh2bAbpNaJ5kE+RKnfiIvW7c8m62L/sOThRwEimshGRg5EmcjaHQ==}
     dev: false
 
   /@babel/code-frame/7.18.6:
