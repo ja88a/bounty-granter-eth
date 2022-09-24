@@ -9,8 +9,8 @@ const Footer = () => {
   //const contextValues = React.useContext(RainbowKitContext);
 
   return (
-    <footer className="text-center text-white" data-style="background-color: #f1f1f1;">
-      <div className="container pt-12">
+    <footer className="text-center text-white my-4 pt-12" data-style="background-color: '#f1f1f1';">
+      <div className="container">
         <div className="flex justify-center mb-6">
           <ConnectButton />
         </div>

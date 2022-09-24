@@ -2,10 +2,7 @@
 import React, { useEffect } from 'react';
 
 import Container from '@mui/material/Container';
-import ResponsiveAppBar from './components/AppBar';
-import Slider from '@mui/material/Slider';
-import PopoverMenu from './components/PopoverMenu';
-import ProTip from './components/ProTip';
+import ResponsiveAppBar from './components/ResponsiveAppBar';
 import Footer from './components/Footer';
 
 import { alchemyProvider } from 'wagmi/providers/alchemy';
@@ -15,12 +12,10 @@ import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, chain, createClient, WagmiConfig } from 'wagmi';
 
 import { Init as AutInit } from '@aut-protocol/d-aut';
+import ListProjectGrants from './components/ListProjectGrants';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
-    chain.mainnet,
-    chain.polygon,
-    chain.optimism,
     ...(process.env.REACT_APP_TESTNETS_ENABLE === 'true'
       ? [chain.hardhat, chain.goerli, chain.polygonMumbai, chain.optimismGoerli]
       : []),
@@ -50,7 +45,7 @@ export default function App() {
   if (process.env.REACT_APP_DEBUG === 'true') {
     console.log("Alchemy="+process.env.REACT_APP_ALCHEMY_APIKEY +"\nTestnets="+process.env.REACT_APP_TESTNETS_ENABLE);
   }
-  
+
   useEffect(() => {
     AutInit();
   }, []);
@@ -58,21 +53,23 @@ export default function App() {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <Container id='AppRootContainer'>
+
+        <Container id='AppRootContainer' className="p-0 flex-1">
           <ResponsiveAppBar />
-          <div className="my-4">
-                       
-            <Slider
+          <div className="flex-1 my-4 lg:px-12 md:px-8 sm:px-5">
+            <ListProjectGrants />
+            {/* <Slider
               className="my-4"
               defaultValue={30}
               classes={{ active: 'shadow-none' }}
               componentsProps={{ thumb: { className: 'hover:shadow-none' } }}
             />
             <PopoverMenu />
-            <ProTip />
+            <ProTip /> */}
           </div>
           <Footer />
         </Container>
+        
       </RainbowKitProvider>
     </WagmiConfig>
   );

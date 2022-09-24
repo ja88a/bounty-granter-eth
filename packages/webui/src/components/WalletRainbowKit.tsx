@@ -36,7 +36,7 @@ const wagmiClient = createClient({
 });
 
 export default function WalletRainbowKit(): JSX.Element {
-  console.log("TEMP!!\nAlchemy="+process.env.ALCHEMY_APIKEY +' '+ typeof(process.env.ALCHEMY_APIKEY) +"\nTESTNETS_ENABLE="+process.env.TESTNETS_ENABLE+' '+ typeof(process.env.TESTNETS_ENABLE));
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
@@ -44,4 +44,5 @@ export default function WalletRainbowKit(): JSX.Element {
       </RainbowKitProvider>
     </WagmiConfig>
   );
+  
 };
