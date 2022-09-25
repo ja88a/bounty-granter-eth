@@ -11,17 +11,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import { IconButton } from '@mui/material';
 
-const pages = ['Communities', 'Projects', 'Tasks'];
+const pages = ['Communities', 'Projects', 'Actions'];
 //const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    console.log("open", event);
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    console.log("close", event);
     setAnchorElNav(null);
   };
 

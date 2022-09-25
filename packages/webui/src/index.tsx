@@ -1,17 +1,18 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+
 import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import type {} from '@mui/x-data-grid/themeAugmentation';
 import './style/index.css';
+
 import App from './App';
 import reportWebVitals from './features/reportWebVitals';
-import type {} from '@mui/x-data-grid/themeAugmentation';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement!);
 
-// All `Portal`-related components need to have the main app wrapper element as a container
-// so that they are in the subtree under the element used in the `important` option of the Tailwind's config.
+// Tailwind's config
 const theme = createTheme({
   components: {
     MuiPopover: {
@@ -24,7 +25,6 @@ const theme = createTheme({
         container: rootElement,
       },
     },
-    // Use `MuiDataGrid` on DataGrid, DataGridPro and DataGridPremium
     MuiDataGrid: {
       styleOverrides: {
         root: {
@@ -39,9 +39,6 @@ root.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        {/* <link rel="preload" href="Orbitron-Regular.woff2" as="font" type="font/woff2" data-crossorigin></link> */}
-        {/* <link rel="preconnect" href="https://fonts.googleapis.com" /> */}
-        {/* <link rel="preconnect" href="https://fonts.gstatic.com" data-crossorigin /> */}
         <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet"></link>
         <CssBaseline />
         <App />

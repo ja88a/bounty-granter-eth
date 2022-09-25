@@ -12,7 +12,9 @@ import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, chain, createClient, WagmiConfig } from 'wagmi';
 
 import { Init as AutInit } from '@aut-protocol/d-aut';
-import ListProjectGrants from './components/ListProjectGrants';
+import ListProjectGrants from './components/ProjectGrantList';
+import { createBrowserRouter, Route, RouterProvider } from "react-router-dom";
+import ProjectGrantDetails from './components/ProjectGrantDetailsView';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -40,7 +42,23 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
-export default function App() {
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ListProjectGrants />,
+  },
+  {
+    path: "/projects",
+    element: <ListProjectGrants />,
+  },
+  {
+    path: "/projects/:id",
+    element: <ProjectGrantDetails />,
+  }
+]);
+
+// class App extends React.Component {
+const App = () => {
 
   if (process.env.REACT_APP_DEBUG === 'true') {
     console.log("Alchemy="+process.env.REACT_APP_ALCHEMY_APIKEY +"\nTestnets="+process.env.REACT_APP_TESTNETS_ENABLE);
@@ -57,8 +75,9 @@ export default function App() {
         <Container id='AppRootContainer' className="p-0 flex-1">
           <ResponsiveAppBar />
           <div className="flex-1 my-4 lg:px-12 md:px-8 sm:px-5">
-            <ListProjectGrants />
-            {/* <Slider
+          <RouterProvider router={router} />
+            {/* 
+            <Slider
               className="my-4"
               defaultValue={30}
               classes={{ active: 'shadow-none' }}
@@ -75,3 +94,4 @@ export default function App() {
   );
 }
 
+export default App;
