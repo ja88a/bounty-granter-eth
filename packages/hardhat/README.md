@@ -30,12 +30,13 @@ Generate a contract deployer account: 	``yarn compile``
 
 Generate a contract deployer account: 	``yarn generate``
 
-View your deployer account address: 	``yarn account``
+View your deployer account address: 	  ``yarn account``
 
-Deploy your contracts: 		            ``yarn deploy``
+Deploy your contracts: 		              ``yarn deploy``
 
 Verify the deployed contract: 	        ``yarn verify``
 
+Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in the [hardhat.config.js](packages/hardhat/hardhat.config.js).
 
 ## Hardhat Local Chain
 
@@ -65,8 +66,8 @@ It is overridden by using the CLI parameter ``--network X``, e.g. ``yarn deploy 
 
 ## Credits
 
-Credits go to [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) and NomicLabs [Hardhat](https://hardhat.org) for this development, test and integration framework of solidity contracts.
+Credits go to [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) and NomicLabs [Hardhat](https://hardhat.org) for this development, test and integration framework of solidity contracts on Ethereum chains.
 
 [OpenZeppelin contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) are integrated.
 
-Refer to [package.json]() for the complete list of dependencies this module is developped from.
+Refer to [package.json](./package.json) for the complete list of dependencies this module is developped from.

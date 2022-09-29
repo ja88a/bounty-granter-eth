@@ -1,4 +1,4 @@
-# Bebop Bounty Granter on ETH
+# Bounty Granter on ETH
 
 ## General
 
@@ -9,15 +9,15 @@ Home of the mono repository for the development of the Bebop Bounty Granter Web3
 
 Decentralized handling of contract-based activity payments following their deliverables validation via reviewers and oracles.
 
-More details are available in this project [Wiki](https://github.com/ja88a/bounty-granter/wiki).
-
-This solution is developped in the context of the ETHGlobal [ETHOnline 2022 hackathon](https://ethglobal.com/events/ethonline2022), this project page is available [here](https://ethglobal.com/showcase/funding-granter-sfc1o).
+More details are available in this project [Wiki](./wiki).
 
 
 ## Status: *Alpha - Work in Progress*
 
+ 
 
-## Installation
+## Dev Framework
+
 ### Build tools
 Latest stable [Node.js](https://nodejs.org) LTS version `16.x` is used to develop this project. We recommend using the nodejs version manager [nvm](https://github.com/nvm-sh/nvm).
 
@@ -96,7 +96,7 @@ A React responsive Web UI based on:
 ### Smart Contracts
 Package: **[hardhat](./packages/hardhat)**
 
-The EVM-compatible smart contracts are reported there, implemented with Solidity 0.8 and the [HardHart](https://hardhat.org) development environment for building on ETH L1 & L2 chains.
+The EVM-compatible smart contracts are reported there, implemented with Solidity 0.8 and the [HardHart](https://hardhat.org) development framework for building on ETH L1 & L2 chains.
 
 ### Subgraph
 Package: **[subgraph](./packages/subgraph)**
@@ -110,3 +110,5 @@ Backend services / nodes for local deployments: data servers & chains
 
 
 ## Integrated Solutions
+
+Refer to this [wiki page](https://github.com/ja88a/bounty-granter-eth/wiki/Technical-Insights#on-chain-main-contracts--integration-of-partner-solutions) for an overview.
