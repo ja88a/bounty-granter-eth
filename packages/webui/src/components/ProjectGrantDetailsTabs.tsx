@@ -3,8 +3,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { useParams } from 'react-router-dom';
-import { IProjectGrantData, rows as projectGrantsData } from './ProjectGrantList';
 import ProjectGrantDetailsInfo from './ProjectGrantDetailsInfo';
 
 interface TabPanelProps {
@@ -20,8 +18,8 @@ function TabPanel(props: TabPanelProps) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
+            id={`tab-panel-${index}`}
+            aria-labelledby={`tab-header-${index}`}
             {...other}
         >
             {value === index && (
@@ -33,10 +31,10 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-function a11yProps(index: number) {
+function tabProps(index: number) {
     return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
+        id: `tab-header-${index}`,
+        'aria-controls': `tab-panel-${index}`,
     };
 }
 
@@ -47,29 +45,13 @@ export default function BasicTabs() {
         setValue(newValue);
     };
 
-    let { id } = useParams();
-    if (!id) {
-        id = '0';
-    }
-
-    const getProjectData = (id: string): IProjectGrantData => {
-        for (let i = 0; i < projectGrantsData.length; i++) {
-            if (projectGrantsData[i].id == id) {
-                return projectGrantsData[i];
-            }
-        }
-        return projectGrantsData[0];
-    }
-
-    const projectData = getProjectData(id);
-
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Info" {...a11yProps(0)} />
-                    <Tab label="Plan" {...a11yProps(1)} />
-                    <Tab label="Reviews" {...a11yProps(2)} />
+                    <Tab label="Info" {...tabProps(0)} />
+                    <Tab label="Plan" {...tabProps(1)} />
+                    <Tab label="Reviews" {...tabProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>

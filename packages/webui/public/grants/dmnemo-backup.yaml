@@ -1,0 +1,114 @@
+
+%YAML 1.2
+---
+
+nft:
+  collection: 0xB45f123a9832CdE15A86236c89
+  tokenId: 2567
+  tokenUri: ipfs://cid/79876546546
+      
+project: 
+  name: Decentralized Mnemonic Backup System
+  presentation: https://github.com/scrtlabs/Grants/issues/70
+        
+organization:
+  dao: 0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F # Aut DAO
+  committee: 0xB866Ee8a2396ab82cD0489be87D9692F057c9c29 # Aut sub-DAO
+  admin: 0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C # Aut sub-DAO / committee
+
+# @todo account addr or aut id?
+
+investor:
+  - 0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D # Jet
+
+reviewer:
+  - 0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D # Jet
+  - 0xf5D0B72cAec5EBAD9DFD25c69C7D6Fc9c160459d # Faye
+
+executor:
+  - 0xE3828ac1BA06DE27Ce5B2A183C752A3d72389B33 # Spike
+
+history:
+  created: 16756486
+  updated: 16866473
+  version: 8
+
+
+payment_share:
+  - 00: &pay_s_00 
+    type: percent_cust
+    shares_exec: [100]
+
+condition: # Results' conditions for evaluating their completion
+  - 00: &con_00
+    oracle: 0x45d6897F42d474d6E45474d89b7F42dAE45474d
+    oracle_type: uma_yes_no
+    relation: equal
+    ref_value: [1, 0]
+    ref_rating: [0, 100]
+    default: 0
+  - 01: &con_01
+    oracle: 0xb4DE6867eD781aB2Fe24464714692af65Da
+    oracle_type: tellor_feed # ex.: Time, GithubAPI, etc.
+    relation: greaterThan
+    value: [3]
+    rating: [50]
+    default: 100 # ex.: no more than 3 issues with tag 'critical' or 'high'
+  - 02: &con_02
+    oracle: 0xE45474d6897F4E45474d2Bc672b397F42d3455
+    oracle_type: poll_vote_aut
+    relation: equal
+    value: [happy, mixed, unhappy]
+    rating: [100, 50, 10]
+
+expense: # 
+  - 00: &exp_00
+    status: closed
+    amount: 1000.00
+    token: 0x4654eAAbF458961351aEB54564654 # usdc
+    chain: optimism_main
+  - 01: &exp_01
+    status: open
+    amount: 2000.00
+    token: 0x4654eAAbF458961351aEB54564654 # usdc
+    chain: optimism_main
+
+outcome: # Activities' expected results/deliverables/PoW
+  - 00: &out_00
+    name: Open source project initiated
+    expense: *exp_00
+    share: *pay_s_00
+    condition_mix: require_and # all_or_nothing, no_fail, fail_if_one_0
+    condition:
+      - *con_00
+      - *con_01
+  - 01: &out_01
+    name: Subjective community satisfaction
+    expense: *exp_01
+    share: *pay_s_00
+    condition_mix: prorata_weighted
+    condition_weight: [1]
+    condition:
+     - *con_02
+
+activity: # Main activities
+  - 00: &act_00
+    name: 
+    doc: ipfs://cid/79876546548
+    outcome: 
+      - *out_00
+      - *out_01
+
+activity_group:
+  - 00: &actgrp_00
+    name: Project Start
+    phase: 1
+    activity:
+      - *act_00
+
+plan:
+  - 00: &pla_00
+    group:
+      - *actgrp_00
+
+planDefault: *pla_00

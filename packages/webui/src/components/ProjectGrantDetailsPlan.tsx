@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { IProjectGrantData, rows as projectGrantsData } from './ProjectGrantList';
 
-export default function ProjectGrantDetailsInfo() {
+export default function ProjectGrantDetailsPlan() {
     let { id } = useParams();
     if (!id) {
         id = '0';
