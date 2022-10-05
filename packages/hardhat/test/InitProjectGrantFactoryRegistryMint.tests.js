@@ -53,6 +53,7 @@ describe("BG Contracts Deployment & Init", function () {
             projectGrantFactory = await ProjectGrantFactory.deploy(projectGrantRegistry.address, 
                 DEFAULT_COMMUNITY, DEFAULT_COMMITTEE, DEFAULT_ADMIN
             );
+            await projectGrantFactory.deployed();
         });
 
         it("Should have no project grant collections available", async function () {
