@@ -1,0 +1,147 @@
+%YAML 1.2
+---
+
+nft:
+  collection: '0xB45f123a9832CdE15A86236c89'
+  tokenId: 2567
+  tokenUri: ipfs://cid/79876546546
+      
+project: 
+  name: Decentralized Mnemonic Backup System
+  presentation: https://github.com/scrtlabs/Grants/issues/70
+        
+organization:
+  dao: '0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F' # Aut DAO
+  committee: '0xB866Ee8a2396ab82cD0489be87D9692F057c9c29' # Aut sub-DAO
+  admin: '0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C' # Aut sub-DAO / committee
+
+# @todo Accounts' addr or users' autID?
+
+investor:
+  - '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet or DAO
+
+executor:
+  - '0xE3828ac1BA06DE27Ce5B2A183C752A3d72389B33' # Spike
+
+reviewer:
+  - '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet
+  - '0xf5D0B72cAec5EBAD9DFD25c69C7D6Fc9c160459d' # Faye
+
+editor:
+  - '0xE3828ac1BA06DE27Ce5B2A183C752A3d72389B33' # Spike
+
+history:
+  created: 1663450858
+  updated: 1665178858
+  version: 6
+
+payment_share:
+  - 
+    id: &pay_s_0 0
+    type: percent_cust
+    shares_exec:
+      - 100
+
+data_set:
+  - 
+    id: &dataset_0 0
+
+condition: # List of outcomes' conditions for percent-based rating of outcomes' expense
+  - 
+    id: &con_0 0
+    oracle: '0x45d6897F42d474d6E45474d89b7F42dAE45474d'
+    oracle_type: uma_yes_no
+    compute: map
+    relation: equal # ex.: general appreciation, the most voted
+    value: [1, 0]
+    rating: [0, 100]
+    default: 0
+  - 
+    id: &con_1 1
+    oracle: '0xb4DE6867eD781aB2Fe24464714692af65Da'
+    oracle_type: tellor_number # ex.: Time, GitHub API, etc.
+    tellor_queryId: Ha$hKeccak256
+    tellor_queryData: *dataset_0
+    compute: map
+    relation: greaterThan # ex.: no more than 3 open issues with tag 'critical' or 'high'
+    value: [3]
+    rating: [50]
+    default: 100 
+  - 
+    id: &con_2 2
+    oracle: '0xE45474d6897F4E45474d2Bc672b397F42d3455'
+    oracle_type: vote_string
+    compute: map
+    relation: equal # ex.: general appreciation, the most voted
+    value: [happy, mixed, unhappy]
+    rating: [100, 50, 10]
+    default: 0
+  - 
+    id: &con_3 3
+    oracle: '0xAb5474d6897F4E45474d2Bc672b397F42d74Fe'
+    oracle_type: poll_number
+    compute: average_weighted
+    default: 0
+
+expense: # List of asset Expenses, each bound to only 1 activity outcome
+  - 
+    id: &exp_0 0
+    status: closed
+    amount: 1000.00
+    token: '0x4654eAAbF458961351aEB54564654' # usdc
+    chain: optimism_main
+    tx: ['0xb753ef33ffc29c8bf14aa6aa9908b4469e8dd2f43e52a9f6be81344f25469fc9']
+  - 
+    id: &exp_1 1
+    status: open
+    amount: 2000.00
+    token: '0x4654eAAbF458961351aEB54564654' # usdc
+    chain: optimism_main
+    tx: []
+
+outcome: # Activities' expected results/deliverables/PoW
+  - 
+    id: &out_0 0
+    name: Open source project initiated
+    expense: *exp_0
+    share: *pay_s_0
+    condition_mix: require_and # all_or_nothing, no_fail, fail_if_one_0
+    condition:
+      - *con_0
+      - *con_1
+  - 
+    id: &out_1 1
+    name: Community feedback
+    expense: *exp_1
+    share: *pay_s_0
+    condition_mix: prorata_weighted
+    condition_weight: [1]
+    condition:
+     - *con_2
+     - *con_3
+
+activity: # Main activities
+  - 
+    id: &act_0 0
+    name: 
+    doc: ipfs://cid/79876546548
+    outcome: 
+      - *out_0
+      - *out_1
+
+activity_group:
+  - 
+    id: &actgrp_0 0
+    name: Project Start Phase
+    phase: 1
+    activity:
+      - *act_0
+
+plan:
+  - 
+    id: &pla_0 0
+    name: Simple 1st Project Grant Execution plan V1
+    group:
+      - *actgrp_0
+
+planDefault: *pla_0
