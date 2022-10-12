@@ -29,6 +29,8 @@
   },
   "dependencies": {
     "cbor": "^8.1.0",
+    "cbor-x": "^1.4.1",
+    "rlp": "^4.0.0-beta.2",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {

@@ -9,6 +9,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.31.0
   '@typescript-eslint/parser': ^5.31.0
   cbor: ^8.1.0
+  cbor-x: ^1.4.1
   chai: ^4.3.6
   eslint: ^8.20.0
   eslint-config-prettier: ^8.5.0
@@ -30,7 +31,9 @@ specifiers:
 
 dependencies:
   cbor: 8.1.0
+  cbor-x: 1.4.1
   js-yaml: 4.1.0
+  rlp: 4.0.0-beta.2
 
 devDependencies:
   '@types/chai': 4.3.3
@@ -52,7 +55,6 @@ devDependencies:
   onchange: 7.1.0
   prettier: 2.7.1
   rimraf: 3.0.2
-  rlp: 4.0.0-beta.2
   run-script-os: 1.1.6
   ts-jest: 28.0.8_fztrhi54teek7om3xmnfwid3mq
   ts-node: 10.9.1_xtdkmayvpbwqd3kc4kczaw2zvm
@@ -396,6 +398,54 @@ packages:
   /@blakeembrey/template/1.1.0:
     resolution: {integrity: sha512-iZf+UWfL+DogJVpd/xMQyP6X6McYd6ArdYoPMiv/zlOTzeXXfQbYxBNJJBF6tThvsjLMbA8tLjkCdm9RWMFCCw==}
     dev: true
+
+  /@cbor-extract/cbor-extract-darwin-arm64/2.0.0:
+    resolution: {integrity: sha512-jebtLrruvsBbGMsUn0QxZW/8Z7caS9OkszVKZ64WTWajUkyohmolUdKL2nbfaTyyi3ABJrxVNM4YO1pvMsNI1g==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@cbor-extract/cbor-extract-darwin-x64/2.0.0:
+    resolution: {integrity: sha512-LGYjdlyqANBqCDzBujCqXpPcK70rvaQgw98/aquzBuEmK0KXS7i579CoVG1yS/eb3bMqiVPevBri45jbR6Tlsg==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@cbor-extract/cbor-extract-linux-arm/2.0.0:
+    resolution: {integrity: sha512-cOGHEIif5rPbpix6qhpuatrZzm6HeC5rT0nXt8ynLTc7PzfXmovswD9x6d9h5NcHswkV5y3PbkNbpel/tLADYg==}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@cbor-extract/cbor-extract-linux-arm64/2.0.0:
+    resolution: {integrity: sha512-c1rbQcSF01yVgbG60zEfHNsUkXiEEQRNdYqm5qpqEAkLx4gA6DDU91IQbalkqXfwDuQzcMovOc1TC3uJJIi2OQ==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@cbor-extract/cbor-extract-linux-x64/2.0.0:
+    resolution: {integrity: sha512-WYeE1b5WGf9pbbQH3qeNBXq710gGsuVFUiP148RY8In+2pCp/fxjBpe701ngam9/fF5D+gJs8B1i5wv/PN7JZA==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@cbor-extract/cbor-extract-win32-x64/2.0.0:
+    resolution: {integrity: sha512-XqVuJEnE0jpl/RkuSp04FF2UE73gY52Y4nZaIE6j9GAeSH2cHYU5CCd4TaVMDi2M18ZpZv7XhL/k+nneQzyJpQ==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /@cspotcode/source-map-support/0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -1238,6 +1288,27 @@ packages:
   /caniuse-lite/1.0.30001418:
     resolution: {integrity: sha512-oIs7+JL3K9JRQ3jPZjlH6qyYDp+nBTCais7hjh0s+fuBwufc7uZ7hPYMXrDOJhV360KGMTcczMRObk0/iMqZRg==}
     dev: true
+
+  /cbor-extract/2.0.2:
+    resolution: {integrity: sha512-QoLGEgPff03ad/L66P91ci5Zmf7Woq8bh4H5XT3+D5annlrPH5ObHf2Yvo53eDQaDkQtF9tJwMKSWANGXDmwUA==}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build-optional-packages: 5.0.3
+    optionalDependencies:
+      '@cbor-extract/cbor-extract-darwin-arm64': 2.0.0
+      '@cbor-extract/cbor-extract-darwin-x64': 2.0.0
+      '@cbor-extract/cbor-extract-linux-arm': 2.0.0
+      '@cbor-extract/cbor-extract-linux-arm64': 2.0.0
+      '@cbor-extract/cbor-extract-linux-x64': 2.0.0
+      '@cbor-extract/cbor-extract-win32-x64': 2.0.0
+    dev: false
+    optional: true
+
+  /cbor-x/1.4.1:
+    resolution: {integrity: sha512-qp6nM61RaamDJWsDGHzMIQ4+XBtg7/QIoBi5Lra4IDU65eP8lHcgkkJ9t2yIU8EvRThBfFCh6+S1Qkrmq93J3Q==}
+    optionalDependencies:
+      cbor-extract: 2.0.2
+    dev: false
 
   /cbor/8.1.0:
     resolution: {integrity: sha512-DwGjNW9omn6EwP70aXsn7FQJx5kO12tX0bZkaTjzdVFM6/7nhA4t0EENocKGx6D2Bch9PE2KzCUf5SceBdeijg==}
@@ -2725,6 +2796,12 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
+  /node-gyp-build-optional-packages/5.0.3:
+    resolution: {integrity: sha512-k75jcVzk5wnnc/FMxsf4udAoTEUv2jY3ycfdSd3yWu6Cnd1oee6/CfZJApyscA4FJOmdoixWwiwOyf16RzD5JA==}
+    hasBin: true
+    dev: false
+    optional: true
+
   /node-int64/0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
     dev: true
@@ -3033,7 +3110,7 @@ packages:
   /rlp/4.0.0-beta.2:
     resolution: {integrity: sha512-XWsr6lJiBdZIBh006tmYujbEgc6ZC7UYcs/zvFfgQykbpJ6pF8kseNTbxuffdR9ylZOJ9d0gvtqh00YLOZXFTQ==}
     hasBin: true
-    dev: true
+    dev: false
 
   /run-parallel/1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}

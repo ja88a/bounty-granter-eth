@@ -20,6 +20,6 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "test/index.spec.ts"],
   "exclude": ["src/**/*.spec.ts"]
 }
