@@ -1,3 +1,1 @@
-export {
-  ProjectGrantPlanData,
-} from './projectGrant.data';
+export * from './project-grant.data';

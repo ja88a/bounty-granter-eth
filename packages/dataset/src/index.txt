@@ -1,5 +1,0 @@
-import { handler } from './read'
-
-const NAME = 'yaml-handler'
-
-export { handler }

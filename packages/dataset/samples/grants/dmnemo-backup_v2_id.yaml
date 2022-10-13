@@ -8,7 +8,10 @@ nft:
       
 project: 
   name: Decentralized Mnemonic Backup System
-  presentation: https://github.com/scrtlabs/Grants/issues/70
+  doc: https://github.com/scrtlabs/Grants/issues/70
+  desc: This is the long description of that awesome project |
+    requesting for grant support. But best is to look at the |
+    reference document.
         
 organization:
   dao: '0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F' # Aut DAO
