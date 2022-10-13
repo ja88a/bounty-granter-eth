@@ -12,3 +12,4 @@ try {
 }
 
 export * from './data/index';
+export { ProjectGrantController } from './project-grant.controller';
