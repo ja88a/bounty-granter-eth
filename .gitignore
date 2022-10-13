@@ -116,7 +116,7 @@ dist
 
 # Build artifacts
 **/node_modules
-**/data
+#**/data
 **/build
 **/dist
 
