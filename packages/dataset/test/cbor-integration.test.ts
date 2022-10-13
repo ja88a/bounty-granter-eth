@@ -3,12 +3,7 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import * as cbor from 'cbor';
 
-const SOURCE_V1 = 'grants/dmnemo-backup_v1_full';
-const SOURCE_V2 = 'grants/dmnemo-backup_v2_id';
-const SOURCE_DEFAULT = SOURCE_V2;
-
-const DUMP_LOG_OUTPUT = true;
-const DUMP_FILE_OUTPUT = true;
+import { DUMP_FILE_OUTPUT, DUMP_LOG_OUTPUT, SOURCE_DEFAULT } from './testing.commons';
 
 function loadYaml(yamlFileNameNoExt?: string) {
     let filePath = './samples/' + SOURCE_DEFAULT + '.yaml';
