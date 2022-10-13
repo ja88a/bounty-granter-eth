@@ -2,10 +2,18 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+
+    "rootDirs": [
+      "src",
+      "test"
+    ],
     "outDir": "build",
-    "rootDir": "src",
+    "baseUrl": ".",
+    "declarationDir": "./build/types",
+
     //"typeRoots": ["../node_modules/@types", "../typings", "./typings"],
 
+    "declaration": true,
     "target": "es6",
     "lib": ["esnext"],
     "allowJs": true,
@@ -21,6 +29,12 @@
     "isolatedModules": true,
     "noEmit": false
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/**/*.spec.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "src/**/*.spec.ts"
+  ]
 }
