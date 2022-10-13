@@ -11,4 +11,4 @@ try {
     console.log(e);
 }
 
-export { };
+export * from './data/index';
