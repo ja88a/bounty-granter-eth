@@ -12,7 +12,7 @@ nft:
       
 project: 
   name: Decentralized Mnemonic Backup System
-  doc: https://github.com/scrtlabs/Grants/issues/70
+  doc: ['https://github.com/scrtlabs/Grants/issues/70']
   desc: This is the long description of that awesome project |
     requesting for grant support. But best is to look at the |
     reference document.
@@ -39,17 +39,18 @@ actor:
     address: &actor_3 '0xf5D0B72cAec5EBAD9DFD25c69C7D6Fc9c160459d' # Faye
     name: Faye Checker
     role: 300
-    
+
 history:
   version: 3
+  #a: b
   event:
     - 
-      date: 2022-09-24T11:34:00.000Z
+      date: '2022-09-24T11:34:00.000Z'
       type: [0]
       author: [*actor_0]
     - 
-      date: 2022-10-06T23:02:00.000Z
-      type: [1, 50]
+      date: '2022-10-06T23:02:00.000Z'
+      type: [100, 200]
       author: [*actor_0]
       previous: 
         version: 1

@@ -6,14 +6,11 @@ import {
   IsEthereumAddress,
   IsOptional,
   Max,
-  MaxLength,
-  Contains,
   ValidateIf,
   ValidateNested,
   Min,
   IsPositive,
   ArrayMaxSize,
-  IsDate,
   IsDateString,
   IsNumber,
   IsString,
@@ -25,10 +22,8 @@ import {
   ValidatorConstraintInterface,
   isEthereumAddress,
   Validate,
-  MinLength,
-  isEnum,
+  ArrayUnique,
 } from 'class-validator';
-import { OutgoingMessage } from 'http';
 
 
 // Class-Validator package & doc: https://www.npmjs.com/package/class-validator
@@ -38,14 +33,6 @@ import { OutgoingMessage } from 'http';
 export class IsEthAddressArray implements ValidatorConstraintInterface {
     public async validate(addrData: string[], args: ValidationArguments) {
         return Array.isArray(addrData) && addrData.reduce((a, b) => a && isEthereumAddress(b), true);
-    }
-}
-
-
-@ValidatorConstraint()
-export class IsEPGChangeTypeArray implements ValidatorConstraintInterface {
-    public async validate(data: number[], args: ValidationArguments) {
-        return Array.isArray(data) && data.reduce((a, b) => a && isEnum(b, EPgChangeType), true);
     }
 }
 
@@ -63,12 +50,12 @@ export class PgNFT {
 
   /** 
    * NFT Token ID inside the Collection 
-   * @example 'a103'
+   * @example 'a101'
    */
   @IsDefined()
   @IsString()
   @Length(1, 255)
-  tokenId!: string; // @TODO Review if token ID shall consist in a more generic string
+  tokenId!: string;
 
   /**
    * Optional CIDv1 of actual project grant definition stored on IPFS.
@@ -92,7 +79,7 @@ export class PgProject {
    */
   @IsDefined()
   @IsString()
-  @Length(5, 255)
+  @Length(5, 50)
   name!: string;
 
   /** 
@@ -103,13 +90,13 @@ export class PgProject {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
-  @ValidateNested({ each: true })
+  @Length(8, 120, { each: true } )
   doc!: string[];
 
   /** Project long textual description */
   @IsOptional()
   @IsString()
-  @Length(20, 1024)
+  @Length(20, 512)
   desc?: string;
 }
 
@@ -299,8 +286,8 @@ export class PgHistoryEvent {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
-  //@ValidateNested({ each: true }) // FIXME @todo check for the enum values validation
-  @Validate(IsEPGChangeTypeArray)
+  @IsEnum(EPgChangeType, { each: true })
+  @ArrayUnique()
   type!: EPgChangeType[];
 
   /** Author of the change. Signer account address */
@@ -309,10 +296,20 @@ export class PgHistoryEvent {
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
   @Validate(IsEthAddressArray)
+  @ArrayUnique()
   author!: string[];
 
+  /** Anterior version of the PG definition that this change has replaced */
   @IsOptional()
+  @ValidateNested()
+  @Type(() => EPgChangePrevious)
   previous?: EPgChangePrevious;
+
+  /** Optional comment input when committing the PG definition changes */
+  @IsOptional()
+  @IsString()
+  @Length(0, 255)
+  comment?: string;
 }
 
 /**
@@ -360,6 +357,8 @@ export class ProjectGrant {
    * Edition history of the project grant definition
    */
   @IsDefined()
+  @ValidateNested()
+  @Type(() => PgHistory)
   history!: PgHistory;
 
   /** 
@@ -368,17 +367,24 @@ export class ProjectGrant {
   @IsOptional()
   @ValidateIf(o => o.status > EPgStatus.DRAFT)
   @IsDefined()
+  @ValidateNested()
+  @Type(() => PgNFT)
   nft?: PgNFT;
 
   /**
    * General organization of the Project Grant
    */
-  @ValidateIf(o => o.status > EPgStatus.DRAFT)
-  @IsDefined()
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PgOrganization)
+  //@ValidateIf(o => o.status > EPgStatus.DRAFT)
+  //@IsDefined()
   organization?: PgOrganization;
 
   /** The project general info and links to external document(s) */
   @IsDefined()
+  @ValidateNested()
+  @Type(() => PgProject)
   project!: PgProject;
 
   /** 
