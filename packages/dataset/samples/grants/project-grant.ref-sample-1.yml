@@ -56,3 +56,79 @@ history:
         version: 1
         cid: bafkreidgvpkjawlxz6sffxzwgooowe5yt7i6wsyg236mfoks77nywkptdq
 
+
+#
+# ======= Project Grant PLANs
+#
+token:
+  - 
+    id: &token_0 0
+    type: 0
+    contract: '0x4654eAAbF458961351aEB54564654' # usdc
+    chain: 2
+
+expense: # List of asset Expenses, each bound to only 1 activity outcome
+  - 
+    id: &exp_0 0
+    status: 2
+    amount: 1000.00
+    token: 
+    chain: optimism_main
+    tx: ['0xb753ef33ffc29c8bf14aa6aa9908b4469e8dd2f43e52a9f6be81344f25469fc9']
+  - 
+    id: &exp_1 1
+    status: 0
+    amount: 2000.00
+    token: *token_0
+    tx: []
+
+outcome: # Activities' expected results/deliverables/PoW
+  - 
+    id: &out_0 0
+    name: Open source project initiated
+    expense: *exp_0
+    share: *pay_s_0
+    condition:
+      - *con_0
+      - *con_1
+    condition_mix: 0 # require_and # all_or_nothing, no_fail, fail_if_one_0
+  - 
+    id: &out_1 1
+    name: Community feedback
+    expense: *exp_1
+    share: *pay_s_0
+    condition:
+     - *con_2
+     - *con_3
+    condition_mix: 1
+    condition_weight: [1,2]
+
+activity: # Main activities
+  - 
+    id: &act_0 0
+    name: First awesome activity
+    doc: ['ipfs://cid/79876546548']
+    outcome: 
+      - *out_0
+      - *out_1
+
+activity_group:
+  - 
+    id: &actgrp_0 0
+    name: Project Start Phase
+    phase: 1
+    activity:
+      - *act_0
+
+plan:
+  - 
+    id: &pla_0 0
+    name: Simple 1st Project Grant Execution plan V1
+    group:
+      - *actgrp_0
+
+#
+# Project Grant PLANs =======
+#
+
+planDefault: *pla_0

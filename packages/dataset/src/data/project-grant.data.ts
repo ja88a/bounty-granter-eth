@@ -24,6 +24,12 @@ import {
   Validate,
   ArrayUnique,
 } from 'class-validator';
+import { 
+  PgActivity, 
+  PgActivityGroup, 
+  PgOutcome, 
+  PgPlan 
+} from './pg-plan.data';
 
 
 // Class-Validator package & doc: https://www.npmjs.com/package/class-validator
@@ -31,9 +37,9 @@ import {
 
 @ValidatorConstraint()
 export class IsEthAddressArray implements ValidatorConstraintInterface {
-    public async validate(addrData: string[], args: ValidationArguments) {
-        return Array.isArray(addrData) && addrData.reduce((a, b) => a && isEthereumAddress(b), true);
-    }
+  public async validate(addrData: string[], args: ValidationArguments) {
+    return Array.isArray(addrData) && addrData.reduce((a, b) => a && isEthereumAddress(b), true);
+  }
 }
 
 /**
@@ -90,7 +96,7 @@ export class PgProject {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
-  @Length(8, 120, { each: true } )
+  @Length(8, 120, { each: true })
   doc!: string[];
 
   /** Project long textual description */
@@ -341,6 +347,7 @@ export class PgHistory {
  */
 export class ProjectGrant {
 
+
   /**
    * List of actors associated to the project grant, and their role
    */
@@ -351,8 +358,8 @@ export class ProjectGrant {
   @ArrayMaxSize(15)
   @ValidateNested({ each: true })
   @Type(() => PgActor)
-  actor!: PgActor[];  
-  
+  actor!: PgActor[];
+
   /**
    * Edition history of the project grant definition
    */
@@ -404,6 +411,64 @@ export class ProjectGrant {
    * @example 100
    */
   @IsDefined()
-  @IsEnum(EPgStatus, { message: 'Unsupported PG status'})
+  @IsEnum(EPgStatus, { message: 'Unsupported PG status' })
   status!: EPgStatus;
+
+  //
+  // Project Grant Execution Plan(s) ==============================
+  //
+
+  /**
+   * Activity outcomes
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(0)
+  @ArrayMaxSize(5)
+  @Length(8, 120, { each: true })
+  outcome?: PgOutcome[];
+
+  /** 
+   * Activities composing the group
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(0)
+  @ArrayMaxSize(20)
+  @ValidateNested({ each: true })
+  @Type(() => PgActivity)
+  activity?: PgActivity[]
+
+  /** 
+   * Groups of activities defining the plan 
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(10)
+  @ValidateNested({ each: true })
+  @Type(() => PgActivityGroup)
+  activity_group?: PgActivityGroup[];
+
+  /** 
+   * List of proposed execution plans 
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(3)
+  @ValidateNested({ each: true })
+  @Type(() => PgPlan)
+  plan?: PgPlan[];
+
+  /** 
+   * Default/active execution plan this Project Grant currently implements
+   * @example 0
+   */
+  @IsOptional()
+  @ValidateIf(o => o.status > EPgStatus.DRAFT || o.plan?.length > 0)
+  @IsNumber()
+  // @IsPositive()
+  @IsInt()
+  planDefault?: number;
 }
