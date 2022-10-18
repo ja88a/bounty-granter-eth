@@ -48,42 +48,42 @@ or ``yarn install``
 ### Run
 
 Starts the application in development using `nodemon` and `ts-node` to do hot reloading.
-``sh
+```sh
 yarn run start:dev
-``
+```
 
 Starts the app in production by first building the project with `yarn run build`, and then executing the compiled JavaScript at `build/index.js`.
-``sh
+```sh
 yarn run start
-``
+```
 
 ### Build
 
 Builds the app at `build`, cleaning the folder first.
-``sh
+```sh
 yarn run build
-``
+```
 
 ### Test
 
 Runs the `jest` tests once.
-``sh
+```sh
 yarn run test
-``
+```
 
 Run the `jest` tests in watch mode, waiting for file changes.
-``sh
+```sh
 yarn run test:dev
-``
+```
 
 ### Format
 Format your code.
-``sh
+```sh
 yarn run prettier-format
-``
+```
 
 Format your code in watch mode, waiting for file changes.
-``sh
+```sh
 yarn run prettier-watch
-``
+```
 
