@@ -1,3 +1,23 @@
+[![NodeJs][nodejs-shield]][ref-nodejs]
+[![Typescript][typescript-shield]][ref-typescript]
+[![Jest][jest-shield]][ref-jest]
+[![Yarn][yarn-shield]][ref-yarn]
+[![Docker][docker-shield]][ref-docker]
+
+[nodejs-shield]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[typescript-shield]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+[jest-shield]: https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white
+[yarn-shield]: https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white
+[docker-shield]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+
+[ref-nodejs]: https://nodejs.org/
+[ref-typescript]: https://www.typescriptlang.org/
+[ref-jest]: https://jestjs.io/docs/getting-started
+[ref-docker]: https://docs.docker.com
+[ref-docker-compose]: https://docs.docker.com
+[ref-yarn]: https://yarnpkg.com
+
+
 # Bounty Granter on ETH
 
 ## General
@@ -112,3 +132,29 @@ Backend services / nodes for local deployments: data servers & chains
 ## Integrated Solutions
 
 Refer to this [wiki page](https://github.com/ja88a/bounty-granter-eth/wiki/Technical-Insights#on-chain-main-contracts--integration-of-partner-solutions) for an overview.
+
+
+## License
+
+Distributed under the [LGPL-2.1 license][license].
+
+<!-- license -->
+[license]: LICENSE.md
+[endpoints]: endpoints.json
+
+
+## Contact
+
+[Jabba 01][author-email]
+
+[![Github][github-shield]][author-github]
+[![LinkedIn][linkedin-shield]][author-linkedin]
+
+[github-shield]: https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white
+[linkedin-shield]: https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white
+
+[author-linkedin]: https://linkedin.com/in/srenault
+[author-email]: mailto:contact@srenault.com
+[author-github]: https://github.com/ja88a
+
+
