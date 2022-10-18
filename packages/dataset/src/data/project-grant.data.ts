@@ -12,11 +12,12 @@ import {
   ArrayMinSize,
   IsArray,
 } from 'class-validator';
+import { PgCondition } from './project-grant-condition.data';
 import { PgActor, PgHistory, PgNFT, PgOrganization, PgProject } from './project-grant-meta.data';
-import { 
-  PgActivity, 
-  PgActivityGroup, 
-  PgOutcome, 
+import {
+  PgActivity,
+  PgActivityGroup,
+  PgOutcome,
   PgPlan,
 } from './project-grant-plan.data';
 import { PgToken, PgTransferShare, PgTransfer } from './project-grant-transfer.data';
@@ -145,25 +146,37 @@ export class ProjectGrant {
    * Sharing models for asset transfers
    * @see {@link PgTransferShare}
    */
-   @IsOptional()
-   @IsArray()
-   @ArrayMinSize(1)
-   @ArrayMaxSize(100)
-   @ValidateNested({ each: true })
-   @Type(() => PgTransferShare)
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(100)
+  @ValidateNested({ each: true })
+  @Type(() => PgTransferShare)
   transfer_share?: PgTransferShare[];
 
   /**
-   * Outcomes' related **token transfers**
+   * Outcomes' related **asset transfers**
    * @see {@link PgTransfer}
    */
-   @IsOptional()
-   @IsArray()
-   @ArrayMinSize(1)
-   @ArrayMaxSize(100)
-   @ValidateNested({ each: true })
-   @Type(() => PgTransfer)
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(100)
+  @ValidateNested({ each: true })
+  @Type(() => PgTransfer)
   transfer?: PgTransfer;
+
+  /**
+   * Outcome **conditions** used for rating the amounts of assets to transfer
+   * @see {@link PgCondition}
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(120)
+  @ValidateNested({ each: true })
+  @Type(() => PgCondition)
+  condition?: PgCondition[];
 
   /**
    * Activity **outcomes**

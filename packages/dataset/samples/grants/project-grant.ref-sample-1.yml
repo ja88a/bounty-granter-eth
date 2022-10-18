@@ -99,6 +99,43 @@ transfer: # List of asset transfers, each bound to only 1 activity outcome
     token: *token_1
     tx: []
 
+condition: # List of outcomes' conditions for percent-based rating of outcomes' expense
+  - 
+    id: &con_0 0
+    oracle: '0x45d6897F42d474d6E45474d89b7F42dAE45474d'
+    oracle_type: 100
+    compute: 0
+    relation: equal # ex.: general appreciation, the most voted
+    value: [1, 0]
+    rating: [0, 100]
+    default: 0
+  - 
+    id: &con_1 1
+    oracle: '0xb4DE6867eD781aB2Fe24464714692af65Da'
+    oracle_type: 200 # ex.: Time, GitHub API, etc.
+    tellor_queryId: Ha$hKeccak256
+    tellor_queryData: *dataset_0
+    compute: map
+    relation: greaterThan # ex.: no more than 3 open issues with tag 'critical' or 'high'
+    value: [3]
+    rating: [50]
+    default: 100 
+  - 
+    id: &con_2 2
+    oracle: '0xE45474d6897F4E45474d2Bc672b397F42d3455'
+    oracle_type: vote_string
+    compute: map
+    relation: equal # ex.: general appreciation, the most voted
+    value: [happy, mixed, unhappy]
+    rating: [100, 50, 10]
+    default: 0
+  - 
+    id: &con_3 3
+    oracle: '0xAb5474d6897F4E45474d2Bc672b397F42d74Fe'
+    oracle_type: poll_number
+    compute: average_weighted
+    default: 0
+
 outcome: # Activities' expected results/deliverables/PoW
   - 
     id: &out_0 0

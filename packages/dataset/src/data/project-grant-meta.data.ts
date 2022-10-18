@@ -6,7 +6,6 @@ import {
   IsEthereumAddress,
   IsOptional,
   Max,
-  ValidateIf,
   ValidateNested,
   Min,
   IsPositive,
@@ -17,22 +16,10 @@ import {
   IsInt,
   ArrayMinSize,
   IsArray,
-  ValidatorConstraint,
-  ValidationArguments,
-  ValidatorConstraintInterface,
-  isEthereumAddress,
   Validate,
   ArrayUnique,
 } from 'class-validator';
 import { IsEthAddressArray } from './data-validation.utils';
-import { 
-  PgActivity, 
-  PgActivityGroup, 
-  PgOutcome, 
-  PgPlan,
-} from './project-grant-plan.data';
-import { PgToken, PgTransferShare, PgTransfer } from './project-grant-transfer.data';
-import { EPgStatus } from './project-grant.data';
 
 /**
  * Project Grant related NFT info and references
@@ -77,7 +64,7 @@ export class PgProject {
    */
   @IsDefined()
   @IsString()
-  @Length(5, 50)
+  @Length(5, 30)
   name!: string;
 
   /** 
@@ -91,7 +78,10 @@ export class PgProject {
   @Length(8, 120, { each: true })
   doc!: string[];
 
-  /** Project long textual description */
+  /** 
+   * Project long textual description 
+   * @example Long description of a kick-ass initiative
+   */
   @IsOptional()
   @IsString()
   @Length(20, 512)
@@ -180,6 +170,16 @@ export class PgActor {
   @IsDefined()
   @IsEthereumAddress()
   address!: string;
+
+  /** 
+   * ENS address name
+   * @example srenault.com
+   * @see [ENS site](https://app.ens.domains/)
+   */
+  @IsOptional()
+  @IsString()
+  @Length(4, 20)
+  ens?: string;
 
   /** 
    * Optional default share for a stakeholder 

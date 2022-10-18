@@ -62,7 +62,8 @@ export class ProjectGrantController {
         // TODO @todo prevent from having 2 actors with the same address when validating a PG, except for the role proposer
         // TODO @todo make sure a transfer has only 1 outcome bound to it
         // TODO @todo prevent from transferring/sharing non-divisible tokens
-        // TODO @todo PgTransfer if(MAP_PERCENT) pgTransferShare.share.length == pgTransferShare.actor.length
+        // TODO @todo PgTransfer: if(MAP_PERCENT) pgTransferShare.share.length == pgTransferShare.actor.length
+        // TODO @todo PgTransferShare: SUM(share[]) == 1
     }
 
 }
