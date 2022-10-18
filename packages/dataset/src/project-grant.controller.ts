@@ -57,7 +57,8 @@ export class ProjectGrantController {
         return validationErr;
 
         // TODO @todo prevent from having 2 actors with the same address when validating a PG, except for the role proposer
-
+        // TODO @todo make sure a transfer has only 1 outcome bound to it
+        // TODO @todo prevent from transferring/sharing non-divisible tokens
     }
 
 }

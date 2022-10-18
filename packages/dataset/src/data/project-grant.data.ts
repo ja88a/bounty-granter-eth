@@ -23,12 +23,16 @@ import {
   isEthereumAddress,
   Validate,
   ArrayUnique,
+  isDefined,
 } from 'class-validator';
 import { 
   PgActivity, 
   PgActivityGroup, 
   PgOutcome, 
-  PgPlan 
+  PgPlan, 
+  PgToken, 
+  PgTransfer,
+  PgTransferShare
 } from './pg-plan.data';
 
 
@@ -418,14 +422,48 @@ export class ProjectGrant {
   // Project Grant Execution Plan(s) ==============================
   //
 
+  /** 
+   * On-chain tokens info
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(100)
+  @ValidateNested({ each: true })
+  @Type(() => PgToken)
+  token?: PgToken;
+
+  /**
+   * 
+   */
+   @IsOptional()
+   @IsArray()
+   @ArrayMinSize(1)
+   @ArrayMaxSize(100)
+   @ValidateNested({ each: true })
+   @Type(() => PgTransferShare)
+  transfer_share?: PgTransferShare[];
+
+  /**
+   * Outcomes' related token transfers
+   */
+   @IsOptional()
+   @IsArray()
+   @ArrayMinSize(1)
+   @ArrayMaxSize(100)
+   @ValidateNested({ each: true })
+   @Type(() => PgOutcome)
+  transfer?: PgTransfer;
+
   /**
    * Activity outcomes
    */
   @IsOptional()
   @IsArray()
-  @ArrayMinSize(0)
-  @ArrayMaxSize(5)
-  @Length(8, 120, { each: true })
+  @ArrayMinSize(1)
+  @ArrayMaxSize(100)
+  @ValidateNested({ each: true })
+  @Type(() => PgOutcome)
   outcome?: PgOutcome[];
 
   /** 
@@ -434,7 +472,7 @@ export class ProjectGrant {
   @IsOptional()
   @IsArray()
   @ArrayMinSize(0)
-  @ArrayMaxSize(20)
+  @ArrayMaxSize(30)
   @ValidateNested({ each: true })
   @Type(() => PgActivity)
   activity?: PgActivity[]

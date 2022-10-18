@@ -60,33 +60,50 @@ history:
 #
 # ======= Project Grant PLANs
 #
+
+data_set:
+  - 
+    id: &dataset_0 0
+
+transfer_share:
+  - 
+    id: &pay_s_0 0
+    type: percent_cust
+    actor: [*actor_2]
+    share: [100]
+
 token:
   - 
     id: &token_0 0
     type: 0
     contract: '0x4654eAAbF458961351aEB54564654' # usdc
+    chain: 20
+  - 
+    id: &token_1 1
+    type: 100
+    contract: '0xAc78eAAbF458961351aEB54564Ef481' # nft collection
+    tokenId: 'erc721-101'
     chain: 2
 
-expense: # List of asset Expenses, each bound to only 1 activity outcome
+transfer: # List of asset transfers, each bound to only 1 activity outcome
   - 
-    id: &exp_0 0
+    id: &transfer_0 0
     status: 2
     amount: 1000.00
-    token: 
-    chain: optimism_main
+    token: *token_0
     tx: ['0xb753ef33ffc29c8bf14aa6aa9908b4469e8dd2f43e52a9f6be81344f25469fc9']
   - 
-    id: &exp_1 1
+    id: &transfer_1 1
     status: 0
-    amount: 2000.00
-    token: *token_0
+    amount: 1
+    token: *token_1
     tx: []
 
 outcome: # Activities' expected results/deliverables/PoW
   - 
     id: &out_0 0
     name: Open source project initiated
-    expense: *exp_0
+    expense: *transfer_0
     share: *pay_s_0
     condition:
       - *con_0
@@ -95,7 +112,7 @@ outcome: # Activities' expected results/deliverables/PoW
   - 
     id: &out_1 1
     name: Community feedback
-    expense: *exp_1
+    expense: *transfer_1
     share: *pay_s_0
     condition:
      - *con_2
@@ -112,7 +129,7 @@ activity: # Main activities
       - *out_0
       - *out_1
 
-activity_group:
+activity_group: 
   - 
     id: &actgrp_0 0
     name: Project Start Phase
