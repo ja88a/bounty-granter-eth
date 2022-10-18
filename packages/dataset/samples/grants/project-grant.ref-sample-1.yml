@@ -61,13 +61,13 @@ history:
 # ======= Project Grant PLANs
 #
 
-data_set:
-  - 
-    id: &dataset_0 0
+# data_set:
+#   - 
+#     id: &dataset_0 0
 
 transfer_share:
   - 
-    id: &pay_s_0 0
+    id: &trans_s_0 0
     type: percent_cust
     actor: [*actor_2]
     share: [100]
@@ -104,7 +104,7 @@ outcome: # Activities' expected results/deliverables/PoW
     id: &out_0 0
     name: Open source project initiated
     expense: *transfer_0
-    share: *pay_s_0
+    share: *trans_s_0
     condition:
       - *con_0
       - *con_1
@@ -113,7 +113,7 @@ outcome: # Activities' expected results/deliverables/PoW
     id: &out_1 1
     name: Community feedback
     expense: *transfer_1
-    share: *pay_s_0
+    share: *trans_s_0
     condition:
      - *con_2
      - *con_3

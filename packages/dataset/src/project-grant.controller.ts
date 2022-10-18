@@ -42,8 +42,8 @@ export class ProjectGrantController {
 
     /**
      * Validate a project grant and provide fields & values validation errors if any
-     * @param projectGrant 
-     * @return 
+     * @param projectGrant the project grant definition to be validated
+     * @return {@link ValidationError} List of validation errors, if any. Else an empty array.
      */
     async validatePG(projectGrant: ProjectGrant): Promise<ValidationError[]> {
         // await validateOrReject(pg, VALID_OPT)
@@ -54,11 +54,15 @@ export class ProjectGrantController {
             .catch(error => {
                 throw new Error("Fail to validate PG definition", { cause: error });
             });
+
+        this.logger.info("Validation of project Grant '" + projectGrant.project.name + "' results in '"+validationErr.length+"' issue(s)");
+
         return validationErr;
 
         // TODO @todo prevent from having 2 actors with the same address when validating a PG, except for the role proposer
         // TODO @todo make sure a transfer has only 1 outcome bound to it
         // TODO @todo prevent from transferring/sharing non-divisible tokens
+        // TODO @todo PgTransfer if(MAP_PERCENT) pgTransferShare.share.length == pgTransferShare.actor.length
     }
 
 }
