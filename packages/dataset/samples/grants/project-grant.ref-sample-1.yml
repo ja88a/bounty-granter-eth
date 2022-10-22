@@ -113,9 +113,10 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
       contract: '0x45d6897F42d474d6E45474d89b7F42dAE45474d'
       type: 100
     compute: 0
-    participation:
-      type: 0
-      min: 3
+    valid:
+      -
+        type: 0 # ex.: at least 3 members of the PG must have participated (except executors)
+        value: 3
     mapping:
       type: 100 # ex.: general appreciation, the most voted
       ref: [1, 0]
@@ -125,7 +126,7 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
     id: &con_1 1
     oracle: 
       contract: '0xb4DE6867eD781aB2Fe24464714692af65Da'
-      type: 200 # ex.: Time, GitHub API, etc.
+      type: 300 # ex.: Time, GitHub API, etc.
       param: *dataset_0
     compute: 0
     mapping:
@@ -139,9 +140,10 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
       contract: '0xE45474d6897F4E45474d2Bc672b397F42d3455'
       type: 50
     compute: 200
-    participation:
-      type: 1
-      min: 3
+    valid:
+      - 
+        type: 1
+        value: 3
     mapping:
       type: 100 # ex.: general appreciation, the most voted
       ref: [2, 1, 0] # ['happy', 'mixed', 'unhappy']
@@ -149,11 +151,11 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
     default: 0
   - 
     id: &con_3 3
-    oracle: 
+    oracle:
       contract: '0xAb5474d6897F4E45474d2Bc672b397F42d74Fe'
       type: 0
     compute: 100
-    rating_default: 0
+    default: 0
 
 outcome: # Activities' expected results/deliverables/PoW
   - 

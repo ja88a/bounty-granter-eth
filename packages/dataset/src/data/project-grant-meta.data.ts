@@ -19,7 +19,6 @@ import {
   Validate,
   ArrayUnique,
 } from 'class-validator';
-import { IsEthAddressArray } from './data-validation.utils';
 
 /**
  * Project Grant related NFT info and references
@@ -108,7 +107,9 @@ export class PgOrganization {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(3)
-  @Validate(IsEthAddressArray)
+  //@Validate(IsEthAddressArray)
+  @IsEthereumAddress({each: true})
+  @ArrayUnique()
   committee!: string[];
 
   /**
@@ -188,7 +189,7 @@ export class PgActor {
    * @example 20
    */
   @IsOptional()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @Min(0)
   @Max(100)
   share?: number;
@@ -273,7 +274,8 @@ export class PgHistoryEvent {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
-  @Validate(IsEthAddressArray)
+  //@Validate(IsEthAddressArray)
+  @IsEthereumAddress({each: true})
   @ArrayUnique()
   author!: string[];
 

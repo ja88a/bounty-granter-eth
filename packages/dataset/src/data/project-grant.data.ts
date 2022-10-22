@@ -113,7 +113,7 @@ export class ProjectGrant {
    * @example 35
    */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @IsPositive()
   schema!: number;
@@ -247,7 +247,7 @@ export class ProjectGrant {
    */
   @IsOptional()
   @ValidateIf(o => o.status > EPgStatus.DRAFT || o.plan?.length > 0)
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   planDefault?: number;

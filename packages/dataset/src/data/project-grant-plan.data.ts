@@ -23,7 +23,7 @@ export class PgOutcome {
    * @example 1
    */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   id!: number;
@@ -88,7 +88,7 @@ export class PgActivity {
    * @example 1
    */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   id!: number;
@@ -135,7 +135,7 @@ export class PgActivityGroup {
    * @example 1
    */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   id!: number;
@@ -154,7 +154,7 @@ export class PgActivityGroup {
    * @example 1
    */
   @IsOptional()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   // @IsPositive()
   phase?: number;
@@ -180,7 +180,7 @@ export class PgPlan {
    * @example 1
    */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   id!: number;

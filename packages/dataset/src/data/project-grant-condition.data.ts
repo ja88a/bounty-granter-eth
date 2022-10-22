@@ -11,7 +11,6 @@ import {
   IsOptional,
   Max,
   Min,
-  Validate,
   ValidateIf,
   ValidateNested
 } from "class-validator";
@@ -46,6 +45,9 @@ export enum EPgConditionMix {
   default = AVERAGE_WEIGHTED
 }
 
+/**
+ * Data set used for querying a Tellor oracle contract
+ */
 export class PgTellorQueryData {
   /** Tellor oracle query ID
    * @example 'Ha$hKeccak256'
@@ -59,8 +61,11 @@ export class PgTellorQueryData {
   queryData!: unknown;
 }
 
+/**
+ * Data set used for querying a polling contract
+ */
 export class PgPollQueryData {
-  // TODO Poll query data model + validation
+  // TODO Polling contract query data model + validation
 }
 
 /** 
@@ -83,11 +88,20 @@ export enum EConditionDataSetType {
  * specific types of input fields, values & structure
  */
 export class PgConditionDataSet {
+  /**
+   * ID of the data set
+   * 
+   * @example 4
+   */
   @IsDefined()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   id!: number;
 
+  /** 
+   * Type of the data set, among the supported ones
+   */
   @IsDefined()
   @IsEnum(EConditionDataSetType)
   type!: EConditionDataSetType;
@@ -95,13 +109,24 @@ export class PgConditionDataSet {
   // @IsOptional()
   // data?: any;
 
+  /** 
+   * Data set specific to querying a Tellor oracle contract
+   * 
+   * Considered when type == EConditionDataSetType.ORACLE_QUERY_TELLOR
+   */
   @ValidateIf(o => o.type == EConditionDataSetType.ORACLE_QUERY_TELLOR)
   @IsDefined()
   @ValidateNested()
   @Type(() => PgTellorQueryData)
   tellor?: PgTellorQueryData;
 
-  @ValidateIf(o => o.type == EConditionDataSetType.POLL)
+  /** 
+   * Data set specific to querying a Poll contract
+   * 
+   * Considered when type == EConditionDataSetType.POLL
+   */
+  @ValidateIf(o => o.type >= EConditionDataSetType.POLL 
+    && o.type < EConditionDataSetType.VOTE)
   @IsDefined()
   @ValidateNested()
   @Type(() => PgTellorQueryData)
@@ -156,20 +181,20 @@ export enum EPgOracleType {
  * `100` if the oracle value is bigger than `1.0`.
  * 
  * @see {@link EPgOracleType}
- * @see {@link EPgConditionMethodMapping}
+ * @see {@link EPgConditionMappingType}
  */
 export enum EPgConditionComputeMethod {
   /** 
    * 1:1 mapping relation between an oracle single *numeric value* and the defined reference values 
    * 
-   * Compatible with mapping methods: {@link EPgConditionMethodMapping.EQUAL}, {@link EPgConditionMethodMapping.GREATER_THAN}, {@link EPgConditionMethodMapping.GREATER_THAN_OR_EQUAL}
+   * Compatible with mapping methods: {@link EPgConditionMappingType.EQUAL}, {@link EPgConditionMappingType.GREATER_THAN}, {@link EPgConditionMappingType.GREATER_THAN_OR_EQUAL}
    */
   MAP_NUMBER = 0,
 
   /** 
    * 1:1 mapping relation between an oracle single textual value and the defined reference values 
    * 
-   * Compatible with mapping methods: {@link EPgConditionMethodMapping.EQUAL}
+   * Compatible with mapping methods: {@link EPgConditionMappingType.EQUAL}
    */
   MAP_STRING = 50,
 
@@ -181,7 +206,7 @@ export enum EPgConditionComputeMethod {
    * Example: From a poll, 33% of participants voted for the value `100`, 50% for `75` and 27% for `50`.
    * Computed output number is `0.33*100+0.5*75+0.27*50 = 84`
    * 
-   * Compatible with mapping methods: {@link EPgConditionMethodMapping.NONE}, {@link EPgConditionMethodMapping.EQUAL}, {@link EPgConditionMethodMapping.GREATER_THAN}, {@link EPgConditionMethodMapping.GREATER_THAN_OR_EQUAL}
+   * Compatible with mapping methods: {@link EPgConditionMappingType.NONE}, {@link EPgConditionMappingType.EQUAL}, {@link EPgConditionMappingType.GREATER_THAN}, {@link EPgConditionMappingType.GREATER_THAN_OR_EQUAL}
    */
   AVERAGE = 100,
 
@@ -193,12 +218,12 @@ export enum EPgConditionComputeMethod {
    * Example: From a poll, 33% of participants voted for the value `100`, 50% for `75` and 27% for `50`.
    * Computed output number is `0.33*100+0.5*75+0.27*50 = 84`
    * 
-   * Compatible with mapping methods: {@link EPgConditionMethodMapping.NONE}, {@link EPgConditionMethodMapping.EQUAL}, {@link EPgConditionMethodMapping.GREATER_THAN}, {@link EPgConditionMethodMapping.GREATER_THAN_OR_EQUAL}
+   * Compatible with mapping methods: {@link EPgConditionMappingType.NONE}, {@link EPgConditionMappingType.EQUAL}, {@link EPgConditionMappingType.GREATER_THAN}, {@link EPgConditionMappingType.GREATER_THAN_OR_EQUAL}
    */
   AVERAGE_WEIGHTED = 150,
 
   /**
-   * No averaging, just pick the most selected value in the context of a poll or vote
+   * No averaging, just pick the most selected value in the context of a poll or a vote
    */
   MOST_CHOSEN = 200,
 
@@ -214,7 +239,7 @@ export enum EPgConditionComputeMethod {
  * 
  * @see {@link EPgConditionComputeMethod}
  */
- export enum EPgConditionMethodMapping {
+ export enum EPgConditionMappingType {
   /**
    * No mapping expected, ignore the values and ratings but the default rating if the computation is inconsistent.
    */
@@ -252,7 +277,10 @@ export enum EPgConditionComputeMethod {
 }
 
 /**
- * 
+ * Mapping of an oracle post-processed result (expected to 
+ * consist in a single numeric value) against reference values
+ * towards a final output value (expected to consist in a 
+ * percentage value to rate the condition's transfer amount)
  */
 export class PgConditionMapping {
   /** 
@@ -263,11 +291,13 @@ export class PgConditionMapping {
    * @example 100
    */
   @IsDefined()
-  @IsEnum(EPgConditionMethodMapping)
-  type!: EPgConditionMethodMapping;
+  @IsEnum(EPgConditionMappingType)
+  type!: EPgConditionMappingType;
 
   /** 
    * Reference values used to perform a mapping of an input value
+   * 
+   * @example [0, 1, 2]
    */
   @IsDefined()
   @IsArray()
@@ -282,6 +312,8 @@ export class PgConditionMapping {
    * the reference values.
    * 
    * Output values must be a percentage value [0-100]
+   * 
+   * @example [0, 50, 100]
    */
   @IsDefined()
   @IsArray()
@@ -296,7 +328,7 @@ export class PgConditionMapping {
 /**
  * Oracle contract used for querying collected off-chain data
  */
-export class PgConditionOracleQuery {
+export class PgConditionOracle {
   /** 
    * Address of the oracle contract
    * @example '0xb4DE6867eD781aB2Fe24464714692af65Da'
@@ -327,36 +359,55 @@ export class PgConditionOracleQuery {
 }
 
 /**
- * The supported participation modes for setting a minimum participation
- * thresholds for considering votes and polls as valid
+ * The supported validation methods relative to the output
+ * provided by an Oracle
+ * 
+ * Example: for setting a minimum participation
+ * thresholds in order to consider as valid a voting or polling result
  */
-export enum EPgParticipationType {
-  /** Percentage based minimum participation threshold */
-  PERCENT = 0,
-  /** Minimum of a number of participating accounts/addresses */
-  NB_ACCOUNT = 1,
-  /** Default minimum participation method */
-  default = NB_ACCOUNT
+export enum EPgConditionValidationType {
+  /** Percentage based minimum participation threshold for a vote or poll result */
+  MIN_PARTICIPATION_PERCENT = 0,
+  /** Minimum number of participating accounts/addresses to a vote or a poll */
+  MIN_PARTICIPATION_NB_ACCOUNT = 1,
+  /** Default validation criteria */
+  default = MIN_PARTICIPATION_NB_ACCOUNT
 }
 
 /**
  * The minimum participation method used to make a poll or vote based
  * outcome considered as valid
  * 
+ * The processing of a validation must be adapted to the integrated oracle
+ * type, its output type.
+ * 
  * For example, you can expect that at least 3 reviewers have provided
  * their notation to a given evaluation criteria.
+ * 
+ * @see {@link PgCondition}
+ * @see {@link PgConditionOracle}
  */
-export class PgPollParticipation {
-  /** Type of the defined minimum particpation threshold */
+export class PgConditionValidation {
+  /** 
+   * Type of the defined minimum particpation threshold 
+   * @example 1 */
   @IsDefined()
-  @IsEnum(EPgParticipationType)
-  type: EPgParticipationType = EPgParticipationType.default;
+  @IsEnum(EPgConditionValidationType)
+  type: EPgConditionValidationType = EPgConditionValidationType.default;
 
-  /** Value of the minimum number of participants or participation level */
+  /** 
+   * Reference value to be used by the validation method
+   * 
+   * Examples: 
+   *  * With type `EPgConditionValidationType.MIN_PARTICIPATION_NB_ACCOUNT at least `3` accounts must have participated
+   *  * With type `EPgConditionValidationType.MIN_PARTICIPATION_PERCENT `51`% of group members must have participated
+   * 
+   * @example 3
+   */
   @IsDefined()
   @IsNumber({allowInfinity: false, allowNaN: false})
   @Min(0.1)
-  min!: number;
+  value!: number;
 }
 
 /**
@@ -373,7 +424,7 @@ export class PgCondition {
   * @example 1
   */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   id!: number;
@@ -383,8 +434,8 @@ export class PgCondition {
    */
   @IsDefined()
   @ValidateNested()
-  @Type(() => PgConditionOracleQuery)
-  oracle!: PgConditionOracleQuery;
+  @Type(() => PgConditionOracle)
+  oracle!: PgConditionOracle;
 
   /** 
    * Expected type of post-processing of the oracle response data to 
@@ -401,9 +452,11 @@ export class PgCondition {
   @ValidateIf(o => o.oracle.type == EPgOracleType.POLL_NUMBER 
     || o.oracle.type == EPgOracleType.VOTE_NUMBER)
   @IsDefined()
-  @ValidateNested()
-  @Type(() => PgPollParticipation)
-  participation?: PgPollParticipation;
+  @IsArray()
+  @ArrayMaxSize(10)
+  @ValidateNested({ each: true})
+  @Type(() => PgConditionValidation)
+  valid?: PgConditionValidation[];
 
   /** 
    * Mapping of the oracle output data towards custom ones:
@@ -426,5 +479,8 @@ export class PgCondition {
    * The condition logic is based on this default value, e.g. set 
    * the default rating to its max value and conditions degrading it 
    */
+  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsInt()
+  @Min(0)
   default: number = 0;
 }

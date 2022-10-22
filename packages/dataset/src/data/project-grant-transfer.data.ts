@@ -18,7 +18,6 @@ import {
   Min,
   Max,
 } from 'class-validator';
-import { IsEthAddressArray } from './data-validation.utils';
 
 /**
  * Types of supported sharing models for transfering assets among actors
@@ -33,7 +32,7 @@ export enum EPgTransferShareType {
 }
 
 /** 
- * Sharing model for transfering tokens among recipients (PG actors)
+ * Sharing model for transfering assets amount among recipients (PG actors)
  */
 export class PgTransferShare {
   /** 
@@ -41,12 +40,12 @@ export class PgTransferShare {
    * @example 0
    */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @Min(0)
   id!: number;
 
   /**
-   * Sharing model type
+   * Transfer amounts' sharing model type
    * @example 0
    * @see {@link EPgTransferShareType}
    */
@@ -63,7 +62,8 @@ export class PgTransferShare {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(30)
-  @Validate(IsEthAddressArray)
+  //@Validate(IsEthAddressArray)
+  @IsEthereumAddress({each: true})
   @ArrayUnique()
   actor!: string[];
 
@@ -75,7 +75,7 @@ export class PgTransferShare {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(30)
-  @IsNumber({}, { each: true })
+  @IsNumber({allowInfinity: false, allowNaN: false}, { each: true })
   @Min(0, { each: true })
   @Max(1, { each: true })
   ratio?: number[];
@@ -117,7 +117,7 @@ export class PgToken {
    * @example 0
   */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   id!: number;
@@ -177,7 +177,7 @@ export class PgTransfer {
    * @example 3
   */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   @Min(0)
   id!: number;
@@ -195,7 +195,7 @@ export class PgTransfer {
    * @example 1
   */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsPositive()
   amount!: number;
 
@@ -204,7 +204,7 @@ export class PgTransfer {
    * @see {@link PgToken}
   */
   @IsDefined()
-  @IsNumber()
+  @IsNumber({allowInfinity: false, allowNaN: false})
   @IsInt()
   token!: number;
 
@@ -214,8 +214,8 @@ export class PgTransfer {
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
-  @ArrayMaxSize(20)
-  @Length(10, 100, { each: true })
+  @ArrayMaxSize(30)
+  @Length(20, 120, { each: true })
   @ArrayUnique()
   tx?: string[];
 }
