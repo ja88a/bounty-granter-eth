@@ -11,8 +11,9 @@ import {
   IsInt,
   ArrayMinSize,
   IsArray,
+  Min,
 } from 'class-validator';
-import { PgCondition } from './project-grant-condition.data';
+import { PgCondition, PgConditionDataSet as PgOracleDataSet } from './project-grant-condition.data';
 import { PgActor, PgHistory, PgNFT, PgOrganization, PgProject } from './project-grant-meta.data';
 import {
   PgActivity,
@@ -130,8 +131,17 @@ export class ProjectGrant {
   // Project Grant Execution Plan(s) ==============================
   //
 
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(100)
+  @ValidateNested({ each: true })
+  @Type(() => PgOracleDataSet)
+  dataset?: PgOracleDataSet[];
+
   /** 
-   * On-chain tokens info
+   * Used on-chain **asset tokens** info
+   * 
    * @see {@link PgToken}
    */
   @IsOptional()
@@ -140,10 +150,11 @@ export class ProjectGrant {
   @ArrayMaxSize(100)
   @ValidateNested({ each: true })
   @Type(() => PgToken)
-  token?: PgToken;
+  token?: PgToken[];
 
   /**
    * Sharing models for asset transfers
+   * 
    * @see {@link PgTransferShare}
    */
   @IsOptional()
@@ -156,6 +167,7 @@ export class ProjectGrant {
 
   /**
    * Outcomes' related **asset transfers**
+   * 
    * @see {@link PgTransfer}
    */
   @IsOptional()
@@ -164,7 +176,7 @@ export class ProjectGrant {
   @ArrayMaxSize(100)
   @ValidateNested({ each: true })
   @Type(() => PgTransfer)
-  transfer?: PgTransfer;
+  transfer?: PgTransfer[];
 
   /**
    * Outcome **conditions** used for rating the amounts of assets to transfer
@@ -237,5 +249,6 @@ export class ProjectGrant {
   @ValidateIf(o => o.status > EPgStatus.DRAFT || o.plan?.length > 0)
   @IsNumber()
   @IsInt()
+  @Min(0)
   planDefault?: number;
 }

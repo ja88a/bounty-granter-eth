@@ -110,7 +110,7 @@ export enum EPgTokenType {
 }
 
 /**
- * Token info
+ * Asset Token info
  */
 export class PgToken {
   /** Internal **ID** of the token 
