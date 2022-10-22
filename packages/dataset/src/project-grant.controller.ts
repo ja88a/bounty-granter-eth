@@ -64,6 +64,7 @@ export class ProjectGrantController {
         // TODO @todo prevent from transferring/sharing non-divisible tokens
         // TODO @todo PgTransfer: if(MAP_PERCENT) pgTransferShare.share.length == pgTransferShare.actor.length
         // TODO @todo PgTransferShare: SUM(share[]) == 1
+        // TODO @todo PgCondition: ensure consistency between EPgConditionComputeMethod & EPgConditionMethodMapping, e.g. MAP_STRING -> only EQUAL
     }
 
 }
