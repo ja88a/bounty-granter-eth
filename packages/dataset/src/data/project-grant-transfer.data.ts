@@ -1,4 +1,3 @@
-
 import {
   Length,
   IsEnum,
@@ -13,7 +12,6 @@ import {
   IsInt,
   ArrayMinSize,
   IsArray,
-  Validate,
   ArrayUnique,
   Min,
   Max,
@@ -28,19 +26,19 @@ export enum EPgTransferShareType {
   /** Sharing model 'every listed actor get the same percentage' */
   EQUI_PERCENT = 1,
   /** Default sharing model */
-  default = MAP_PERCENT
+  default = MAP_PERCENT,
 }
 
-/** 
+/**
  * Sharing model for transfering assets amount among recipients (PG actors)
  */
 export class PgTransferShare {
-  /** 
-   * Internal **ID** of the sharing model 
+  /**
+   * Internal **ID** of the sharing model
    * @example 0
    */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @Min(0)
   id!: number;
 
@@ -53,9 +51,9 @@ export class PgTransferShare {
   @IsEnum(EPgTransferShareType)
   type: EPgTransferShareType = EPgTransferShareType.default;
 
-  /** 
-   * IDs of recipient actors 
-   * @example ['0x5aC89...', '0x29D8E...'] 
+  /**
+   * IDs of recipient actors
+   * @example ['0x5aC89...', '0x29D8E...']
    * @see {@link PgActor}
    */
   @IsDefined()
@@ -63,19 +61,19 @@ export class PgTransferShare {
   @ArrayMinSize(1)
   @ArrayMaxSize(30)
   //@Validate(IsEthAddressArray)
-  @IsEthereumAddress({each: true})
+  @IsEthereumAddress({ each: true })
   @ArrayUnique()
   actor!: string[];
 
-  /** 
+  /**
    * Respective share ratio for each listed actor
-   * @example [0.3334, 0.6666] 
+   * @example [0.3334, 0.6666]
    */
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(30)
-  @IsNumber({allowInfinity: false, allowNaN: false}, { each: true })
+  @IsNumber({ allowInfinity: false, allowNaN: false }, { each: true })
   @Min(0, { each: true })
   @Max(1, { each: true })
   ratio?: number[];
@@ -88,11 +86,11 @@ export enum EPgChain {
   /** Ethereum L1 */
   ETH = 0,
   /** Optimism.  Ethereum L2 ZK */
-  OPTIMISM = 20,
+  OPTIMISM = 200,
   /** Polygon.  Ethereum L2 side chain */
-  POLYGON = 10,
+  POLYGON = 100,
   /** Default blockchain network */
-  default = OPTIMISM
+  default = OPTIMISM,
 }
 
 /**
@@ -106,25 +104,25 @@ export enum EPgTokenType {
   /** Standard non-fungible multi-token token */
   ERC1555 = 200,
   /** Default token standard */
-  default = ERC20
+  default = ERC20,
 }
 
 /**
  * Asset Token info
  */
 export class PgToken {
-  /** Internal **ID** of the token 
+  /** Internal **ID** of the token
    * @example 0
-  */
+   */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
   id!: number;
 
-  /** Token contract address on-chain 
+  /** Token contract address on-chain
    * @example '0x4654eAAbF458961351aEB54564654'
-  */
+   */
   @IsDefined()
   @IsEthereumAddress()
   contract!: string;
@@ -137,10 +135,10 @@ export class PgToken {
   @IsEnum(EPgTokenType)
   type: EPgTokenType = EPgTokenType.default;
 
-  /** Blockchain code where tokens are available 
+  /** Blockchain code where tokens are available
    * @example 20
    * @see EPgChain
-  */
+   */
   @IsOptional()
   @IsEnum(EPgChain)
   chain?: EPgChain = EPgChain.default;
@@ -148,7 +146,7 @@ export class PgToken {
   /** Specification of the token ID for ERC721 and ERC1555
    * @example 'erc721-101'
    */
-  @ValidateIf(o => o.type == EPgTokenType.ERC721)
+  @ValidateIf((o) => o.type == EPgTokenType.ERC721)
   @IsDefined()
   @IsString()
   @Length(1, 80)
@@ -164,20 +162,20 @@ export enum ETransferStatus {
   /** Status `open`. Tokens transfer is claimable. */
   OPEN = 0,
   /** Status `closed`. Token transfer settled or locked. */
-  CLOSED = 20,
+  CLOSED = 100,
   /** Default status */
-  default = OPEN
+  default = OPEN,
 }
 
 /**
- * Planned assets transfer to recipients related to the completion of an activity outcome 
+ * Planned assets transfer to recipients related to the completion of an activity outcome
  */
 export class PgTransfer {
-  /** Internal **ID** of the transfer 
+  /** Internal **ID** of the transfer
    * @example 3
-  */
+   */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
   id!: number;
@@ -193,18 +191,18 @@ export class PgTransfer {
   /** Max total **amount** of token to transfer
    * @example 99.92
    * @example 1
-  */
+   */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsPositive()
   amount!: number;
 
   /** ID of the **token** to be sent
    * @example 1
    * @see {@link PgToken}
-  */
+   */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   token!: number;
 
@@ -213,7 +211,7 @@ export class PgTransfer {
    */
   @IsOptional()
   @IsArray()
-  @ArrayMinSize(1)
+  @ArrayMinSize(0)
   @ArrayMaxSize(30)
   @Length(20, 120, { each: true })
   @ArrayUnique()

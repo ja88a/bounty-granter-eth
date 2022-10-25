@@ -77,25 +77,25 @@ transfer_share:
     id: &trans_s_0 0
     type: 0
     actor: [*actor_2]
-    share: [100]
+    ratio: [1]
 
 token:
   - 
     id: &token_0 0
     type: 0
-    contract: '0x4654eAAbF458961351aEB54564654' # usdc
-    chain: 20
+    contract: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' # usdc
+    chain: 200
   - 
     id: &token_1 1
     type: 100
-    contract: '0xAc78eAAbF458961351aEB54564Ef481' # nft collection
+    contract: '0x9a604220d37b69c09eFfCcd2E8475740773E3DaF' # nft collection
     tokenId: 'erc721-101'
-    chain: 2
+    chain: 200
 
 transfer: # List of asset transfers, each bound to only 1 activity outcome
   - 
     id: &transfer_0 0
-    status: 2
+    status: 100
     amount: 1000.00
     token: *token_0
     tx: ['0xb753ef33ffc29c8bf14aa6aa9908b4469e8dd2f43e52a9f6be81344f25469fc9']
@@ -110,7 +110,7 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
   - 
     id: &con_0 0
     oracle: 
-      contract: '0x45d6897F42d474d6E45474d89b7F42dAE45474d'
+      contract: '0x08b193bC308eC1E60cE0064CB503c9D85A841347'
       type: 100
     compute: 0
     valid:
@@ -125,7 +125,7 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
   - 
     id: &con_1 1
     oracle: 
-      contract: '0xb4DE6867eD781aB2Fe24464714692af65Da'
+      contract: '0x08b193bC308eC1E60cE0064CB503c9D85A841347'
       type: 300 # ex.: Time, GitHub API, etc.
       param: *dataset_0
     compute: 0
@@ -137,7 +137,7 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
   - 
     id: &con_2 2
     oracle: 
-      contract: '0xE45474d6897F4E45474d2Bc672b397F42d3455'
+      contract: '0x08b193bC308eC1E60cE0064CB503c9D85A841347'
       type: 50
     compute: 200
     valid:
@@ -152,16 +152,16 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
   - 
     id: &con_3 3
     oracle:
-      contract: '0xAb5474d6897F4E45474d2Bc672b397F42d74Fe'
+      contract: '0x08b193bC308eC1E60cE0064CB503c9D85A841347'
       type: 0
-    compute: 100
+    compute: 200
     default: 0
 
 outcome: # Activities' expected results/deliverables/PoW
   - 
     id: &out_0 0
     name: Open source project initiated
-    expense: *transfer_0
+    transfer: [*transfer_0]
     share: *trans_s_0
     condition:
       - *con_0
@@ -170,12 +170,12 @@ outcome: # Activities' expected results/deliverables/PoW
   - 
     id: &out_1 1
     name: Community feedback
-    expense: *transfer_1
+    transfer: [*transfer_1]
     share: *trans_s_0
     condition:
      - *con_2
      - *con_3
-    condition_mix: 1
+    condition_mix: 100 # weighted average of conditions' output (ratio)
     condition_weight: [1,2]
 
 activity: # Main activities

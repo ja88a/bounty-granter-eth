@@ -39,7 +39,7 @@ export enum EPgConditionMix {
    * Example usage 2: Result of the second condition; over 2, is made twice more impactful on the
    * agreed transfer amount, weights are respectively set to [1, 2]
    */
-  AVERAGE_WEIGHTED = 10,
+  AVERAGE_WEIGHTED = 100,
 
   /** Default method */
   default = AVERAGE_WEIGHTED,
@@ -353,12 +353,17 @@ export class PgConditionOracle {
   type!: EPgOracleType;
 
   /**
-   * Query parameters, specific to the oracle type
+   * ID of the data set constituing the Query Parameters, specific to the oracle type
+   * @example 2
+   * @see {@link PgConditionDataSet}
    */
   @IsOptional()
-  @ValidateNested()
-  @Type(() => PgConditionDataSet)
-  param?: PgConditionDataSet;
+  //@ValidateNested()
+  //@Type(() => PgConditionDataSet)
+  @IsNumber({ allowInfinity: false, allowNaN: false })
+  @IsInt()
+  @Min(0)
+  param?: number;
 }
 
 /**
@@ -449,19 +454,19 @@ export class PgCondition {
   compute: EPgConditionComputeMethod = EPgConditionComputeMethod.default;
 
   /**
-   * Specification of minimum participation threshold rquired when
+   * Specification of minimum participation threshold required when
    * dealing with a voting or polling based evaluation of the condition criteria
    */
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(10)
+  @ValidateNested({ each: true })
+  @Type(() => PgConditionValidation)
   @ValidateIf(
     (o) =>
       o.oracle.type == EPgOracleType.POLL_NUMBER ||
       o.oracle.type == EPgOracleType.VOTE_NUMBER,
   )
-  @IsDefined()
-  @IsArray()
-  @ArrayMaxSize(10)
-  @ValidateNested({ each: true })
-  @Type(() => PgConditionValidation)
   valid?: PgConditionValidation[];
 
   /**

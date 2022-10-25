@@ -13,15 +13,28 @@ import {
   IsArray,
   Min,
 } from 'class-validator';
-import { PgCondition, PgConditionDataSet as PgOracleDataSet } from './project-grant-condition.data';
-import { PgActor, PgHistory, PgNFT, PgOrganization, PgProject } from './project-grant-meta.data';
+import {
+  PgCondition,
+  PgConditionDataSet as PgOracleDataSet,
+} from './project-grant-condition.data';
+import {
+  PgActor,
+  PgHistory,
+  PgNFT,
+  PgOrganization,
+  PgProject,
+} from './project-grant-meta.data';
 import {
   PgActivity,
   PgActivityGroup,
   PgOutcome,
   PgPlan,
 } from './project-grant-plan.data';
-import { PgToken, PgTransferShare, PgTransfer } from './project-grant-transfer.data';
+import {
+  PgToken,
+  PgTransferShare,
+  PgTransfer,
+} from './project-grant-transfer.data';
 
 /**
  * Enumeration of supported grant project statuses
@@ -50,7 +63,7 @@ export enum EPgStatus {
 }
 
 /**
- * Root of the Project Grant full definition 
+ * Root of the Project Grant full definition
  */
 export class ProjectGrant {
   /**
@@ -75,12 +88,12 @@ export class ProjectGrant {
   @Type(() => PgHistory)
   history!: PgHistory;
 
-  /** 
+  /**
    * References of the on-chain NFT
    * @see {@link PgNFT}
    */
   @IsOptional()
-  @ValidateIf(o => o.status > EPgStatus.DRAFT)
+  @ValidateIf((o) => o.status > EPgStatus.DRAFT)
   @IsDefined()
   @ValidateNested()
   @Type(() => PgNFT)
@@ -97,8 +110,8 @@ export class ProjectGrant {
   //@IsDefined()
   organization?: PgOrganization;
 
-  /** 
-   * The project general info and links to external document(s) 
+  /**
+   * The project general info and links to external document(s)
    * @see {@link PgProject}
    */
   @IsDefined()
@@ -106,14 +119,14 @@ export class ProjectGrant {
   @Type(() => PgProject)
   project!: PgProject;
 
-  /** 
+  /**
    * General version number of the project grant schema
-   * 
+   *
    * A positive integer is expected.
    * @example 35
    */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @IsPositive()
   schema!: number;
@@ -139,9 +152,9 @@ export class ProjectGrant {
   @Type(() => PgOracleDataSet)
   dataset?: PgOracleDataSet[];
 
-  /** 
+  /**
    * Used on-chain **asset tokens** info
-   * 
+   *
    * @see {@link PgToken}
    */
   @IsOptional()
@@ -154,7 +167,7 @@ export class ProjectGrant {
 
   /**
    * Sharing models for asset transfers
-   * 
+   *
    * @see {@link PgTransferShare}
    */
   @IsOptional()
@@ -167,7 +180,7 @@ export class ProjectGrant {
 
   /**
    * Outcomes' related **asset transfers**
-   * 
+   *
    * @see {@link PgTransfer}
    */
   @IsOptional()
@@ -202,7 +215,7 @@ export class ProjectGrant {
   @Type(() => PgOutcome)
   outcome?: PgOutcome[];
 
-  /** 
+  /**
    * **Activities** composing the group
    * @see {@link PgActivity}
    */
@@ -212,10 +225,10 @@ export class ProjectGrant {
   @ArrayMaxSize(30)
   @ValidateNested({ each: true })
   @Type(() => PgActivity)
-  activity?: PgActivity[]
+  activity?: PgActivity[];
 
-  /** 
-   * **Groups** of activities defining the plan 
+  /**
+   * **Groups** of activities defining the plan
    * @see {@link PgActivityGroup}
    */
   @IsOptional()
@@ -226,7 +239,7 @@ export class ProjectGrant {
   @Type(() => PgActivityGroup)
   activity_group?: PgActivityGroup[];
 
-  /** 
+  /**
    * Possible execution **plans**
    * @see {@link PgPlan}
    */
@@ -238,16 +251,16 @@ export class ProjectGrant {
   @Type(() => PgPlan)
   plan?: PgPlan[];
 
-  /** 
+  /**
    * Default plan that this Project Grant currently implements.
-   * 
+   *
    * Defines the active plan (on-chain) for this project grant proposal. Others are draft.
    * @example 0
    * @see {@link PgPlan}
    */
   @IsOptional()
-  @ValidateIf(o => o.status > EPgStatus.DRAFT || o.plan?.length > 0)
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @ValidateIf((o) => o.status > EPgStatus.DRAFT || o.plan?.length > 0)
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
   planDefault?: number;

@@ -32,14 +32,14 @@ if (process.env.NODE_ENV !== 'production') {
 
   const alignedWithColorsAndTime = format.combine(
     format.colorize({ all: true }),
-    format.timestamp({ format: 'MM-DD hh:mm:ss.SSS A' }),
+    format.timestamp({ format: 'MM-DD HH:mm:ss.SSS' }),
     //        format.align(),
     consoleFormat,
   );
 
   logger.add(
     new transports.Console({
-      level: 'debug',
+      level: 'info',
       format: alignedWithColorsAndTime, //winston.format.simple(),
     }),
   );

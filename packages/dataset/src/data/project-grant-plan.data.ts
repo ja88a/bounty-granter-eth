@@ -11,25 +11,26 @@ import {
   IsArray,
   ArrayUnique,
   Min,
+  ValidateIf,
 } from 'class-validator';
-import { EPgConditionMix as EPgConditionMix } from './project-grant-condition.data';
+import { EPgConditionMix } from './project-grant-condition.data';
 
 /**
  * Outcome of a project grant activity
  */
 export class PgOutcome {
-  /** 
-   * Outcome ID 
+  /**
+   * Outcome ID
    * @example 1
    */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
   id!: number;
 
-  /** 
-   * Outcome name 
+  /**
+   * Outcome name
    * @example 'Expected outcome #1 of activity #2'
    */
   @IsDefined()
@@ -37,24 +38,30 @@ export class PgOutcome {
   @Length(3, 50)
   name!: string;
 
-  /** 
+  /**
    * Token transfers related to the outcome result
-   * @example [2, 5]
-   * @see PgTransfer
+   * @example [2,5]
+   * @see {@link PgTransfer}
    */
   @IsDefined()
   @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(20)
+  @IsNumber({ allowInfinity: false, allowNaN: false }, { each: true })
   @IsInt({ each: true })
+  @Min(0, { each: true })
   @ArrayUnique()
   transfer!: number[];
 
-  /** 
+  /**
    * Payment sharing model, its ID
    * @example 1
-   * @see PgTransferShare
+   * @see {@link PgTransferShare}
    */
   @IsDefined()
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
+  @Min(0)
   share!: number;
 
   /**
@@ -67,7 +74,7 @@ export class PgOutcome {
   @ArrayMaxSize(10)
   @ArrayUnique()
   @IsInt({ each: true })
-  condition!: number[]
+  condition!: number[];
 
   /**
    * Method used to compute the final transfer amount when several conditions are defined
@@ -77,24 +84,38 @@ export class PgOutcome {
   @IsDefined()
   @IsEnum(EPgConditionMix)
   condition_mix!: EPgConditionMix;
+
+  /**
+   * Weights for each listed condition output to be used for computing
+   * a final weighted average result, numeric
+   * @example [1,2]
+   */
+  @IsOptional()
+  @ValidateIf((o) => o.condition_mix == EPgConditionMix.AVERAGE_WEIGHTED)
+  @IsArray()
+  @ArrayMaxSize(20)
+  @IsNumber({ allowInfinity: false, allowNaN: false }, { each: true })
+  @IsInt({ each: true })
+  @Min(0, { each: true })
+  condition_weight?: number[];
 }
 
 /**
  * Project grant Activity definition
  */
 export class PgActivity {
-  /** 
-   * Activity ID 
+  /**
+   * Activity ID
    * @example 1
    */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
   id!: number;
 
-  /** 
-   * Activity name 
+  /**
+   * Activity name
    * @example 'Awesome activity title #101'
    */
   @IsDefined()
@@ -102,8 +123,8 @@ export class PgActivity {
   @Length(3, 50)
   name!: string;
 
-  /** 
-   * Reference to external documents depicting the activity 
+  /**
+   * Reference to external documents depicting the activity
    * @example ["https://github.com/scrtlabs/Grants/issues/70", "https://forum.scrt.network/t/ccbl-crowdfunding-platform/6262"]
    */
   @IsOptional()
@@ -130,18 +151,18 @@ export class PgActivity {
  * A group of project grant activities
  */
 export class PgActivityGroup {
-  /** 
-   * Activity Group ID 
+  /**
+   * Activity Group ID
    * @example 1
    */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
   id!: number;
 
-  /** 
-   * Activity Group name 
+  /**
+   * Activity Group name
    * @example 'Best plan ever #101'
    */
   @IsDefined()
@@ -154,12 +175,12 @@ export class PgActivityGroup {
    * @example 1
    */
   @IsOptional()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   // @IsPositive()
   phase?: number;
 
-  /** 
+  /**
    * Activities composing the group
    */
   @IsDefined()
@@ -168,25 +189,25 @@ export class PgActivityGroup {
   @ArrayMaxSize(20)
   @IsInt({ each: true })
   @ArrayUnique()
-  activity!: number[]
+  activity!: number[];
 }
 
 /**
  * Project grant execution Plan
  */
 export class PgPlan {
-  /** 
-   * Plan ID 
+  /**
+   * Plan ID
    * @example 1
    */
   @IsDefined()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
   id!: number;
 
-  /** 
-   * Plan name 
+  /**
+   * Plan name
    * @example 'Best plan ever #101'
    */
   @IsDefined()
@@ -194,8 +215,8 @@ export class PgPlan {
   @Length(3, 50)
   name!: string;
 
-  /** 
-   * Groups of activities defining the plan 
+  /**
+   * Groups of activities defining the plan
    */
   @IsOptional()
   @IsArray()

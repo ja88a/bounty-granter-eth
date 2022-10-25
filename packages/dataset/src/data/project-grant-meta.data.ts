@@ -62,7 +62,7 @@ export class PgProject {
    */
   @IsDefined()
   @IsString()
-  @Length(5, 30)
+  @Length(5, 100)
   name!: string;
 
   /**
