@@ -1,23 +1,22 @@
-const winston = require('winston');
-const { format } = require('logform');
+import { createLogger, format, transports } from 'winston';
 
-// const timeFormat = format.combine(
-//     format.timestamp(),
-//     format.printf((info: { timestamp: number; class: string; level: number; message: any; }) => `${info.timestamp} ${info.level} ${info.class}: ${info.message}`)
-//   );
-
-const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
-    defaultMeta: { service: 'user-service' },
-    transports: [
-        //
-        // - Write all logs with importance level of `error` or less to `error.log`
-        // - Write all logs with importance level of `info` or less to `combined.log`
-        //
-        new winston.transports.File({ filename: 'error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'combined.log' }),
-    ],
+/**
+ * WinstonJS Logger integration for Bounty Granter
+ *
+ * Refer to [winstonjs/winston](https://github.com/winstonjs/winston)
+ */
+const logger = createLogger({
+  level: 'info',
+  format: format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    //
+    // - Write all logs with importance level of `error` or less to `error.log`
+    // - Write all logs with importance level of `info` or less to `combined.log`
+    //
+    new transports.File({ filename: 'error.log', level: 'error' }),
+    new transports.File({ filename: 'combined.log' }),
+  ],
 });
 
 //
@@ -25,17 +24,25 @@ const logger = winston.createLogger({
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 //
 if (process.env.NODE_ENV !== 'production') {
-    const alignedWithColorsAndTime = format.combine(
-        format.colorize(),
-        format.timestamp(),
-//        format.align(),
-        format.printf((info: { timestamp: number; class: string; level: number; message: any; }) => `${info.timestamp} ${info.level} ${info.class}: ${info.message}`)
-      );
+  const consoleFormat = format.printf(
+    ({ timestamp, label, level, message }) => {
+      return `${timestamp} [${label}] ${level}: ${message}`;
+    },
+  );
 
-    logger.add(new winston.transports.Console({
-        level: 'info',
-        format: alignedWithColorsAndTime, //winston.format.simple(),
-    }));
+  const alignedWithColorsAndTime = format.combine(
+    format.colorize({ all: true }),
+    format.timestamp({ format: 'MM-DD hh:mm:ss.SSS A' }),
+    //        format.align(),
+    consoleFormat,
+  );
+
+  logger.add(
+    new transports.Console({
+      level: 'debug',
+      format: alignedWithColorsAndTime, //winston.format.simple(),
+    }),
+  );
 }
 
 export default logger;

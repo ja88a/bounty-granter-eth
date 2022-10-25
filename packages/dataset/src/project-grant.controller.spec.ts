@@ -10,61 +10,81 @@ import { VALID_OPT } from './utils/config';
 import Logger from './utils/logger.winston';
 import { fail } from 'assert';
 
-const logger = Logger.child({ class: 'ProjectGrantController-SPEC' });
+const logger = Logger.child({ label: 'ProjectGrantController-SPEC' });
 
 const PG_YAML_FILE1 = 'samples/grants/project-grant.ref-sample-1.yml';
 
 describe('Test the load of  a Project Grant from YAML', () => {
-    it("Should load sample YAML file and cast to ProjectGrantData", async function () {
-        const pgControl: ProjectGrantController = new ProjectGrantController();
-        let fileContent = fs.readFileSync(PG_YAML_FILE1, 'utf8');
-        const projectGrant: ProjectGrant = plainToInstance(ProjectGrant, fileContent/* , { enableImplicitConversion: true } */);
+  it('Should load sample YAML file and cast to ProjectGrantData', async function () {
+    //const pgControl: ProjectGrantController = new ProjectGrantController();
+    const fileContent = fs.readFileSync(PG_YAML_FILE1, 'utf8');
+    const projectGrant: ProjectGrant = plainToInstance(
+      ProjectGrant,
+      fileContent /* , { enableImplicitConversion: true } */,
+    );
 
-        await validateOrReject(projectGrant, VALID_OPT)
-            .catch(error => {
-                logger.warn("Project grant Validation from YAML input fails\n" + error);
-                //this.logger.info("Project grant Validation from YAML input fails\n" + error.toString());
-                throw new Error("Project grant Validation from input YAML fails\n" + error);
-            });
-        logger.debug("Final project grant: " + JSON.stringify(projectGrant));
-        assert.exists(projectGrant);
-        //assert.exists(projectGrant.project);
-        //assert.exists(projectGrant.project?.name, "Project Grant definition not correctly loaded");
+    await validateOrReject(projectGrant, VALID_OPT).catch((error) => {
+      logger.warn('Project grant Validation from YAML input fails\n' + error);
+      //this.logger.info("Project grant Validation from YAML input fails\n" + error.toString());
+      throw new Error(
+        'Project grant Validation from input YAML fails\n' + error,
+      );
     });
+    logger.debug('Final project grant: ' + JSON.stringify(projectGrant));
+    assert.exists(projectGrant);
+    //assert.exists(projectGrant.project);
+    //assert.exists(projectGrant.project?.name, "Project Grant definition not correctly loaded");
+  });
 
-    it("Should load sample YAML file and cast to ProjectGrantData", async function () {
-        const pgControl: ProjectGrantController = new ProjectGrantController();
-        let fileContent = fs.readFileSync(PG_YAML_FILE1, 'utf8');
+  it('Should load sample YAML file and cast to ProjectGrantData', async function () {
+    const pgControl: ProjectGrantController = new ProjectGrantController();
+    const fileContent = fs.readFileSync(PG_YAML_FILE1, 'utf8');
 
-        let pgRes: { projectGrant: ProjectGrant; validationErrors?: ValidationError[] | undefined; };
-        try {
-            pgRes = await pgControl.loadYaml(fileContent, true);
-        } catch (error) {
-            fail("Errors met while loading the PG yaml input '" + PG_YAML_FILE1 + "'\n" + error + "\nLoaded yaml:\n" + fileContent);
+    let pgRes: {
+      projectGrant: ProjectGrant;
+      validationErrors?: ValidationError[] | undefined;
+    };
+    try {
+      pgRes = await pgControl.loadYaml(fileContent, true);
+    } catch (error) {
+      fail(
+        "Errors met while loading the PG yaml input '" +
+          PG_YAML_FILE1 +
+          "'\n" +
+          error +
+          '\nLoaded yaml:\n' +
+          fileContent,
+      );
+    }
+
+    assert.exists(pgRes.projectGrant);
+
+    const projectGrant = pgRes.projectGrant;
+    //assert.exists(projectGrant.project);
+    assert.exists(
+      projectGrant.project?.name,
+      'Project Grant definition not correctly loaded',
+    );
+
+    const validationErrors = pgRes.validationErrors;
+    assert.exists(validationErrors);
+    const errors: string[] = [];
+    if (validationErrors && validationErrors.length > 0) {
+      validationErrors.map((ve) => {
+        errors.push(ve.toString());
+        if (ve.children) {
+          ve.children.map((cve) => {
+            errors.push('\n' + cve.toString());
+          });
         }
-
-        assert.exists(pgRes.projectGrant);
-
-        const projectGrant = pgRes.projectGrant;
-        //assert.exists(projectGrant.project);
-        assert.exists(projectGrant.project?.name, "Project Grant definition not correctly loaded");
-
-        const validationErrors = pgRes.validationErrors;
-        assert.exists(validationErrors);
-        let errors: string[] = [];
-        if (validationErrors && validationErrors.length > 0) {
-            validationErrors.map(ve => {
-                errors.push(ve.toString());
-                if (ve.children) {
-                    ve.children.map(cve => {
-                        errors.push("\n"+cve.toString());
-                    });
-                }
-            });
-        }
-        if (errors.length > 0)
-            logger.error(errors);
-        assert.equal(validationErrors?.length, 0, "No validation errors should be found on PG '"+PG_YAML_FILE1+"'");
-        logger.debug("Final project grant: " + JSON.stringify(pgRes.projectGrant));
-    });
+      });
+    }
+    if (errors.length > 0) logger.error(errors);
+    assert.equal(
+      validationErrors?.length,
+      0,
+      "No validation errors should be found on PG '" + PG_YAML_FILE1 + "'",
+    );
+    logger.debug('Final project grant: ' + JSON.stringify(pgRes.projectGrant));
+  });
 });

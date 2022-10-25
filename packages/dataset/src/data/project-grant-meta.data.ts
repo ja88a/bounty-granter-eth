@@ -16,7 +16,6 @@ import {
   IsInt,
   ArrayMinSize,
   IsArray,
-  Validate,
   ArrayUnique,
 } from 'class-validator';
 
@@ -24,16 +23,16 @@ import {
  * Project Grant related NFT info and references
  */
 export class PgNFT {
-  /** 
-   * NFT Collection address 0x 
+  /**
+   * NFT Collection address 0x
    * @example 0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F
    */
   @IsDefined()
   @IsEthereumAddress()
   collection!: string;
 
-  /** 
-   * NFT Token ID inside the Collection 
+  /**
+   * NFT Token ID inside the Collection
    * @example 'a101'
    */
   @IsDefined()
@@ -43,7 +42,7 @@ export class PgNFT {
 
   /**
    * Optional CIDv1 of actual project grant definition stored on IPFS.
-   *  
+   *
    * The actual token URI loaded from the on-chain NFT data.
    * @example "kerkreidgvpkjawlxz6sffxzwgooowe5yt7i6wsyg236mfoks77nywkapdt"
    */
@@ -57,8 +56,8 @@ export class PgNFT {
  * Project definition for which a grant is defined
  */
 export class PgProject {
-  /** 
-   * Project short name 
+  /**
+   * Project short name
    * @example "Stop the rise of authoritarian regimes and social crises"
    */
   @IsDefined()
@@ -66,8 +65,8 @@ export class PgProject {
   @Length(5, 30)
   name!: string;
 
-  /** 
-   * Reference to external documents depicting the project initiative 
+  /**
+   * Reference to external documents depicting the project initiative
    * @example ["https://github.com/scrtlabs/Grants/issues/70", "https://forum.scrt.network/t/ccbl-crowdfunding-platform/6262"]
    */
   @IsDefined()
@@ -77,8 +76,8 @@ export class PgProject {
   @Length(8, 120, { each: true })
   doc!: string[];
 
-  /** 
-   * Project long textual description 
+  /**
+   * Project long textual description
    * @example Long description of a kick-ass initiative
    */
   @IsOptional()
@@ -91,7 +90,7 @@ export class PgProject {
  * Project Grant Organization
  */
 export class PgOrganization {
-  /** 
+  /**
    * DAO address owning/responsible for the project grant
    * @example '0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F'
    */
@@ -108,7 +107,7 @@ export class PgOrganization {
   @ArrayMinSize(1)
   @ArrayMaxSize(3)
   //@Validate(IsEthAddressArray)
-  @IsEthereumAddress({each: true})
+  @IsEthereumAddress({ each: true })
   @ArrayUnique()
   committee!: string[];
 
@@ -134,13 +133,13 @@ export enum EPgActorRole {
   /** Role 'reviewer'. Reviewer of the project's outcomes */
   REVIEWER = 300,
   /** Default role */
-  default = PROPOSER
+  default = PROPOSER,
 }
 
 /**
  * Actor in the project grant
- * 
- * Can consist in multiple individuals and|or groups representing 
+ *
+ * Can consist in multiple individuals and|or groups representing
  * each required roles (enumerated in `EPgActorRole`) for managing the project grant.
  */
 export class PgActor {
@@ -153,10 +152,10 @@ export class PgActor {
   @Length(3, 20)
   name!: string;
 
-  /** 
+  /**
    * Role of the actor.
-   * 
-   * Only one per actor is actually supported, i.e. roles cannot be 
+   *
+   * Only one per actor is actually supported, i.e. roles cannot be
    * cumulated to prevent from CoI.
    * @example 200
    */
@@ -172,7 +171,7 @@ export class PgActor {
   @IsEthereumAddress()
   address!: string;
 
-  /** 
+  /**
    * ENS address name
    * @example srenault.com
    * @see [ENS site](https://app.ens.domains/)
@@ -182,14 +181,14 @@ export class PgActor {
   @Length(4, 20)
   ens?: string;
 
-  /** 
-   * Optional default share for a stakeholder 
-   * 
+  /**
+   * Optional default share for a stakeholder
+   *
    * Expressed by a percentage [0, 100]
    * @example 20
    */
   @IsOptional()
-  @IsNumber({allowInfinity: false, allowNaN: false})
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @Min(0)
   @Max(100)
   share?: number;
@@ -212,7 +211,7 @@ export enum EPgChangeType {
   /** Change of type 'close' of the project grant. Termination of any further execution / processing, dead end. */
   CLOSE = 500,
   /** Default change type */
-  default = UPDATE
+  default = UPDATE,
 }
 
 /**
@@ -227,16 +226,15 @@ export class EPgChangePrevious {
   @IsPositive()
   version!: number;
 
-  /** 
-   * Previous CIDv1 of the project grant definition that this change has replaced 
+  /**
+   * Previous CIDv1 of the project grant definition that this change has replaced
    * @example 'bafkreidgvpkjawlxz6sffxzwgooowe5yt7i6wsyg236mfoks77nywkptdq'
    * @see [IPFS Docs CIDv1](https://docs.ipfs.tech/concepts/content-addressing/#version-1-v1)
-  */
+   */
   @IsDefined()
   @IsString()
   cid!: string;
 }
-
 
 /**
  * Change event that lead to a change of the project grant definition
@@ -244,7 +242,7 @@ export class EPgChangePrevious {
 export class PgHistoryEvent {
   /**
    * Date of the change event
-   * 
+   *
    * ISO8601 Date format. UTC.
    * @example "2022-09-24T11:34:00.000Z"
    * @see [ISO 8601 on Wikipedia](https://en.wikipedia.org/wiki/ISO_8601)
@@ -253,8 +251,8 @@ export class PgHistoryEvent {
   @IsDateString()
   date!: string;
 
-  /** 
-   * The type of change 
+  /**
+   * The type of change
    * @example [100]
    * @see {@link EPgChangeType}
    */
@@ -266,8 +264,8 @@ export class PgHistoryEvent {
   @ArrayUnique()
   type!: EPgChangeType[];
 
-  /** 
-   * Author of the change. Signer account address 
+  /**
+   * Author of the change. Signer account address
    * @see {@link IsEthAddressArray}
    */
   @IsDefined()
@@ -275,12 +273,12 @@ export class PgHistoryEvent {
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
   //@Validate(IsEthAddressArray)
-  @IsEthereumAddress({each: true})
+  @IsEthereumAddress({ each: true })
   @ArrayUnique()
   author!: string[];
 
-  /** 
-   * Anterior version of the PG definition that this change has replaced 
+  /**
+   * Anterior version of the PG definition that this change has replaced
    * @see {@link EPgChangePrevious}
    */
   @IsOptional()
@@ -299,8 +297,8 @@ export class PgHistoryEvent {
  * Versioning and history of the Project grant definition changes
  */
 export class PgHistory {
-  /** 
-   * Current version number of the project grant definition 
+  /**
+   * Current version number of the project grant definition
    * @example 3
    */
   @IsDefined()
@@ -308,7 +306,7 @@ export class PgHistory {
   @IsInt()
   version!: number;
 
-  /** 
+  /**
    * List of the events that change the project grant definition
    * @see {@link PgHistoryEvent}
    */
