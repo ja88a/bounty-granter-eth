@@ -11,7 +11,7 @@ import { ProjectGrant } from './data/project-grant.data';
 export class ProjectGrantController {
   /** Dedicated logger */
   private readonly logger = Logger.child({
-    label: 'PGController',
+    label: ProjectGrantController.name,
   });
 
   /**
