@@ -6,16 +6,17 @@ schema: 1
 status: 0
 
 nft:
-  collection: '0xB45f123a9832CdE15A86236c89'
-  tokenId: '2567'
+  collection: '0x2953399124F0cBB46d2CbACD8A89cF0599974963'
+  tokenId: '66062341032915883915996824648375816534426142771092071572152252589437901340673'
 #  tokenUri: ipfs://cid/79876546546
       
 project: 
   name: Decentralized Mnemonic Backup System
   doc: ['https://github.com/scrtlabs/Grants/issues/70']
-  desc: This is the long description of that awesome project |
-    requesting for grant support. But best is to look at the |
-    reference document.
+  desc: >-
+    This is the long description of an awesome project
+    requesting for grant support. But best is to look at the
+    reference document(s).
         
 organization:
   dao: '0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F' # Aut DAO
@@ -27,18 +28,27 @@ actor:
     address: &actor_id_0 '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet or DAO
     name: Edward Proposer
     role: 0
+    status: 100
   - &actor_1
     address: &actor_id_1 '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet or DAO
     name: Jet Backer
     role: 100
+    status: 100
   - &actor_2
     address: &actor_id_2 '0xE3828ac1BA06DE27Ce5B2A183C752A3d72389B33' # Spike
     name: Spike Doer
     role: 200
+    status: 100
   - &actor_3
     address: &actor_id_3 '0xf5D0B72cAec5EBAD9DFD25c69C7D6Fc9c160459d' # Faye
     name: Faye Checker
     role: 300
+    status: 100
+  - &actor_4
+    address: &actor_id_3 '0xA5D0B72cAec5EBAD9DFD25c69C7D6Fc9c160456f' # Faye
+    name: Old Checker
+    role: 300
+    status: 0
 
 history:
   version: 3

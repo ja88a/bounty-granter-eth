@@ -93,10 +93,10 @@ export class ProjectGrant {
    * @see {@link PgNFT}
    */
   @IsOptional()
-  @ValidateIf((o) => o.status > EPgStatus.DRAFT)
-  @IsDefined()
   @ValidateNested()
   @Type(() => PgNFT)
+  // @ValidateIf((o) => o.status > EPgStatus.DRAFT)
+  @IsDefined()
   nft?: PgNFT;
 
   /**

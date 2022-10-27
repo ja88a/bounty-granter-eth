@@ -37,7 +37,7 @@ export class PgNFT {
    */
   @IsDefined()
   @IsString()
-  @Length(1, 255)
+  @Length(1, 150)
   tokenId!: string;
 
   /**
@@ -137,6 +137,15 @@ export enum EPgActorRole {
 }
 
 /**
+ * Actor status
+ */
+export enum EPgActorStatus {
+  INACTIVE = 0,
+  ACTIVE = 100,
+  default = INACTIVE,
+}
+
+/**
  * Actor in the project grant
  *
  * Can consist in multiple individuals and|or groups representing
@@ -162,6 +171,15 @@ export class PgActor {
   @IsDefined()
   @IsEnum(EPgActorRole)
   role!: EPgActorRole;
+
+  /**
+   * Actor status
+   * @default EPgActorStatus.default
+   * @example `100`
+   */
+  @IsOptional()
+  @IsEnum(EPgActorStatus)
+  status?: EPgActorStatus = EPgActorStatus.default;
 
   /**
    * Account address
