@@ -107,7 +107,6 @@ export class ProjectGrant {
   @ValidateNested()
   @Type(() => PgOrganization)
   //@ValidateIf(o => o.status > EPgStatus.DRAFT)
-  //@IsDefined()
   organization?: PgOrganization;
 
   /**
@@ -140,10 +139,15 @@ export class ProjectGrant {
   @IsEnum(EPgStatus, { message: 'Unsupported PG status' })
   status!: EPgStatus;
 
+  // ===========================================================
   //
-  // Project Grant Execution Plan(s) ==============================
+  // Project Grant Execution Plan(s)
   //
 
+  /**
+   * List of all data sets available for querying oracle contracts
+   * @see {@link PgOracleDataSet}
+   */
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
@@ -204,7 +208,7 @@ export class ProjectGrant {
   condition?: PgCondition[];
 
   /**
-   * Activity **outcomes**
+   * Activities' **outcomes**
    * @see {@link PgOutcome}
    */
   @IsOptional()
@@ -255,13 +259,25 @@ export class ProjectGrant {
    * Default plan that this Project Grant currently implements.
    *
    * Defines the active plan (on-chain) for this project grant proposal. Others are draft.
-   * @example 0
+   * @example `0`
    * @see {@link PgPlan}
    */
   @IsOptional()
-  @ValidateIf((o) => o.status > EPgStatus.DRAFT || o.plan?.length > 0)
+  //@ValidateIf((o) => o.status > EPgStatus.DRAFT || o.plan?.length > 0)
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
-  planDefault?: number;
+  planDefault_id?: number;
+
+  /**
+   * Default plan that this Project Grant currently implements.
+   *
+   * Defines the active plan (on-chain) for this project grant proposal. Others are draft.
+   * @see {@link PgPlan}
+   */
+  @IsOptional()
+  //@ValidateIf((o) => o.status > EPgStatus.DRAFT || o.plan?.length > 0)
+  @ValidateNested()
+  @Type(() => PgPlan)
+  planDefault?: PgPlan;
 }

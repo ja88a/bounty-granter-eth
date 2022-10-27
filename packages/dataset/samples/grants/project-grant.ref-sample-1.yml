@@ -23,20 +23,20 @@ organization:
   admin: '0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C' # Aut sub-DAO / committee
 
 actor:
-  - 
-    address: &actor_0 '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet or DAO
+  - &actor_0
+    address: &actor_id_0 '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet or DAO
     name: Edward Proposer
     role: 0
-  - 
-    address: &actor_1 '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet or DAO
+  - &actor_1
+    address: &actor_id_1 '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet or DAO
     name: Jet Backer
     role: 100
-  - 
-    address: &actor_2 '0xE3828ac1BA06DE27Ce5B2A183C752A3d72389B33' # Spike
+  - &actor_2
+    address: &actor_id_2 '0xE3828ac1BA06DE27Ce5B2A183C752A3d72389B33' # Spike
     name: Spike Doer
     role: 200
-  - 
-    address: &actor_3 '0xf5D0B72cAec5EBAD9DFD25c69C7D6Fc9c160459d' # Faye
+  - &actor_3
+    address: &actor_id_3 '0xf5D0B72cAec5EBAD9DFD25c69C7D6Fc9c160459d' # Faye
     name: Faye Checker
     role: 300
 
@@ -47,68 +47,69 @@ history:
     - 
       date: '2022-09-24T11:34:00.000Z'
       type: [0]
-      author: [*actor_0]
+      author_id: [*actor_id_0]
     - 
       date: '2022-10-06T23:02:00.000Z'
       type: [100, 200]
-      author: [*actor_0]
+      author_id: [*actor_id_0]
       previous: 
         version: 1
         cid: bafkreidgvpkjawlxz6sffxzwgooowe5yt7i6wsyg236mfoks77nywkptdq
 
 
+# =========================================
 #
-# ======= Project Grant PLANs
+# Project Grant PLANs
 #
 
 dataset:
-  - 
-    id: &dataset_0 0
+  - &dataset_0
+    id: &dataset_id_0 0
     type: 200
     tellor:
       queryId: Ha$hKeccak256
       queryData: ['specific', 'data', 1]
-  - 
-    id: &dataset_1 1
+  - &dataset_1
+    id: &dataset_id_1 1
     type: 300
     
 transfer_share:
-  - 
-    id: &trans_s_0 0
+  - &trans_s_0
+    id: &trans_s_id_0 0
     type: 0
-    actor: [*actor_2]
+    actor_id: [*actor_id_2]
     ratio: [1]
 
 token:
-  - 
-    id: &token_0 0
+  - &token_0
+    id: &token_id_0 0
     type: 0
     contract: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' # usdc
     chain: 200
-  - 
-    id: &token_1 1
+  - &token_1
+    id: &token_id_1 1
     type: 100
     contract: '0x9a604220d37b69c09eFfCcd2E8475740773E3DaF' # nft collection
     tokenId: 'erc721-101'
     chain: 200
 
 transfer: # List of asset transfers, each bound to only 1 activity outcome
-  - 
-    id: &transfer_0 0
+  - &transfer_0
+    id: &transfer_id_0 0
     status: 100
     amount: 1000.00
-    token: *token_0
+    token_id: *token_id_0
     tx: ['0xb753ef33ffc29c8bf14aa6aa9908b4469e8dd2f43e52a9f6be81344f25469fc9']
-  - 
-    id: &transfer_1 1
+  - &transfer_1
+    id: &transfer_id_1 1
     status: 0
     amount: 1
-    token: *token_1
+    token_id: *token_id_1
     tx: []
 
 condition: # List of outcomes' conditions for percent-based rating of outcomes' expense
-  - 
-    id: &con_0 0
+  - &cond_0
+    id: &cond_id_0 0
     oracle: 
       contract: '0x08b193bC308eC1E60cE0064CB503c9D85A841347'
       type: 100
@@ -122,20 +123,20 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
       ref: [1, 0]
       out: [0, 100]
     default: 0
-  - 
-    id: &con_1 1
+  - &cond_1
+    id: &cond_id_1 1
     oracle: 
       contract: '0x08b193bC308eC1E60cE0064CB503c9D85A841347'
       type: 300 # ex.: Time, GitHub API, etc.
-      param: *dataset_0
+      param_id: *dataset_id_0
     compute: 0
     mapping:
       type: 200 # ex.: no more than 3 open issues with tag 'critical' or 'high'
       ref: [3]
       out: [50]
     default: 100
-  - 
-    id: &con_2 2
+  - &cond_2
+    id: &cond_id_2 2
     oracle: 
       contract: '0x08b193bC308eC1E60cE0064CB503c9D85A841347'
       type: 50
@@ -149,8 +150,8 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
       ref: [2, 1, 0] # ['happy', 'mixed', 'unhappy']
       out: [100, 50, 10]
     default: 0
-  - 
-    id: &con_3 3
+  - &cond_3
+    id: &cond_id_3 3
     oracle:
       contract: '0x08b193bC308eC1E60cE0064CB503c9D85A841347'
       type: 0
@@ -158,52 +159,52 @@ condition: # List of outcomes' conditions for percent-based rating of outcomes' 
     default: 0
 
 outcome: # Activities' expected results/deliverables/PoW
-  - 
-    id: &out_0 0
+  - &outc_0
+    id: &outc_id_0 0
     name: Open source project initiated
-    transfer: [*transfer_0]
-    share: *trans_s_0
-    condition:
-      - *con_0
-      - *con_1
+    transfer_id: [*transfer_id_0]
+    share_id: *trans_s_id_0
+    condition_id:
+      - *cond_id_0
+      - *cond_id_1
     condition_mix: 0 # require_and # all_or_nothing, no_fail, fail_if_one_0
-  - 
-    id: &out_1 1
+  - &outc_1
+    id: &outc_id_1 1
     name: Community feedback
-    transfer: [*transfer_1]
-    share: *trans_s_0
-    condition:
-     - *con_2
-     - *con_3
+    transfer_id: [*transfer_id_1]
+    share_id: *trans_s_id_0
+    condition_id:
+     - *cond_id_2
+     - *cond_id_3
     condition_mix: 100 # weighted average of conditions' output (ratio)
     condition_weight: [1,2]
 
 activity: # Main activities
-  - 
-    id: &act_0 0
+  - &act_0
+    id: &act_id_0 0
     name: First awesome activity
     doc: ['ipfs://cid/79876546548']
-    outcome: 
-      - *out_0
-      - *out_1
+    outcome_id: 
+      - *outc_id_0
+      - *outc_id_1
 
 activity_group: 
-  - 
-    id: &actgrp_0 0
+  - &actgrp_0
+    id: &actgrp_id_0 0
     name: Project Start Phase
     phase: 1
-    activity:
-      - *act_0
+    activity_id:
+      - *act_id_0
 
 plan:
-  - 
-    id: &pla_0 0
+  - &plan_0
+    id: &plan_id_0 0
     name: Simple 1st Project Grant Execution plan V1
-    group:
-      - *actgrp_0
+    group_id:
+      - *actgrp_id_0
 
 #
 # Project Grant PLANs =======
 #
 
-planDefault: *pla_0
+planDefault_id: *plan_id_0

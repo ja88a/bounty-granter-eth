@@ -1,3 +1,5 @@
+import { PgActor } from './project-grant-meta.data';
+import { Type } from 'class-transformer';
 import {
   Length,
   IsEnum,
@@ -15,6 +17,7 @@ import {
   ArrayUnique,
   Min,
   Max,
+  ValidateNested,
 } from 'class-validator';
 
 /**
@@ -39,12 +42,13 @@ export class PgTransferShare {
    */
   @IsDefined()
   @IsNumber({ allowInfinity: false, allowNaN: false })
+  @IsInt()
   @Min(0)
   id!: number;
 
   /**
    * Transfer amounts' sharing model type
-   * @example 0
+   * @example `0`
    * @see {@link EPgTransferShareType}
    */
   @IsDefined()
@@ -53,17 +57,30 @@ export class PgTransferShare {
 
   /**
    * IDs of recipient actors
-   * @example ['0x5aC89...', '0x29D8E...']
+   * @example `['0x5aC89...', '0x29D8E...']`
    * @see {@link PgActor}
    */
-  @IsDefined()
+  @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(30)
+  @ArrayUnique()
   //@Validate(IsEthAddressArray)
   @IsEthereumAddress({ each: true })
+  actor_id?: string[];
+
+  /**
+   * Recipient actors
+   * @see {@link PgActor}
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(30)
   @ArrayUnique()
-  actor!: string[];
+  @ValidateNested({ each: true })
+  @Type(() => PgActor)
+  actor?: PgActor[];
 
   /**
    * Respective share ratio for each listed actor
@@ -156,7 +173,7 @@ export class PgToken {
 /**
  * Transfers supported statuses
  * @default ETransferStatus.default
- * @see PgTransfer
+ * @see {@link PgTransfer}
  */
 export enum ETransferStatus {
   /** Status `open`. Tokens transfer is claimable. */
@@ -171,8 +188,9 @@ export enum ETransferStatus {
  * Planned assets transfer to recipients related to the completion of an activity outcome
  */
 export class PgTransfer {
-  /** Internal **ID** of the transfer
-   * @example 3
+  /**
+   * Internal **ID** of the transfer
+   * @example `3`
    */
   @IsDefined()
   @IsNumber({ allowInfinity: false, allowNaN: false })
@@ -180,40 +198,54 @@ export class PgTransfer {
   @Min(0)
   id!: number;
 
-  /** Transfer status
-   * @example 0
+  /**
+   * Transfer status
+   * @example `0`
    * @see {@link ETransferStatus}
    */
   @IsDefined()
   @IsEnum(ETransferStatus)
   status!: ETransferStatus;
 
-  /** Max total **amount** of token to transfer
-   * @example 99.92
-   * @example 1
+  /**
+   * Max total **amount** of token to transfer
+   * @example `99.92`
+   * @example `1`
    */
   @IsDefined()
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsPositive()
   amount!: number;
 
-  /** ID of the **token** to be sent
-   * @example 1
+  /**
+   * ID of the **token** to be sent
+   * @example `1`
    * @see {@link PgToken}
    */
-  @IsDefined()
+  @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
-  token!: number;
+  @Min(0)
+  token_id!: number;
 
-  /** On-chain **transactions** related to that tranfer
-   * @example ['0xb753ef33ffc29c8bf14aa6aa9908b4469e8dd2f43e52a9f6be81344f25469fc9']
+  /**
+   * Asset **token** to be sent
+   * @see {@link PgToken}
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PgToken)
+  token!: PgToken;
+
+  /**
+   * On-chain **transactions** related to that tranfer
+   * @example `['0xb753ef33ffc29c8bf14aa6aa9908b4469e8dd2f43e52a9f6be81344f25469fc9']`
    */
   @IsOptional()
   @IsArray()
   @ArrayMinSize(0)
   @ArrayMaxSize(30)
-  @Length(20, 120, { each: true })
   @ArrayUnique()
+  @Length(20, 140, { each: true })
   tx?: string[];
 }

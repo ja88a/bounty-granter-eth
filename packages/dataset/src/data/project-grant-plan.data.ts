@@ -1,3 +1,5 @@
+import { PgTransfer, PgTransferShare } from './project-grant-transfer.data';
+import { Type } from 'class-transformer';
 import {
   Length,
   IsEnum,
@@ -12,8 +14,9 @@ import {
   ArrayUnique,
   Min,
   ValidateIf,
+  ValidateNested,
 } from 'class-validator';
-import { EPgConditionMix } from './project-grant-condition.data';
+import { EPgConditionMix, PgCondition } from './project-grant-condition.data';
 
 /**
  * Outcome of a project grant activity
@@ -31,7 +34,7 @@ export class PgOutcome {
 
   /**
    * Outcome name
-   * @example 'Expected outcome #1 of activity #2'
+   * @example '`Expected outcome #1 of activity #2'`
    */
   @IsDefined()
   @IsString()
@@ -40,10 +43,10 @@ export class PgOutcome {
 
   /**
    * Token transfers related to the outcome result
-   * @example [2,5]
+   * @example `[2,5]`
    * @see {@link PgTransfer}
    */
-  @IsDefined()
+  @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(20)
@@ -51,30 +54,65 @@ export class PgOutcome {
   @IsInt({ each: true })
   @Min(0, { each: true })
   @ArrayUnique()
-  transfer!: number[];
+  transfer_id?: number[];
+
+  /**
+   * Token transfers related to the outcome result
+   * @see {@link PgTransfer}
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(20)
+  @ValidateNested({ each: true })
+  @Type(() => PgTransfer)
+  transfer?: PgTransfer[];
 
   /**
    * Payment sharing model, its ID
-   * @example 1
+   * @example `1`
    * @see {@link PgTransferShare}
    */
-  @IsDefined()
+  @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
-  share!: number;
+  share_id!: number;
+
+  /**
+   * Payment sharing model
+   * @see {@link PgTransferShare}
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PgTransferShare)
+  share!: PgTransferShare;
 
   /**
    * List of conditions impacting the transfer ratio
    * @example [1,4]
    * @see {@link PgCondition}
    */
-  @IsDefined()
+  @IsOptional()
   @IsArray()
   @ArrayMaxSize(10)
   @ArrayUnique()
+  @IsNumber({ allowInfinity: false, allowNaN: false }, { each: true })
   @IsInt({ each: true })
-  condition!: number[];
+  @Min(0, { each: true })
+  condition_id?: number[];
+
+  /**
+   * List of conditions impacting the transfer ratio
+   * @see {@link PgCondition}
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(10)
+  @ArrayUnique()
+  @ValidateNested({ each: true })
+  @Type(() => PgCondition)
+  condition?: PgCondition[];
 
   /**
    * Method used to compute the final transfer amount when several conditions are defined
@@ -120,7 +158,7 @@ export class PgActivity {
    */
   @IsDefined()
   @IsString()
-  @Length(3, 50)
+  @Length(3, 120)
   name!: string;
 
   /**
@@ -131,20 +169,37 @@ export class PgActivity {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
-  @Length(8, 120, { each: true })
   @ArrayUnique()
+  @Length(8, 180, { each: true })
   doc?: string[];
 
   /**
-   * Activity outcomes, their ID
+   * IDs of the Activity Outcomes
    * @example [0,2]
+   * @see {@link PgOutcome}
    */
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
-  @IsInt({ each: true })
+  @ArrayMaxSize(20)
   @ArrayUnique()
-  outcome?: number[];
+  @IsNumber({ allowInfinity: false, allowNaN: false }, { each: true })
+  @IsInt({ each: true })
+  @Min(0, { each: true })
+  outcome_id?: number[];
+
+  /**
+   * The Activity Outcomes
+   * @see {@link PgOutcome}
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(20)
+  @ArrayUnique()
+  @ValidateNested({ each: true })
+  @Type(() => PgOutcome)
+  outcome?: PgOutcome[];
 }
 
 /**
@@ -177,19 +232,36 @@ export class PgActivityGroup {
   @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
-  // @IsPositive()
+  @Min(0)
   phase?: number;
 
   /**
-   * Activities composing the group
+   * Activity IDs composing the group
+   * @example [1,4]
+   * @see {@link PgActivity}
    */
-  @IsDefined()
+  @IsOptional()
   @IsArray()
-  @ArrayMinSize(0)
-  @ArrayMaxSize(20)
-  @IsInt({ each: true })
+  @ArrayMinSize(1)
+  @ArrayMaxSize(30)
   @ArrayUnique()
-  activity!: number[];
+  @IsNumber({ allowInfinity: false, allowNaN: false }, { each: true })
+  @IsInt({ each: true })
+  @Min(0, { each: true })
+  activity_id?: number[];
+
+  /**
+   * Activities composing the group
+   * @see {@link PgActivity}
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(30)
+  @ArrayUnique()
+  @ValidateNested({ each: true })
+  @Type(() => PgActivity)
+  activity?: PgActivity[];
 }
 
 /**
@@ -208,21 +280,38 @@ export class PgPlan {
 
   /**
    * Plan name
-   * @example 'Best plan ever #101'
+   * @example `'Best plan ever #101'`
    */
   @IsDefined()
   @IsString()
-  @Length(3, 50)
+  @Length(3, 100)
   name!: string;
 
   /**
-   * Groups of activities defining the plan
+   * IDs of Activty Groups defining the plan
+   * @example `[0, 1, 2]` to define 3 activity groups
+   * @see {@link PgActivityGroup}
    */
   @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(10)
-  @IsInt({ each: true })
   @ArrayUnique()
-  group?: number[];
+  @IsNumber({ allowInfinity: false, allowNaN: false }, { each: true })
+  @IsInt({ each: true })
+  @Min(0, { each: true })
+  group_id?: number[];
+
+  /**
+   * Activity groups defining the plan
+   * @see {@link PgActivityGroup}
+   */
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(10)
+  @ArrayUnique()
+  @ValidateNested({ each: true })
+  @Type(() => PgActivityGroup)
+  group?: PgActivityGroup[];
 }

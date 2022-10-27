@@ -25,7 +25,7 @@ import {
 export class PgNFT {
   /**
    * NFT Collection address 0x
-   * @example 0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F
+   * @example `'0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F'`
    */
   @IsDefined()
   @IsEthereumAddress()
@@ -33,7 +33,7 @@ export class PgNFT {
 
   /**
    * NFT Token ID inside the Collection
-   * @example 'a101'
+   * @example `'a101'`
    */
   @IsDefined()
   @IsString()
@@ -73,7 +73,7 @@ export class PgProject {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
-  @Length(8, 120, { each: true })
+  @Length(8, 200, { each: true })
   doc!: string[];
 
   /**
@@ -106,9 +106,9 @@ export class PgOrganization {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(3)
+  @ArrayUnique()
   //@Validate(IsEthAddressArray)
   @IsEthereumAddress({ each: true })
-  @ArrayUnique()
   committee!: string[];
 
   /**
@@ -149,7 +149,7 @@ export class PgActor {
    */
   @IsDefined()
   @IsString()
-  @Length(3, 20)
+  @Length(3, 50)
   name!: string;
 
   /**
@@ -165,7 +165,7 @@ export class PgActor {
 
   /**
    * Account address
-   * @example "0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D"
+   * @example `'0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D'`
    */
   @IsDefined()
   @IsEthereumAddress()
@@ -173,19 +173,20 @@ export class PgActor {
 
   /**
    * ENS address name
-   * @example srenault.com
+   * @example `srenault.com`
    * @see [ENS site](https://app.ens.domains/)
    */
   @IsOptional()
   @IsString()
-  @Length(4, 20)
+  @Length(4, 40)
   ens?: string;
 
   /**
    * Optional default share for a stakeholder
    *
-   * Expressed by a percentage [0, 100]
-   * @example 20
+   * Expressed by a percentage [0, 100].
+   * @example `20` sets the executor a default share of 20% on amounts to be transfered
+   * @see {@link PgTransferShare}
    */
   @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false })
@@ -222,6 +223,7 @@ export class EPgChangePrevious {
    * Previous version number of the project grant definition that this change has replaced
    * @example 2
    */
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @IsPositive()
   version!: number;
@@ -233,6 +235,7 @@ export class EPgChangePrevious {
    */
   @IsDefined()
   @IsString()
+  @Length(6, 100)
   cid!: string;
 }
 
@@ -244,7 +247,7 @@ export class PgHistoryEvent {
    * Date of the change event
    *
    * ISO8601 Date format. UTC.
-   * @example "2022-09-24T11:34:00.000Z"
+   * @example `'2022-09-24T11:34:00.000Z'`
    * @see [ISO 8601 on Wikipedia](https://en.wikipedia.org/wiki/ISO_8601)
    */
   @IsDefined()
@@ -253,29 +256,29 @@ export class PgHistoryEvent {
 
   /**
    * The type of change
-   * @example [100]
+   * @example `[100]`
    * @see {@link EPgChangeType}
    */
   @IsDefined()
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
-  @IsEnum(EPgChangeType, { each: true })
   @ArrayUnique()
+  @IsEnum(EPgChangeType, { each: true })
   type!: EPgChangeType[];
 
   /**
-   * Author of the change. Signer account address
-   * @see {@link IsEthAddressArray}
+   * Author(s) of the change. Their ID, the [signer] account address
+   * @example `['0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D']`
+   * @see {@link PgActor}
    */
   @IsDefined()
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(5)
-  //@Validate(IsEthAddressArray)
-  @IsEthereumAddress({ each: true })
   @ArrayUnique()
-  author!: string[];
+  @IsEthereumAddress({ each: true })
+  author_id!: string[];
 
   /**
    * Anterior version of the PG definition that this change has replaced
@@ -286,10 +289,13 @@ export class PgHistoryEvent {
   @Type(() => EPgChangePrevious)
   previous?: EPgChangePrevious;
 
-  /** Optional comment input when committing the PG definition changes */
+  /**
+   * Optional comment input when committing the PG definition changes
+   * @example `'Something meaningful helping in understanding the reason(s) for the changes'`
+   */
   @IsOptional()
   @IsString()
-  @Length(0, 255)
+  @Length(2, 500)
   comment?: string;
 }
 
@@ -302,8 +308,9 @@ export class PgHistory {
    * @example 3
    */
   @IsDefined()
-  @IsPositive()
+  @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
+  @IsPositive()
   version!: number;
 
   /**
@@ -313,6 +320,7 @@ export class PgHistory {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(100)
+  @ArrayUnique()
   @ValidateNested({ each: true })
   @Type(() => PgHistoryEvent)
   event!: PgHistoryEvent[];

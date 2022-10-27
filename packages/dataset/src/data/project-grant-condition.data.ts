@@ -18,6 +18,7 @@ import {
 /**
  * List of supported computations used for mixing different conditions output
  * and obtaining 1 consolidated result
+ * @default EPgConditionMix.default
  */
 export enum EPgConditionMix {
   /**
@@ -55,7 +56,6 @@ export class PgTellorQueryData {
   @IsDefined()
   queryId!: string;
 
-  //@IsDefined()
   // TODO Tellor queryData model + validation
   @IsDefined()
   queryData!: unknown;
@@ -291,7 +291,7 @@ export class PgConditionMapping {
    * reference values set in `ref[]` towards an ouput value
    * defined in `out[]`
    *
-   * @example 100
+   * @example `100`
    */
   @IsDefined()
   @IsEnum(EPgConditionMappingType)
@@ -300,7 +300,7 @@ export class PgConditionMapping {
   /**
    * Reference values used to perform a mapping of an input value
    *
-   * @example [0, 1, 2]
+   * @example `[0, 1, 2]`
    */
   @IsDefined()
   @IsArray()
@@ -316,7 +316,7 @@ export class PgConditionMapping {
    *
    * Output values must be a percentage value [0-100]
    *
-   * @example [0, 50, 100]
+   * @example `[0, 50, 100]`
    */
   @IsDefined()
   @IsArray()
@@ -354,16 +354,23 @@ export class PgConditionOracle {
 
   /**
    * ID of the data set constituing the Query Parameters, specific to the oracle type
-   * @example 2
+   * @example `2`
    * @see {@link PgConditionDataSet}
    */
   @IsOptional()
-  //@ValidateNested()
-  //@Type(() => PgConditionDataSet)
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsInt()
   @Min(0)
-  param?: number;
+  param_id?: number;
+
+  /**
+   * Oracle Query Parameters, specific to the oracle type
+   * @see {@link PgConditionDataSet}
+   */
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PgConditionDataSet)
+  param?: PgConditionDataSet;
 }
 
 /**
@@ -398,7 +405,7 @@ export enum EPgConditionValidationType {
 export class PgConditionValidation {
   /**
    * Type of the defined minimum particpation threshold
-   * @example 1 */
+   * @example `1` */
   @IsDefined()
   @IsEnum(EPgConditionValidationType)
   type: EPgConditionValidationType = EPgConditionValidationType.default;
@@ -407,10 +414,10 @@ export class PgConditionValidation {
    * Reference value to be used by the validation method
    *
    * Examples:
-   *  * With type `EPgConditionValidationType.MIN_PARTICIPATION_NB_ACCOUNT at least `3` accounts must have participated
-   *  * With type `EPgConditionValidationType.MIN_PARTICIPATION_PERCENT `51`% of group members must have participated
+   *  * With type `EPgConditionValidationType.MIN_PARTICIPATION_NB_ACCOUNT` at least `3` accounts must have participated
+   *  * With type `EPgConditionValidationType.MIN_PARTICIPATION_PERCENT` `51`% of the group members must have participated
    *
-   * @example 3
+   * @example `3`
    */
   @IsDefined()
   @IsNumber({ allowInfinity: false, allowNaN: false })
