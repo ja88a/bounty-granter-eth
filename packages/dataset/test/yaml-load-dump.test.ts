@@ -18,6 +18,7 @@ describe('Test yaml to json to yaml', () => {
   it('Should create a build dir ./build/samples/grants', async function () {
     if (DUMP_FILE_OUTPUT) {
       fs.mkdir('./build/samples/grants', { recursive: true }, () => {});
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       setTimeout(() => {}, 1000);
     }
   });

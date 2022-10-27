@@ -10,8 +10,12 @@ export const DUMP_FILE_OUTPUT = true;
 export const buf2hex = (x: Buffer): string => '0x' + x.toString('hex');
 
 export const loadYaml = (yamlFileNameNoExt?: string) => {
-  let filePath = './samples/' + SOURCE_DEFAULT + '.yaml';
-  if (yamlFileNameNoExt) filePath = './samples/' + yamlFileNameNoExt + '.yaml';
+  let filePath;
+  if (yamlFileNameNoExt) {
+    filePath = './samples/' + yamlFileNameNoExt + '.yml';
+  } else {
+    filePath = './samples/' + SOURCE_DEFAULT + '.yml';
+  }
   const fileContents = fs.readFileSync(filePath, 'utf8');
   return yaml.load(fileContents);
 };
