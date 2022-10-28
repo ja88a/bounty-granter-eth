@@ -28,14 +28,21 @@ abstract contract ProjectGrantCollection is
 
     /**
      * @dev Constructor
-     * @param name Name of the collection, e.g. 'Project grants V1'
-     * @param tokenSymbol Symbol the token for this collection of project grants
+     * @param _collName Name of the collection, e.g. 'Project grants V1'
+     * @param _tokenSymbol Symbol the token for this collection of project grants
      * @param _version Version of the project grants collection, e.g. '1.0.3'
      * @param _community Community owning that collection
      * @param _committee Owning committee which members have privileges [per their role]
      */
-    constructor(string memory name, string memory tokenSymbol, string memory _version, address _community, address _committee, address _admin) 
-        ERC721(name, tokenSymbol)
+    constructor(
+        string memory _collName, 
+        string memory _tokenSymbol, 
+        string memory _version, 
+        address _community, 
+        address _committee, 
+        address _admin
+        ) 
+        ERC721(_collName, _tokenSymbol)
         AccessControlMember(_community, _committee, _admin)
     {
         version = _version;

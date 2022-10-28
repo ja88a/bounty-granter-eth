@@ -344,6 +344,11 @@ module.exports = {
     spacing: 2,
     pretty: false,
   },
+  docgen: {
+    outputDir: "./build/contract-docs",
+    pages: "items",
+    templates: "./docs-templates/",
+  },
 };
 
 const DEBUG = false;

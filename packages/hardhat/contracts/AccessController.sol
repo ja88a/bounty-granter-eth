@@ -2,13 +2,13 @@
 pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-abstract contract AccessController is AccessControlEnumerable, ReentrancyGuard {
+abstract contract AccessController is AccessControlEnumerable
+    {
     bytes32 public constant ADMIN = keccak256("ADMIN");
 
-    // fn: onlyRole(ADMIN)
-    // fn{}: require(hasRole(ADMIN, msg.sender));
+    // AccessControlEnumerable fn: onlyRole(ADMIN)
+    // AccessControlEnumerable fn{}: require(hasRole(ADMIN, msg.sender));
 
-    // fn: nonReentrant
+    // ReentrancyGuard fn: nonReentrant
 }
