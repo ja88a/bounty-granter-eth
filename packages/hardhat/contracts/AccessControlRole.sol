@@ -79,7 +79,7 @@ abstract contract AccessControlRole is AccessControlMember {
             "AccessControlRole: Number of actions is limited to 256 per comittee"
         );
     }
-
+    
     /** 
      * @dev Check if sender has the necessary committee role to perform the action
      * @param _action Action to be granted, registered as supported by the contract

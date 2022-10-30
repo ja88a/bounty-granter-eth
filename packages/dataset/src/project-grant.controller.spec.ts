@@ -57,9 +57,9 @@ describe('Test the load of  a Project Grant from YAML', () => {
       );
     }
 
-    assert.exists(pgRes.projectGrant);
-
     const projectGrant = pgRes.projectGrant;
+    assert.exists(projectGrant);
+
     //assert.exists(projectGrant.project);
     assert.exists(
       projectGrant.project?.name,
@@ -83,7 +83,7 @@ describe('Test the load of  a Project Grant from YAML', () => {
     assert.equal(
       validationErrors?.length,
       0,
-      "No validation errors should be found on PG '" + PG_YAML_FILE1 + "'",
+      "No validation errors should be found on loaded PG '" + PG_YAML_FILE1 + "'",
     );
     logger.debug('Final project grant: ' + JSON.stringify(pgRes.projectGrant));
   });

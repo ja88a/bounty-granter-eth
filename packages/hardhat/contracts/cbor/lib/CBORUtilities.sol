@@ -90,7 +90,7 @@ library CBORUtilities {
         uint8 shortCount,
         uint start,
         uint end
-    ) internal view returns (
+    ) internal pure returns (
         bytes memory value
     ) {
         if (start != end)
@@ -128,7 +128,7 @@ library CBORUtilities {
      */
     function parseFieldEncoding(
         bytes1 fieldEncoding
-    ) internal view returns (
+    ) internal pure returns (
         Spec.MajorType majorType,
         uint8 shortCount
     ) {

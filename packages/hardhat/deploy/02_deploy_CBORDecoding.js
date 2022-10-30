@@ -18,7 +18,16 @@ module.exports = async ({
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  await deploy("OracleTPGithubApi", {
+  await deploy("CBORDecoding", {
+    // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
+    from: deployer,
+    args: [],
+    //gasLimit: 4000000, 
+    //waitConfirmations: 5,
+    log: true
+  });
+
+  await deploy("CBORByteParser", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
     args: [],

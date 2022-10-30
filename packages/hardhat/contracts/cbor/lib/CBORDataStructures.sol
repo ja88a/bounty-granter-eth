@@ -46,10 +46,10 @@ library CBORDataStructures {
             uint pair = item / 2; // 0,0,1,1,2,2..
 
             // See what our field looks like
-            (Spec.MajorType majorType, uint8 shortCount, uint start, uint end, uint next) = Utils.parseField(encoding, mappingCursor);
+            (Spec.MajorType majorType, uint8 shortCounter, uint start, uint end, uint next) = Utils.parseField(encoding, mappingCursor);
 
             // Save our data
-            decodedMapping[pair][arrayIdx] = Utils.extractValue(encoding, majorType, shortCount, start, end);
+            decodedMapping[pair][arrayIdx] = Utils.extractValue(encoding, majorType, shortCounter, start, end);
 
             // Update our cursor
             mappingCursor = next;
@@ -87,10 +87,10 @@ library CBORDataStructures {
         for (uint item = 0; item < totalItems; item++) {
 
             // See what our field looks like
-            (Spec.MajorType majorType, uint8 shortCount, uint start, uint end, uint next) = Utils.parseField(encoding, arrayCursor);
+            (Spec.MajorType majorType, uint8 shortCounter, uint start, uint end, uint next) = Utils.parseField(encoding, arrayCursor);
 
             // Save our data
-            decodedArray[item] = Utils.extractValue(encoding, majorType, shortCount, start, end);
+            decodedArray[item] = Utils.extractValue(encoding, majorType, shortCounter, start, end);
 
             // Update our cursor
             arrayCursor = next;
@@ -101,7 +101,7 @@ library CBORDataStructures {
     }
 
     /**
-    * @dev Returns the number of items (not pairs) and where values start/end.
+     * @dev Returns the number of items (not pairs) and where values start/end.
      * @param encoding the dynamic bytes array to scan
      * @param cursor position where mapping data starts (in bytes)
      * @param majorType the corresponding major type identifier
@@ -141,7 +141,6 @@ library CBORDataStructures {
         }
 
         return (dataStart, dataEnd);
-
     }
 
     /**

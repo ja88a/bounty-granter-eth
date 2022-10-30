@@ -23,10 +23,10 @@ library CBORPrimitives {
      */
     function parseInteger(
         /* We don't need encodings to tell how long (bytes) the integer is */
-        /*bytes memory encoding,*/
+        /* bytes memory encoding */
         uint cursor,
         uint shortCount
-    ) internal view returns (
+    ) internal pure returns (
         uint dataStart,
         uint dataEnd
     ) {
@@ -149,7 +149,7 @@ library CBORPrimitives {
         /*bytes memory encoding,*/
         uint cursor,
         uint shortCount
-    ) internal view returns (
+    ) internal pure returns (
         uint dataStart,
         uint dataEnd
     ) {
