@@ -3,7 +3,7 @@ import { validate, ValidationError } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import * as yaml from 'js-yaml';
 
-import Logger from './utils/logger.winston';
+import Logger from './utils/logger';
 import { VALID_OPT } from './utils/config';
 
 import { ProjectGrant } from './data/project-grant.data';

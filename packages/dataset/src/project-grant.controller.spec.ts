@@ -7,7 +7,7 @@ import { ProjectGrant } from './data/project-grant.data';
 import { ProjectGrantController } from './project-grant.controller';
 import { VALID_OPT } from './utils/config';
 
-import Logger from './utils/logger.winston';
+import Logger from './utils/logger';
 import { fail } from 'assert';
 
 const logger = Logger.child({ label: 'ProjectGrantController-SPEC' });
