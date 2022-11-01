@@ -5,7 +5,7 @@ import "./AccessControlMember.sol";
 
 /**
  * @title Committee Members Role-based Access Controller for contracts' methods & inner actions.
- * Support for checking allowances of only 2 committees: an admin and an owner committee handling the contract.
+ * @dev Support for checking allowances of only 2 committees: an admin and an owner committee handling the contract.
  * A maximum number of 2^8 actions can be registered for each committee.
  * Only members of the admin committee can change the supported actions and associated member roles for a specific committee.
  * When changing a committee associated to the contract, admin or owner, associated allowed roles must be set again.
@@ -15,23 +15,23 @@ import "./AccessControlMember.sol";
 abstract contract AccessControlRole is AccessControlMember {
 
     /** @dev Supported actions for which a given role in the owning committee is required */
-    bytes32[] private actionsCommittee;
+    uint32[] private actionsCommittee;
 
     /** @dev Association of actions towards their allowed roles for members of the owner committee */
-    mapping (bytes32 => bytes32[]) internal actionRolesCommittee;
+    mapping (uint32 => bytes32[]) internal actionRolesCommittee;
 
     /** @dev Supported actions for which a given role in the admin committee is required */
-    bytes32[] private actionsAdmin;
+    uint32[] private actionsAdmin;
 
     /** @dev Association of actions towards their allowed roles for members of the admin committee */
-    mapping (bytes32 => bytes32[]) internal actionRolesAdmin;
+    mapping (uint => bytes32[]) internal actionRolesAdmin;
 
     /** @dev Effective change on registered allowed actions for a given committee */
     event ChangeCommitteeActions (
         address sender,
         address changedContract,
         address committee,
-        bytes32[] actions,
+        uint32[] actions,
         uint256 timestamp
     );
 
@@ -39,7 +39,7 @@ abstract contract AccessControlRole is AccessControlMember {
     event ChangeActionRoles (
         address sender,
         address changedContract,
-        bytes32 action,
+        uint32 action,
         address committee,
         bytes32[] roles,
         uint256 timestamp
@@ -50,9 +50,18 @@ abstract contract AccessControlRole is AccessControlMember {
      * @param _actionsCommittee List of actions requiring a specific member role from the owning Committee to access some contract methods
      * @param _actionsAdmin List of actions requiring a specific member role from the admin Committee to access some contract methods
      */
-    constructor(address _community, address _ownerCommittee, address _adminCommittee, 
-        bytes32[] memory _actionsCommittee, bytes32[] memory _actionsAdmin) 
-        AccessControlMember(_community, _ownerCommittee, _adminCommittee)
+    constructor(
+        address _community,
+        address _ownerCommittee,
+        address _adminCommittee, 
+        uint32[] memory _actionsCommittee,
+        uint32[] memory _actionsAdmin
+        )
+        AccessControlMember(
+            _community,
+            _ownerCommittee,
+            _adminCommittee
+            )
     {
         uint256 acl = _checkActionsLength(_actionsCommittee);
         uint256 aal = _checkActionsLength(_actionsAdmin);
@@ -60,11 +69,12 @@ abstract contract AccessControlRole is AccessControlMember {
             acl > 0 || aal > 0,
             "AccessControlRole: no need for role-based action control"
         );
+
         actionsCommittee = _actionsCommittee;
         actionsAdmin = _actionsAdmin;
     }
 
-    function _checkActionsLength(bytes32[] memory _actions) 
+    function _checkActionsLength(uint32[] memory _actions) 
         private
         pure
         returns (uint256 len)
@@ -84,7 +94,7 @@ abstract contract AccessControlRole is AccessControlMember {
      * @dev Check if sender has the necessary committee role to perform the action
      * @param _action Action to be granted, registered as supported by the contract
      */
-    modifier onlyCommitteeRole(bytes32 _action) {
+    modifier onlyCommitteeRole(uint32 _action) {
         bytes32[] memory allowedRoles = getActionRoles(_action, ownerCommittee);
         require(
             allowedRoles.length > 0,
@@ -100,7 +110,7 @@ abstract contract AccessControlRole is AccessControlMember {
      * @dev Check if sender has the necessary admin role to perform the action
      * @param _action Action to be granted, registered as supported by the contract
      */
-    modifier onlyAdminRole(bytes32 _action) {
+    modifier onlyAdminRole(uint32 _action) {
         require(
             isCommitteeMember(adminCommittee) != address(0),
             "AccessControlRole: Must be admin"
@@ -123,7 +133,7 @@ abstract contract AccessControlRole is AccessControlMember {
      * @param _committee The committee for which specific roles are requested: admin or owner committee
      * @return roles Committee roles granted to perform the action
      */
-    function getActionRoles(bytes32 _action, address _committee)
+    function getActionRoles(uint32 _action, address _committee)
         public
         view
         onlyCommitteeMember(address(0))
@@ -144,7 +154,7 @@ abstract contract AccessControlRole is AccessControlMember {
     function listAllowedActions(address _committee)
         public
         view
-        returns (bytes32[] memory actionsR)
+        returns (uint32[] memory actionsR)
     {
         require(
             _committee == ownerCommittee || _committee == adminCommittee,
@@ -162,10 +172,10 @@ abstract contract AccessControlRole is AccessControlMember {
      * @param _actions Allowed actions
      * @return actionsSet The list of actions as updated
      */
-    function setAllowedActions(address _committee, bytes32[] memory _actions) 
+    function setAllowedActions(address _committee, uint32[] memory _actions) 
         public
         onlyAdmin
-        returns (bytes32[] memory actionsSet)
+        returns (uint32[] memory actionsSet)
     {
         // => Checks
         _checkActionsLength(_actions);
@@ -199,14 +209,14 @@ abstract contract AccessControlRole is AccessControlMember {
      * @param _roles List of members' roles granted to perform the action
      * @return rolesSet List the newly set roles of the committee members granted to perform the action 
      */
-    function setActionRoles(bytes32 _action, address _committee, bytes32[] memory _roles) 
+    function setActionRoles(uint32 _action, address _committee, bytes32[] memory _roles) 
         public
         onlyAdmin
         returns (bytes32[] memory rolesSet)
     {
         // => Checks
         require(
-            _action != "",
+            _action > 0,
             "AccessControlRole: Empty action"
         );
         require(
@@ -215,9 +225,9 @@ abstract contract AccessControlRole is AccessControlMember {
         );
 
         // check if the action is registered
-        bytes32 tAction;
+        uint32 tAction;
 
-        bytes32[] memory registeredActions;
+        uint32[] memory registeredActions;
 
         if (_committee == ownerCommittee) {
             registeredActions = actionsCommittee;
@@ -233,7 +243,7 @@ abstract contract AccessControlRole is AccessControlMember {
             }
         }
         require(
-            tAction != "",
+            tAction > 0,
             "AccessControlRole: Action not registered as allowed for the committee"
         );
 

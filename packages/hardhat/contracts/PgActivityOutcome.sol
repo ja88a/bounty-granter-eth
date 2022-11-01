@@ -2,12 +2,12 @@
 pragma solidity 0.8.16;
 
 import "./IProjectGrantCollection.sol";
-import "./AccessControlMember.sol";
+import "./AccessControlRole.sol";
 
 /**
  * @title Handler of project grants' Activity Outcomes
  */ 
-contract PgActivityOutcome is AccessControlMember {
+contract PgActivityOutcome is AccessControlRole {
 
     /** List of available project grant collections */
     address[] internal projectGrantCollections;
@@ -34,12 +34,16 @@ contract PgActivityOutcome is AccessControlMember {
     constructor(address _pgRegistry,
         address _community,
         address _owner,
-        address _admin
+        address _admin,
+        uint32[] memory _ownerActions,
+        uint32[] memory _adminActions
         )
-        AccessControlMember(
+        AccessControlRole(
             _community, 
             _owner, 
-            _admin
+            _admin,
+            _ownerActions,
+            _adminActions
             )
     {
         projectGrantRegistry = _pgRegistry;
