@@ -10,6 +10,9 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./IProjectGrantCollection.sol";
 import "./AccessControlMember.sol";
 
+/**
+ * @title BountyGranter Project Grant collection NFT
+ */
 abstract contract ProjectGrantCollection is 
     IProjectGrantCollection,
     ERC721,
@@ -21,10 +24,9 @@ abstract contract ProjectGrantCollection is
     string public version;
 
     using Counters for Counters.Counter;
-
     Counters.Counter private _tokenIdCounter;
 
-    bytes32[] internal roles_mint;
+    //bytes32[] internal roles_mint;
 
     /**
      * @dev Constructor
@@ -48,6 +50,9 @@ abstract contract ProjectGrantCollection is
         version = _version;
     }
 
+    /**
+     * @notice Returns the collection tokens' default base URI
+     */
     function _baseURI() 
         internal 
         pure 
@@ -57,7 +62,10 @@ abstract contract ProjectGrantCollection is
         return "https://ipfs.io/ipfs/";
     }
 
-    function mintItem(address _committee, string memory uri) 
+    function mintItem(
+        address _committee,
+        string memory uri
+        ) 
         external 
         onlyCommitteeMember(_committee)
         returns (uint256) 
