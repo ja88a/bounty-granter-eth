@@ -151,9 +151,9 @@ Distributed under the [LGPL-2.1 license][license].
 [![LinkedIn][linkedin-shield]][author-linkedin]
 
 [github-shield]: https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white
-#[linkedin-shield]: https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white
+<!--[linkedin-shield]: https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white-->
 
-[author-linkedin]: https://linkedin.com/in/srenault
+#[author-linkedin]: https://linkedin.com/in/srenault
 [author-email]: mailto:contact@srenault.com
 [author-github]: https://github.com/ja88a
 
