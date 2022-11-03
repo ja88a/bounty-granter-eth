@@ -1,5 +1,5 @@
 {
-  "name": "@bounty-granter-eth/hardhat",
+  "name": "@bounty-granter-eth/onchain",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
