@@ -85,7 +85,7 @@ importers:
       ts-node: 10.9.1_evej5wzm4hojmu6uzxwpspdmsu
       typescript: 4.8.4
 
-  packages/hardhat:
+  packages/onchain:
     specifiers:
       '@nomicfoundation/hardhat-chai-matchers': ^1.0.3
       '@nomicfoundation/hardhat-network-helpers': ^1.0.0
@@ -5785,7 +5785,6 @@ packages:
 
   /abbrev/1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
-    dev: true
 
   /abort-controller/3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
@@ -8376,7 +8375,7 @@ packages:
       supports-color:
         optional: true
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
       supports-color: 6.0.0
     dev: false
 
@@ -15627,7 +15626,7 @@ packages:
     resolution: {integrity: sha512-4GUt3kSEYmk4ITxzB/b9vaIDfUVWN/Ml1Fwl11IlnIG2iaJ9O6WXZ9SrYM9NLI8OCBieN2Y8SWC2oJV0RQ7qYg==}
     hasBin: true
     dependencies:
-      abbrev: 1.0.9
+      abbrev: 1.1.1
     dev: false
 
   /normalize-path/3.0.0:
@@ -21183,7 +21182,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: false
     optional: true
 
