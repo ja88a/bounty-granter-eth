@@ -70,7 +70,7 @@ Deploy the contracts: 		    ``yarn deploy``
 
 Verify the deployed contracts: 	``yarn verify``
 
-Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in ``packages/hardhat/hardhat.config.js``.
+Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in ``packages/onchain/hardhat.config.js``.
 
 
 ## Running the Web UI locally
@@ -114,7 +114,7 @@ A React responsive Web UI based on:
 * and friends: refer to `packages/webui/package.json`.
 
 ### Smart Contracts
-Package: **[hardhat](./packages/hardhat)**
+Package: **[onchain](./packages/onchain)**
 
 The EVM-compatible smart contracts are reported there, implemented with Solidity 0.8 and the [HardHart](https://hardhat.org) development framework for building on ETH L1 & L2 chains.
 

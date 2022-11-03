@@ -36,7 +36,7 @@ Deploy your contracts: 		              ``yarn deploy``
 
 Verify the deployed contract: 	        ``yarn verify``
 
-Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in the [hardhat.config.js](packages/hardhat/hardhat.config.js).
+Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in the [hardhat.config.js](./hardhat.config.js).
 
 ## Hardhat Local Chain
 
@@ -59,7 +59,7 @@ Token: ETH
 
 ## Default Network
 
-Refer to ``defaultNetwork`` set in ``packages/hardhat/hardhat.config.js``.
+Refer to ``defaultNetwork`` set in ``./hardhat.config.js``.
 
 It is overridden by using the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``
 

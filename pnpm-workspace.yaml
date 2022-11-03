@@ -1,6 +1,6 @@
 packages:
   - "packages/dataset"
-  - "packages/hardhat"
+  - "packages/onchain"
   - "packages/services"
   - "packages/subgraph"
   - "packages/webui"

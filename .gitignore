@@ -126,13 +126,13 @@ dist
 packages/subgraph/subgraph.yaml
 packages/subgraph/generated
 packages/subgraph/abis/*
-packages/hardhat/*.txt
+packages/onchain/*.txt
 **/aws.json
 
-packages/hardhat/artifacts*
-packages/hardhat/cache*
-packages/hardhat/deployments
-packages/hardhat-ts/cache
+packages/onchain/artifacts*
+packages/onchain/cache*
+packages/onchain/deployments
+packages/onchain-ts/cache
 
 packages/react-app/src/contracts/*
 !packages/react-app/src/contracts/contracts.js
