@@ -18,13 +18,40 @@ module.exports = async ({
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
+  const LibCBORSpec = await ethers.getContractFactory("CBORSpec");
+  const libCBORSpec = await LibCBORSpec.deploy();
+  await libCBORSpec.deployed();
+
+  const LibCBORPrimitives = await ethers.getContractFactory("CBORPrimitives");
+  const libCBORPrimitives = await LibCBORPrimitives.deploy();
+  await libCBORPrimitives.deployed();
+
+  const LibCBORUtilities = await ethers.getContractFactory("CBORUtilities");
+  const libCBORUtilities = await LibCBORUtilities.deploy();
+  await libCBORUtilities.deployed();
+
+  const LibCBORDataStructures = await ethers.getContractFactory("CBORDataStructures");
+  const libCBORDataStructures = await LibCBORDataStructures.deploy();
+  await libCBORDataStructures.deployed();
+
+  const LibCBORByteUtils = await ethers.getContractFactory("CBORByteUtils");
+  const libCBORByteUtils = await LibCBORByteUtils.deploy();
+  await libCBORByteUtils.deployed();
+
   await deploy("CBORDecoding", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
     args: [],
     //gasLimit: 4000000, 
     //waitConfirmations: 5,
-    log: true
+    log: true,
+    libraries: {
+      CBORSpec: libCBORSpec.address,
+      CBORPrimitives: LibCBORPrimitives.address,
+      CBORUtilities: libCBORUtilities.address,
+      CBORDataStructures: libCBORDataStructures.address,
+      CBORByteUtils: libCBORByteUtils.address,
+    },
   });
 
   await deploy("CBORByteParser", {
@@ -107,4 +134,4 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-module.exports.tags = ["tellorPlaygroundGithub"];
+module.exports.tags = ["CBORDecoding"];

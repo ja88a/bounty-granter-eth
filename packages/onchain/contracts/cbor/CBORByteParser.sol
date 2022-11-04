@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.16;
 
 /**
  * @dev Helpful byte utility functions.
@@ -15,7 +15,7 @@ library CBORByteParser {
      * @return value calculated uint64 value
      */
     function bytesToUint64(bytes memory data) public pure returns (uint64 value) {
-        require(value <= MAX_UINT64, "Number too large! Use `bytesToBigNumber` instead!");
+        require(value <= MAX_UINT64, "CBOR Number too large! Use `bytesToBigNumber` instead!");
         value = uint64(bytesToBigNumber(data));
     }
 
@@ -61,7 +61,7 @@ library CBORByteParser {
         else if (boolean == 0)
             value = false;
         else
-            revert("Improper boolean!");
+            revert("CBOR Improper boolean!");
     }
 
     /**
