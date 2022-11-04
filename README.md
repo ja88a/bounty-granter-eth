@@ -51,7 +51,7 @@ $ npm install -g yarn pnpm
 ### Installation
 All yarn worspaces get installed using pnpm:
 ```sh
-$ pnpm -r install
+$ pnpm install
 ```
 
 You can install the modules individually by using the command:
@@ -97,14 +97,14 @@ yarn surge
 The generated static web resources can be deployed on [IPFS](https://ipfs.tech/), [Surge](https://surge.sh) or [AWS S3](https://aws.amazon.com/s3/). Refer to dedicated deployment scripts in `packages/webui/package.json`.
 
 
-## Technical Modules
+## Modules
 ### General
 This mono repo structure and its tooling have been bootstrap by a [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) boilerplate.
 
 ### Front-End
 Package: **[webui](./packages/webui)**
 
-A React responsive Web UI based on:
+A ReactJS responsive Web app based on:
 * [Create React App](https://create-react-app.dev/)
 * [Material UI](https://mui.com)
 * [Tailwind CSS](https://tailwindcss.com/)
@@ -116,7 +116,7 @@ A React responsive Web UI based on:
 ### Smart Contracts
 Package: **[onchain](./packages/onchain)**
 
-The EVM-compatible smart contracts are reported there, implemented with Solidity 0.8 and the [HardHart](https://hardhat.org) development framework for building on ETH L1 & L2 chains.
+The EVM-compatible smart contracts are reported there, implemented with Solidity 0.8 and the [HardHart](https://hardhat.org) development framework for building on ETH L1 & L2 blockchains.
 
 ### Subgraph
 Package: **[subgraph](./packages/subgraph)**
