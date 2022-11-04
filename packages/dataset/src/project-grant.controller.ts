@@ -49,10 +49,6 @@ export class ProjectGrantController {
    * @return {@link ValidationError} List of validation errors, if any. Else an empty array.
    */
   async validatePG(projectGrant: ProjectGrant): Promise<ValidationError[]> {
-    // await validateOrReject(pg, VALID_OPT)
-    //     .catch(error => {
-    //         throw new Error("Project grant Validation fails", {cause: error});
-    //     });
     const validationErr: ValidationError[] = await validate(
       projectGrant,
       VALID_OPT,
@@ -60,13 +56,10 @@ export class ProjectGrantController {
       throw new Error('Fail to validate PG definition', { cause: error });
     });
 
-    this.logger.info(
-      "Validation of project Grant '" +
-        projectGrant.project.name +
-        "' results in '" +
-        validationErr.length +
-        "' issue(s)",
-    );
+    if (validationErr.length > 0)
+      this.logger.warn(
+        `Validation of project Grant '${projectGrant.project?.name}' results in ${validationErr.length} issue(s)`,
+      );
 
     return validationErr;
 
