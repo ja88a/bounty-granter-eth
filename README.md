@@ -139,8 +139,7 @@ Refer to this [wiki page](https://github.com/ja88a/bounty-granter-eth/wiki/Techn
 Distributed under the [LGPL-2.1 license][license].
 
 <!-- license -->
-[license]: LICENSE.md
-[endpoints]: endpoints.json
+[license]: LICENSE
 
 
 ## Contact

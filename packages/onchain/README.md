@@ -71,3 +71,11 @@ Credits go to [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) and N
 [OpenZeppelin contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) are integrated.
 
 Refer to [package.json](./package.json) for the complete list of dependencies this module is developped from.
+
+
+## License
+
+Distributed under the [LGPL-2.1 license][license].
+
+<!-- license -->
+[license]: LICENSE

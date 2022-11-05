@@ -74,3 +74,11 @@ Type-safe, lightweight SDKs for Ethereum smart contracts.
 
 Repository: [dethcrypto / eth-sdk](https://github.com/dethcrypto/eth-sdk)
 
+
+
+## License
+
+Distributed under the [LGPL-2.1 license][license].
+
+<!-- license -->
+[license]: LICENSE

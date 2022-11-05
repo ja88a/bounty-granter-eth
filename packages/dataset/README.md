@@ -87,3 +87,10 @@ Format your code in watch mode, waiting for file changes.
 yarn run prettier-watch
 ```
 
+
+## License
+
+Distributed under the [LGPL-2.1 license][license].
+
+<!-- license -->
+[license]: LICENSE
