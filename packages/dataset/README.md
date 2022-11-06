@@ -18,7 +18,7 @@
 
 ## Purpose
 
-Core library of the Project Granter app to handle project grants' data.
+Core library of the Project Granter app to handle project grants' data sets.
 
 ## Features
 ### Supports
@@ -49,42 +49,42 @@ or ``yarn install``
 
 Starts the application in development using `nodemon` and `ts-node` to do hot reloading.
 ```sh
-yarn run start:dev
+yarn start:dev
 ```
 
 Starts the app in production by first building the project with `yarn run build`, and then executing the compiled JavaScript at `build/index.js`.
 ```sh
-yarn run start
+yarn start
 ```
 
 ### Build
 
 Builds the app at `build`, cleaning the folder first.
 ```sh
-yarn run build
+yarn build
 ```
 
 ### Test
 
 Runs the `jest` tests once.
 ```sh
-yarn run test
+yarn test
 ```
 
 Run the `jest` tests in watch mode, waiting for file changes.
 ```sh
-yarn run test:dev
+yarn test:dev
 ```
 
 ### Format
 Format your code.
 ```sh
-yarn run prettier-format
+yarn prettier-format
 ```
 
 Format your code in watch mode, waiting for file changes.
 ```sh
-yarn run prettier-watch
+yarn prettier-watch
 ```
 
 

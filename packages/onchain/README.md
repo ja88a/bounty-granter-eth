@@ -1,8 +1,8 @@
 
 
-## BountyGranter on-chain Contracts
+## BountyGranter On-Chain Contracts
 
-Solidity verion: `0.8.16`
+Actual Solidity version for the EVM contracts: `0.8.16`
 
 Location: [/contracts](./contracts)
 
@@ -15,7 +15,7 @@ Available contracts:
   * [Registry](./contracts/ProjectGrantRegistry.sol) of project grants
   * [Factory](./contracts/ProjectGrantFactory.sol) of project grants for a given committee
   * [Extended ERC721](./contracts/ProjectGrantCollection.sol) collections of non-fungible tokens for the project grants definition
-* 
+ 
 
 ## Contracts Build & Deployment
 
@@ -26,17 +26,17 @@ Installation:
 pnpm install # or yarn
 ```
 
-Generate a contract deployer account: 	``yarn compile``
+Generate a contract deployer account: 	`yarn compile`
 
-Generate a contract deployer account: 	``yarn generate``
+Generate a contract deployer account: 	`yarn generate`
 
-View your deployer account address: 	  ``yarn account``
+View your deployer account address: 	  `yarn account`
 
-Deploy your contracts: 		              ``yarn deploy``
+Deploy your contracts: 		              `yarn deploy`
 
-Verify the deployed contract: 	        ``yarn verify``
+Verify the deployed contract: 	        `yarn verify`
 
-Use the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``, to override the ``defaultNetwork`` set in the [hardhat.config.js](./hardhat.config.js).
+Use the CLI parameter `--network X`, e.g. `yarn deploy --network goerli`, to override the `defaultNetwork` set in the [hardhat.config.js](./hardhat.config.js).
 
 ## Hardhat Local Chain
 
@@ -59,9 +59,9 @@ Token: ETH
 
 ## Default Network
 
-Refer to ``defaultNetwork`` set in ``./hardhat.config.js``.
+Refer to `defaultNetwork` set in [hardhat.config.js](./hardhat.config.js).
 
-It is overridden by using the CLI parameter ``--network X``, e.g. ``yarn deploy --network goerli``
+It is overridden by using the CLI parameter `--network X`, e.g. `yarn deploy --network goerli`
 
 
 ## Credits
@@ -70,7 +70,7 @@ Credits go to [scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) and N
 
 [OpenZeppelin contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) are integrated.
 
-Refer to [package.json](./package.json) for the complete list of dependencies this module is developped from.
+Refer to [package.json](./package.json) for the complete list of dependencies this module benefits from.
 
 
 ## License
