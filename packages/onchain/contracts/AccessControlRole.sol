@@ -10,7 +10,7 @@ import "./AccessControlMember.sol";
  * Only members of the admin committee can change the supported actions and associated member roles for a specific committee.
  * When changing a committee associated to the contract, admin or owner, associated allowed roles must be set again.
  
- * Caution: When instantiating such a contract, restricted actions are set via the constructor, but whitelisted committee member roles must be set afterwhile
+ * @notice Caution: When instantiating such a contract, restricted actions are set via the constructor, but whitelisted committee member Roles must be set afterwhile
  */
 abstract contract AccessControlRole is AccessControlMember {
 

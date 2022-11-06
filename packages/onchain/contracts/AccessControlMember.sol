@@ -18,6 +18,7 @@ abstract contract AccessControlMember is AccessController {
     /** @dev Committee group with admin privileges [per members role] */
     address internal adminCommittee;
 
+    /** @dev Event emitted on changes made to one of the contract's committee */
     event ChangeContractCommittee(
         address sender,
         address changedContract,
@@ -26,10 +27,20 @@ abstract contract AccessControlMember is AccessController {
         uint256 timestamp
     );
 
-    constructor(address _community, address _ownwerCommittee, address _adminCommittee) {
-        // TODO Check validity of specified community & committee
+    /**
+     * @dev Contructor
+     * @param _community The community DAO owner of the contract
+     * @param _ownerCommittee The community sub-comittee owner of the contract
+     * @param _adminCommittee The admin comittee of the contract
+     */
+    constructor(
+        address _community, 
+        address _ownerCommittee, 
+        address _adminCommittee
+        ) {
+        /// TODO Check for the validity of specified community & committees
         ownerCommunity = _community;
-        ownerCommittee = _ownwerCommittee;
+        ownerCommittee = _ownerCommittee;
         adminCommittee = _adminCommittee;
     }
 

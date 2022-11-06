@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LGPL-3.0-or-later
 pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -30,11 +30,12 @@ abstract contract ProjectGrantCollection is
 
     /**
      * @dev Constructor
-     * @param _collName Name of the collection, e.g. 'Project grants V1'
+     * @param _collName Name of the collection, e.g. 'Project grants V1 for DAO XYZ'
      * @param _tokenSymbol Symbol the token for this collection of project grants
      * @param _version Version of the project grants collection, e.g. '1.0.3'
-     * @param _community Community owning that collection
+     * @param _community Community (DAO) owning that collection
      * @param _committee Owning committee which members have privileges [per their role]
+     * @param _admin Admin committee which members have privileges [per their role]
      */
     constructor(
         string memory _collName, 
@@ -65,7 +66,7 @@ abstract contract ProjectGrantCollection is
     function mintItem(
         address _committee,
         string memory uri
-        ) 
+        )
         external 
         onlyCommitteeMember(_committee)
         returns (uint256) 

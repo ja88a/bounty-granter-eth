@@ -1,24 +1,26 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LGPL-3.0-or-later
 pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-//import "./AccessController.sol";
 import "./ProjectGrantCollection.sol";
 import "./ProjectGrantRegistry.sol";
 import "./AccessControlMember.sol";
 
 /**
- * @title Factory of project grant NFTokens and management of collections
+ * @title Factory of project grant NFTokens 
+ * @dev Management of project grant collections, minting of new project grant tokens, 
+ * and registration of new project grants
  */
 contract ProjectGrantFactory is AccessControlMember {
-    /** List of available project grant collections */
+
+    /** @notice List of available project grant collections */
     address[] internal projectGrantCollections;
 
-    /** @dev Registration handler of created project grants */
+    /** @notice Registration handler of created project grants */
     address internal projectGrantRegistry;
 
-    // not all of the fields are necessary, but they sure are useful
+    /** @notice Event emitted on the registration of a project grant collection */
     event RegisterProjectGrantCollection(
         address initiator,
         uint256 index,
@@ -27,7 +29,7 @@ contract ProjectGrantFactory is AccessControlMember {
         uint256 timestamp
     );
 
-    // not all of the fields are necessary, but they sure are useful
+    /** @notice Event emitted on a new project grant creation */
     event CreateProjectGrant(
         address creator,
         address indexed factory,
@@ -38,6 +40,7 @@ contract ProjectGrantFactory is AccessControlMember {
         uint256 timestamp
     );
 
+    /** @notice Event emitted on updates of the factory's registry */
     event ChangeProjectGrantFactoryRegistry(
         address initiator,
         address indexed factory,
@@ -62,7 +65,7 @@ contract ProjectGrantFactory is AccessControlMember {
     }
 
     /**
-     * @dev Retrieve the project grants Registry set for this factory
+     * @notice Retrieve the project grants Registry set for this factory
      * @return address Address of the project grant registry contract
      */
     function getProjectGrantRegistry() public view returns (address) {
@@ -70,7 +73,7 @@ contract ProjectGrantFactory is AccessControlMember {
     }
 
     /**
-     * @dev Change the project grants Registry of the Factory. Action restricted to *Admin* members only.
+     * @notice Change the project grants Registry of the Factory. Action restricted to *Admin* members only.
      * @param _newRegistry New registry to report newly created project grants to
      * @return Address of the newly set registry
      */
@@ -92,7 +95,7 @@ contract ProjectGrantFactory is AccessControlMember {
     }
 
     /**
-     * @dev Register a new Project Grants collection to be used for minting a new type of contracts
+     * @notice Register a new Project Grant Collection to be used for minting new types
      * @param _collAddress Collection contract address
      * @return collIndex Registration index in the factory list of collections
      */
@@ -184,6 +187,7 @@ contract ProjectGrantFactory is AccessControlMember {
             _collection != address(0),
             "ProjectGrantFactory: Empty collection address"
         );
+        // TODO PERF lower gas consumption: 1 state load only
         for (uint256 i = 0; i < projectGrantCollections.length; i++) {
             if (projectGrantCollections[i] == _collection) {
                 collIndex = i;
@@ -201,7 +205,7 @@ contract ProjectGrantFactory is AccessControlMember {
      * @dev Create a new Project Grant part of a given collection and assign its owning committee
      * @param _collection The project grant collection to mint from. Must be registered by the factory.
      * @param _projectGrantName Name of the project grant, for better frontend UX
-     * @param _ownerCommittee Address of the account or contract responsible for the project grant
+     * @param _ownerCommittee Address of the committee contract responsible for the project grant
      * @return tokenId ID of the created token
      */
     function createProjectGrant(
@@ -211,18 +215,9 @@ contract ProjectGrantFactory is AccessControlMember {
     ) public onlyCommitteeMember(_ownerCommittee) returns (uint256 tokenId) {
         // => Checks
         // Check if collection is registered
-        uint256 collIndex;
-        for (uint256 i = 0; i < projectGrantCollections.length; i++) {
-            if (projectGrantCollections[i] == _collection) {
-                collIndex = i;
-                break;
-            }
-        }
-        require(
-            collIndex > 0 ||
-                (collIndex == 0 && projectGrantCollections[0] == _collection),
-            "ProjectGrantFactory: Unkown collection - not registered"
-        );
+        getCollectionIndex(_collection);
+        // TODO Check for the submitted project grant name
+        // TODO Check for the submitted committee address
 
         // => Effects
         // Mint new token

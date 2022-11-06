@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LGPL-3.0-or-later
 pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -27,7 +27,7 @@ contract ProjectGrantRegistry is
     /** Reference to the funds Treasury associated to the registry */
     address internal treasury;
 
-    /** @dev Effective registration of a new Project Grant in the Registry */
+    /** @dev Event emitted on the effective registration of a new Project Grant in the Registry */
     event RegisterProjectGrant(
         address initiator,
         uint256 index,
