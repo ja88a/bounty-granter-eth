@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 import "./IProjectGrantCollection.sol";
-import "./AccessControlMember.sol";
+import "../access/AccessControlMember.sol";
 
 /**
  * @title BountyGranter Project Grant collection NFT

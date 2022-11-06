@@ -4,7 +4,7 @@ pragma solidity 0.8.16;
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./IProjectGrantCollection.sol";
-import "./AccessControlMember.sol";
+import "../access/AccessControlMember.sol";
 
 /**
  * @title Registry of project grants

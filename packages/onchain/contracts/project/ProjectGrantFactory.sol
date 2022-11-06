@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./ProjectGrantCollection.sol";
 import "./ProjectGrantRegistry.sol";
-import "./AccessControlMember.sol";
+import "../access/AccessControlMember.sol";
 
 /**
  * @title Factory of project grant NFTokens 

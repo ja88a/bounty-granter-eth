@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 pragma solidity 0.8.16;
 
-import "./IProjectGrantCollection.sol";
-import "./AccessControlRole.sol";
+import "../project/IProjectGrantCollection.sol";
+import "../access/AccessControlRole.sol";
 
 /**
  * @title Handler of project grants' Activity Outcomes
