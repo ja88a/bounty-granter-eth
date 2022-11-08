@@ -33,18 +33,6 @@ contract PgOutcomeCondition is AccessControlRole {
             _adminActions
             )
     {
-        projectGrantRegistry = _pgRegistry;
     }
 
-    /**
-     * @notice Retrieve the project grants Registry set for this factory
-     * @return address Address of the project grant registry contract
-     */
-    function getProjectGrantRegistry()
-        public
-        view
-        returns (address)
-    {
-        return projectGrantRegistry;
-    }
 }

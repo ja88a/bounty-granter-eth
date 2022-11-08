@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 pragma solidity 0.8.16;
 
-import "./AccessControlRole.sol";
+import "../access/AccessControlRole.sol";
 
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
@@ -35,19 +35,7 @@ contract MerkleTreeHandler is AccessControlRole {
             _adminActions
             )
     {
-        projectGrantRegistry = _pgRegistry;
+        
     }
 
-    /**
-     * @notice Retrieve the project grants Registry set for this factory
-     * @return address Address of the project grant registry contract
-     */
-    function getProjectGrantRegistry()
-        public
-        view
-        onlyAdmin()
-        returns (address)
-    {
-        return projectGrantRegistry;
-    }
 }

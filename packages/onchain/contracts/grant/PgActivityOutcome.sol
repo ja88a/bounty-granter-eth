@@ -20,8 +20,8 @@ import "../access/AccessControlRole.sol";
  */ 
 contract PgActivityOutcome is AccessControlRole {
 
-    /** @notice Registration handler of created project grants */
-    address internal projectGrantRegistry;
+    /** @dev Registration handler of created project grants */
+    address private projectGrantRegistry;
 
     /** @notice Event emited on successful claim for asset transfer(s) */
     event ClaimActivityOutcomeTransfer(
@@ -33,8 +33,8 @@ contract PgActivityOutcome is AccessControlRole {
     );
 
     /**
-     * @notice Constructor of the factory
-     * @param _pgRegistry Address of the registry where project grants are reported
+     * @dev Constructor of the factory
+     * param _pgRegistry Address of the registry where project grants are reported
      * @param _community Address of the owning community group (DAO)
      * @param _owner Committee owner of this contract (sub-DAO)
      * @param _admin Committee with admin rights (sub-DAO)
@@ -57,7 +57,7 @@ contract PgActivityOutcome is AccessControlRole {
             _adminActions
             )
     {
-        projectGrantRegistry = _pgRegistry;
+//        projectGrantRegistry = _pgRegistry;
     }
 
     /**
