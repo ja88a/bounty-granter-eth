@@ -1,12 +1,6 @@
-
 // Class-Validator package & doc: https://www.npmjs.com/package/class-validator
 
-import {
-    ValidatorConstraint,
-    ValidatorConstraintInterface,
-    ValidationArguments, isEthereumAddress
-} from "class-validator";
-
+import {} from 'class-validator';
 
 // @ValidatorConstraint()
 // export class IsEthAddressArray implements ValidatorConstraintInterface {
