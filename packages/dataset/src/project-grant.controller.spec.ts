@@ -83,7 +83,9 @@ describe('Test the load of  a Project Grant from YAML', () => {
     assert.equal(
       validationErrors?.length,
       0,
-      "No validation errors should be found on loaded PG '" + PG_YAML_FILE1 + "'",
+      "No validation errors should be found on loaded PG '" +
+        PG_YAML_FILE1 +
+        "'",
     );
     logger.debug('Final project grant: ' + JSON.stringify(pgRes.projectGrant));
   });
