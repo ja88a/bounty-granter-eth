@@ -1,6 +1,6 @@
 {
   "name": "@bounty-granter-eth/subgraph",
-  "license": "UNLICENSED",
+  "license": "LGPL-3.0-or-later",
   "version": "1.0.0",
   "scripts": {
     "codegen": "graph codegen",
