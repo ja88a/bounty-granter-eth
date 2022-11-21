@@ -17,7 +17,7 @@
     "@graphprotocol/graph-ts": "0.18.0"
   },
   "devDependencies": {
-    "mustache": "^3.1.0",
+    "mustache": "^3.2.1",
     "shx": "^0.3.4"
   }
 }
