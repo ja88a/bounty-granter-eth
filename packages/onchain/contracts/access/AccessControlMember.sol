@@ -2,9 +2,10 @@
 pragma solidity 0.8.16;
 
 import "./AccessController.sol";
+import "./IAccessControlMember.sol";
 //import "@openzeppelin/contracts/access/AccessControl.sol";
 
-abstract contract AccessControlMember is AccessController {
+abstract contract AccessControlMember is IAccessControlMember, AccessController {
 
     // fn: onlyCommitteeMember(address(0))
     // fn{}: require(isCommitteeMember(_committee));
@@ -18,15 +19,6 @@ abstract contract AccessControlMember is AccessController {
     /** @dev Committee group with admin privileges [per members role] */
     address internal adminCommittee;
 
-    /** @dev Event emitted on changes made to one of the contract's committee */
-    event ChangeContractCommittee(
-        address sender,
-        address changedContract,
-        bytes32 committeeType,
-        address newCommittee,
-        uint256 timestamp
-    );
-
     /**
      * @dev Contructor
      * @param _community The community DAO owner of the contract
@@ -37,7 +29,8 @@ abstract contract AccessControlMember is AccessController {
         address _community, 
         address _ownerCommittee, 
         address _adminCommittee
-        ) {
+        ) 
+    {
         /// TODO Check for the validity of specified community & committees
         ownerCommunity = _community;
         ownerCommittee = _ownerCommittee;
@@ -45,7 +38,7 @@ abstract contract AccessControlMember is AccessController {
     }
 
     /** 
-     * @dev Get the module's memberships info
+     * @notice Get the module's memberships info
      * @return community The community owning the contract
      * @return committee The committee owning the contract
      * @return admin The committee with privileges to administrate the contract
@@ -61,7 +54,7 @@ abstract contract AccessControlMember is AccessController {
     }
 
     /**
-     * @dev Change the committee in charge of administrating this contract. Change restricted to *Admin members* only.
+     * @notice Change the committee in charge of administrating this contract. Change restricted to *Admin members* only.
      * @param _committee New committee administrator of the contract
      * @return The newly set admin committee
      */
@@ -73,7 +66,7 @@ abstract contract AccessControlMember is AccessController {
     {
         adminCommittee = _committee;
 
-        emit ChangeContractCommittee(
+        emit IAccessControlMember.ChangeContractCommittee(
             msg.sender,
             address(this),
             "admin",
@@ -85,7 +78,7 @@ abstract contract AccessControlMember is AccessController {
     }
 
     /**
-     * @dev Change the committee in charge of administrating this contract. Change restricted to *Admin members* only.
+     * @notice Change the committee in charge of administrating this contract. Change restricted to *Admin members* only.
      * @param _committee New committee owner of the contract
      * @return The newly set owner committee
      */

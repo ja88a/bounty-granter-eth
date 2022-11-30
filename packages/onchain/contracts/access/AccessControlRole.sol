@@ -2,6 +2,7 @@
 pragma solidity 0.8.16;
 
 import "./AccessControlMember.sol";
+import "./IAccessControlRole.sol";
 
 /**
  * @title Committee Members Role-based Access Controller for contracts' methods & inner actions.
@@ -12,7 +13,7 @@ import "./AccessControlMember.sol";
  
  * @notice Caution: When instantiating such a contract, restricted actions are set via the constructor, but whitelisted committee member Roles must be set afterwhile
  */
-abstract contract AccessControlRole is AccessControlMember {
+abstract contract AccessControlRole is IAccessControlRole, AccessControlMember {
 
     /** @dev Supported actions for which a given role in the owning committee is required */
     uint32[] private actionsCommittee;
@@ -25,25 +26,6 @@ abstract contract AccessControlRole is AccessControlMember {
 
     /** @dev Association of actions towards their allowed roles for members of the admin committee */
     mapping (uint => bytes32[]) internal actionRolesAdmin;
-
-    /** @dev Effective change on registered allowed actions for a given committee */
-    event ChangeCommitteeActions (
-        address sender,
-        address changedContract,
-        address committee,
-        uint32[] actions,
-        uint256 timestamp
-    );
-
-    /** @dev Effective change on committee member roles allowed to perform an action */
-    event ChangeActionRoles (
-        address sender,
-        address changedContract,
-        uint32 action,
-        address committee,
-        bytes32[] roles,
-        uint256 timestamp
-    );
 
     /**
      * @dev Constructor
@@ -193,7 +175,7 @@ abstract contract AccessControlRole is AccessControlMember {
         actionsSet = _actions;
 
         // => Interactions
-        emit ChangeCommitteeActions(
+        emit IAccessControlRole.ChangeCommitteeActions(
             msg.sender,
             address(this),
             _committee,
@@ -273,7 +255,8 @@ abstract contract AccessControlRole is AccessControlMember {
      * **Caution**: Granted member roles for actions are emptied and must be set again
      * @param _committee New committee owning the contract
      */
-    function changeCommitteeOwner(address _committee) override
+    function changeCommitteeOwner(address _committee) 
+        override(AccessControlMember, IAccessControlRole)
         public
         onlyAdmin
         returns(address)
@@ -291,7 +274,8 @@ abstract contract AccessControlRole is AccessControlMember {
      * **Caution**: Granted member roles for actions are emptied and must be set again
      * @param _committee New committee administrating the contract
      */
-    function changeCommitteeAdmin(address _committee) override
+    function changeCommitteeAdmin(address _committee) 
+        override(AccessControlMember, IAccessControlRole)
         public
         onlyAdmin
         returns (address)
