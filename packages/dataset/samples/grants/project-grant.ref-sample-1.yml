@@ -15,17 +15,17 @@ project:
   doc: ['https://github.com/scrtlabs/Grants/issues/70']
   desc: >-
     This is the long description of an awesome project
-    requesting for grant support. But best is to look at the
+    requesting for grant support. But best is to look at its
     reference document(s).
         
 organization:
-  dao: '0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F' # Aut DAO
-  committee: ['0xB866Ee8a2396ab82cD0489be87D9692F057c9c29'] # Aut sub-DAO
-  admin: '0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C' # Aut sub-DAO / committee
+  dao: '0x09e930B4FEB47cA86236c8961B8B1e23e514ec3F' # DAO owner
+  committee: ['0xB866Ee8a2396ab82cD0489be87D9692F057c9c29'] # sub-DAO handler
+  admin: '0xc61Ec858c3bf3068e80fBd5654BaE47f4181dE8C' # sub-DAO admin handler
 
 actor:
   - &actor_0
-    address: &actor_id_0 '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Jet or DAO
+    address: &actor_id_0 '0x0E4716Dd910adeB96D9A82E2a7780261E3D9476D' # Edward
     name: Edward Proposer
     role: 0
     status: 100
@@ -45,7 +45,7 @@ actor:
     role: 300
     status: 100
   - &actor_4
-    address: &actor_id_3 '0xA5D0B72cAec5EBAD9DFD25c69C7D6Fc9c160456f' # Faye
+    address: &actor_id_4 '0xA3a0c72BAec5EBAD9DFD25c69C7D6Fc9c160e56f' # Faye
     name: Old Checker
     role: 300
     status: 0
