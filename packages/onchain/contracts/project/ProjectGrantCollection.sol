@@ -24,9 +24,9 @@ abstract contract ProjectGrantCollection is
 
     //bytes32[] internal roles_mint;
     
-    using Strings for uint256;
+//    using Strings for uint256;
 
-    /** Optional Mapping for token URIs */
+    /** Optional Mapping for tokens' URI */
     mapping(uint256 => string) private _tokenURIs;
 
     /**
@@ -65,7 +65,10 @@ abstract contract ProjectGrantCollection is
     }
 
     /**
+     * @notice Retrieve the URL to a given project grant's definition doc
      * @dev See {IERC721Metadata-tokenURI}.
+     * @param tokenId Target token ID, project grant instance
+     * @return The URL for accessing to the project grant's reference specs
      */
     function tokenURI(uint256 tokenId) 
         public 
@@ -102,7 +105,10 @@ abstract contract ProjectGrantCollection is
         internal 
         virtual 
     {
-        require(_exists(tokenId), "ERC721URIStorage: URI set of nonexistent token");
+        require(
+            _exists(tokenId), 
+            "ERC721URIStorage: URI set of nonexistent token"
+        );
         _tokenURIs[tokenId] = _tokenURI;
     }
 
@@ -147,6 +153,10 @@ abstract contract ProjectGrantCollection is
         }
     }
 
+    /** 
+     * @notice ERC-165 support
+     * @param interfaceId ID of the interface expected to be supported - Refer to `type(X).interfaceId`
+     */
     function supportsInterface(bytes4 interfaceId)
         public
         view
