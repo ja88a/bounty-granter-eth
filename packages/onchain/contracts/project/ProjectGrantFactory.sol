@@ -3,73 +3,45 @@ pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-import "./ProjectGrantCollection.sol";
-import "./ProjectGrantRegistry.sol";
+import "./IProjectGrantCollection.sol";
+import "./IProjectGrantFactory.sol";
+import "./IProjectGrantRegistry.sol";
 import "../access/AccessControlMember.sol";
 
 /**
- * @title Factory of project grant NFTokens 
- * @dev Management of project grant collections, minting of new project grant tokens, 
+ * @title Factory of project grant NFTokens
+ * @dev Management of project grant collections, minting of new project grant tokens,
  * and registration of new project grants
  */
-contract ProjectGrantFactory is AccessControlMember {
+contract ProjectGrantFactory is AccessControlMember, IProjectGrantFactory {
+    /** @dev List of available project grant collections */
+    address[] internal _projectGrantCollections;
 
-    /** @notice List of available project grant collections */
-    address[] internal projectGrantCollections;
-
-    /** @notice Registration handler of created project grants */
-    address internal projectGrantRegistry;
-
-    /** @notice Event emitted on the registration of a project grant collection */
-    event RegisterProjectGrantCollection(
-        address initiator,
-        uint256 index,
-        address indexed collectionAddress,
-        string name,
-        uint256 timestamp
-    );
-
-    /** @notice Event emitted on a new project grant creation */
-    event CreateProjectGrant(
-        address creator,
-        address indexed factory,
-        address indexed collection,
-        uint256 indexed tokenId,
-        string name,
-        address committee,
-        uint256 timestamp
-    );
-
-    /** @notice Event emitted on updates of the factory's registry */
-    event ChangeProjectGrantFactoryRegistry(
-        address initiator,
-        address indexed factory,
-        address indexed registry,
-        uint256 timestamp
-    );
+    /** @dev Registration handler of created project grants */
+    address internal _projectGrantRegistry;
 
     /**
      * @dev Constructor of the factory
-     * @param _pgRegistry Address of the registry where newly created project grants are reported
-     * @param _community Address of the owning community group (DAO)
-     * @param _owner Committee owner of this factory (sub-DAO)
-     * @param _admin Committee with admin rights (sub-DAO)
+     * @param pgRegistry_ Address of the registry where newly created project grants are reported
+     * @param community_ Address of the owning community group (DAO)
+     * @param owner_ Committee owner of this factory (sub-DAO)
+     * @param admin_ Committee with admin rights (sub-DAO)
      */
     constructor(
-      address _pgRegistry,
-      address _community,
-      address _owner,
-      address _admin
-    ) AccessControlMember(_community, _owner, _admin) {
-      projectGrantRegistry = _pgRegistry;
+        address pgRegistry_,
+        address community_,
+        address owner_,
+        address admin_
+    ) AccessControlMember(community_, owner_, admin_) {
+        _projectGrantRegistry = pgRegistry_;
     }
 
     /**
      * @notice Retrieve the project grants Registry set for this factory
      * @return address Address of the project grant registry contract
      */
-    function getProjectGrantRegistry() public view returns (address) {
-        return projectGrantRegistry;
+    function projectGrantRegistry() public view returns (address) {
+        return _projectGrantRegistry;
     }
 
     /**
@@ -77,13 +49,16 @@ contract ProjectGrantFactory is AccessControlMember {
      * @param _newRegistry New registry to report newly created project grants to
      * @return Address of the newly set registry
      */
-    function changeProjectGrantRegistry(address _newRegistry)
-        public
-        onlyAdmin
-        returns (address)
-    {
-        projectGrantRegistry = _newRegistry;
+    function changeProjectGrantRegistry(
+        address _newRegistry
+    ) public onlyAdmin returns (address) {
+        // CHECKS
+        require(_newRegistry == address(_newRegistry), "Invalid address");
 
+        // EFFECTS
+        _projectGrantRegistry = _newRegistry;
+
+        // INTERACTIONS
         emit ChangeProjectGrantFactoryRegistry(
             msg.sender,
             address(this),
@@ -91,113 +66,141 @@ contract ProjectGrantFactory is AccessControlMember {
             block.timestamp
         );
 
-        return projectGrantRegistry;
+        return _projectGrantRegistry;
     }
 
     /**
      * @notice Register a new Project Grant Collection to be used for minting new types
-     * @param _collAddress Collection contract address
+     * @param collAddress_ Collection contract address
      * @return collIndex Registration index in the factory list of collections
      */
-    function registerProjectGrantCollection(address _collAddress)
+    function registerProjectGrantCollection(
+        address collAddress_
+    )
         public
         onlyAdmin // TODO Review Admin Vs. Community Role (or specific commitee member role)
         returns (uint256 collIndex)
     {
         // => Checks
-        // TODO Check collectionAddress is legit, e.g. ERC-165 implements IProjectGrantCollection
-
-        // Check that a collection name and version number are provided
-        string memory collLabel = ProjectGrantCollection(_collAddress).name();
-        string memory collVersion = ProjectGrantCollection(_collAddress)
-            .version();
-        bytes32 empty = keccak256(bytes("")); // TRICK String comparison using bytes32=keccak256(bytes)
-        require(
-            !(keccak256(bytes(collLabel)) == empty ||
-                keccak256(bytes(collVersion)) == empty),
-            "ProjectGrantFactory: Invalid collection for registration - Review name and version"
-        );
-        // Check the collection label length
-        require(
-            bytes(collLabel).length < 120,
-            "ProjectGrantFactory: Collection name is too long - Max length is 120, without special characters"
-        );
-
-        // TODO Check that the version follows the pattern x.y
+        this.validProjectGrantCollection(collAddress_);
 
         // Check if collection is not already registered
-        uint index = projectGrantCollections.length;
-        uint alreadyRegistered = 0;
-        for (uint i = 0; i < index; i++) {
-            address collection = projectGrantCollections[i];
-            if (collection == _collAddress) {
+        address[] memory _pgCollections = _projectGrantCollections;
+        uint256 index = _pgCollections.length;
+        uint32 alreadyRegistered = 0;
+        for (uint32 i = 0; i < index; i++) {
+            address collection = _pgCollections[i];
+            if (collection == collAddress_) {
                 alreadyRegistered = i;
                 break;
             }
         }
         require(
             alreadyRegistered == 0 ||
-                (index > 0 && projectGrantCollections[0] != _collAddress),
-            "ProjectGrantFactory: Project Grants Collection already registered"
+                (index > 0 && _pgCollections[0] != collAddress_),
+            "PGFactory: Collection already registered"
         );
 
         // => Effects
-        projectGrantCollections.push(_collAddress);
+        _projectGrantCollections.push(collAddress_);
 
-        collIndex = projectGrantCollections.length - 1;
+        collIndex = index; // TODO @todo Double check that shortcut
+        string memory collName = IProjectGrantCollection(collAddress_).name();
 
         // => Interactions
         emit RegisterProjectGrantCollection(
             msg.sender,
             collIndex,
-            _collAddress,
-            collLabel,
+            collAddress_,
+            collName, // FIXME REVIEW Costly...
             block.timestamp
         );
     }
 
-    function getProjectGrantCollections()
+    /**
+     * @notice Validate a project grant collection
+     * @param _collAddress Address of the collection to validate
+     * @return `true` only if the collection is considered as valid
+     */
+    function validProjectGrantCollection(
+        address _collAddress
+    ) public view returns (bool) {
+        IProjectGrantCollection pgCollection = IProjectGrantCollection(
+            _collAddress
+        );
+
+        // ERC-165 support for IProjectGrantCollection
+        require(
+            pgCollection.supportsInterface(
+                type(IProjectGrantCollection).interfaceId
+            ),
+            "Unsupported interface"
+        );
+
+        // Check that a collection name and version number are provided
+        string memory collLabel = pgCollection.name();
+        string memory collVersion = pgCollection.version();
+        bytes32 empty = keccak256(bytes("")); // TRICK String comparison using bytes32=keccak256(bytes)
+        require(
+            !(keccak256(bytes(collLabel)) == empty ||
+                keccak256(bytes(collVersion)) == empty), // abi.encode(collVersion)
+            "Invalid collection - Review name and version"
+        );
+        // Check the collection label length
+        require(
+            bytes(collLabel).length > 5 && bytes(collLabel).length < 120,
+            "Invalid collection - Review name length"
+        );
+
+        // TODO Further constrain the PG collections' validity
+
+        return true;
+    }
+
+    function projectGrantCollections()
         public
         view
         returns (address[] memory)
     {
-        return projectGrantCollections;
+        return _projectGrantCollections;
     }
 
-    function getProjectGrantCollectionByIndex(uint256 index)
+    function projectGrantCollectionByIndex(uint256 index_) 
         public
         view
         returns (address)
     {
-        return projectGrantCollections[index];
+        return _projectGrantCollections[index_];
     }
 
     /**
      * @dev Get the index of a registered project grants collection.
      * Revert if not found.
-     * @param _collection project grants collection to search for
+     * @param collection_ project grants collection to search for
      * @return collIndex index of the found collection
      */
-    function getCollectionIndex(address _collection)
+    function collectionIndex(address collection_) 
         public
         view
-        returns (uint256 collIndex)
+        returns (uint256 collIndex) 
     {
         require(
-            _collection != address(0),
-            "ProjectGrantFactory: Empty collection address"
+            collection_ != address(0),
+            "PGFactory: Empty address"
         );
-        // TODO PERF lower gas consumption: 1 state load only
-        for (uint256 i = 0; i < projectGrantCollections.length; i++) {
-            if (projectGrantCollections[i] == _collection) {
+
+        address[] memory pgCollections = _projectGrantCollections;
+        for (uint256 i = 0; i < pgCollections.length; i++) {
+            if (pgCollections[i] == collection_) {
                 collIndex = i;
                 break;
             }
         }
+
         require(
             collIndex > 0 ||
-                (collIndex == 0 && projectGrantCollections[0] == _collection),
-            "ProjectGrantFactory: Project grants Collection not registered"
+                (collIndex == 0 && pgCollections[0] == collection_),
+            "PGFactory: Collection not registered"
         );
     }
 
@@ -212,22 +215,25 @@ contract ProjectGrantFactory is AccessControlMember {
         address _collection,
         string calldata _projectGrantName,
         address _ownerCommittee
-    ) public onlyCommitteeMember(_ownerCommittee) returns (uint256 tokenId) {
+        ) 
+        public onlyCommitteeMember(_ownerCommittee) 
+        returns (uint256 tokenId)
+    {
         // => Checks
         // Check if collection is registered
-        getCollectionIndex(_collection);
+        collectionIndex(_collection);
         // TODO Check for the submitted project grant name
         // TODO Check for the submitted committee address
 
         // => Effects
         // Mint new token
-        tokenId = ProjectGrantCollection(_collection).mintItem(
+        tokenId = IProjectGrantCollection(_collection).mintItem(
             _ownerCommittee,
             _projectGrantName
         );
 
         // Register the newly created Project Grant token
-        ProjectGrantRegistry(projectGrantRegistry).registerProjectGrant(
+        IProjectGrantRegistry(_projectGrantRegistry).registerProjectGrant(
             _collection,
             tokenId
         );
@@ -242,5 +248,20 @@ contract ProjectGrantFactory is AccessControlMember {
             _ownerCommittee,
             block.timestamp
         );
+    }
+
+    /**
+     * @notice ERC-165 support
+     * @param interfaceId ID of the interface expected to be supported - Refer to `type(X).interfaceId`
+     */
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(AccessControlMember, IERC165)
+        returns (bool)
+    {
+        return
+            interfaceId == type(IProjectGrantFactory).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 }

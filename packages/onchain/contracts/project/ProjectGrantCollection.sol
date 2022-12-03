@@ -17,7 +17,7 @@ abstract contract ProjectGrantCollection is
     Ownable,
     AccessControlMember
 {
-    string public version;
+    string private _version;
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
@@ -26,30 +26,38 @@ abstract contract ProjectGrantCollection is
     
 //    using Strings for uint256;
 
-    /** Optional Mapping for tokens' URI */
+    /** @dev Optional Mapping for tokens' URI */
     mapping(uint256 => string) private _tokenURIs;
 
     /**
      * @dev Constructor
-     * @param _collName Name of the collection, e.g. 'Project grants V1 for DAO XYZ'
-     * @param _tokenSymbol Symbol the token for this collection of project grants
-     * @param _version Version of the project grants collection, e.g. '1.0.3'
-     * @param _community Community (DAO) owning that collection
-     * @param _committee Owning committee which members have privileges [per their role]
-     * @param _admin Admin committee which members have privileges [per their role]
+     * @param collName_ Name of the collection, e.g. 'Project grants V1 for DAO XYZ'
+     * @param tokenSymbol_ Symbol the token for this collection of project grants
+     * @param version_ Version of the project grants collection, e.g. '1.0.3'
+     * @param community_ Community (DAO) owning that collection
+     * @param committee_ Owning committee which members have privileges [per their role]
+     * @param admin_ Admin committee which members have privileges [per their role]
      */
     constructor(
-        string memory _collName, 
-        string memory _tokenSymbol, 
-        string memory _version, 
-        address _community, 
-        address _committee, 
-        address _admin
+        string memory collName_, 
+        string memory tokenSymbol_, 
+        string memory version_,
+        address community_,
+        address committee_, 
+        address admin_
         ) 
-        ERC721(_collName, _tokenSymbol)
-        AccessControlMember(_community, _committee, _admin)
+        ERC721(collName_, tokenSymbol_)
+        AccessControlMember(community_, committee_, admin_)
     {
-        version = _version;
+        _version = version_;
+    }
+
+    function version()
+        public
+        view
+        returns (string memory)
+    {
+        return _version;
     }
 
     /**
@@ -160,7 +168,7 @@ abstract contract ProjectGrantCollection is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(AccessControlEnumerable, ERC721Enumerable, IProjectGrantCollection)
+        override(AccessControlMember, ERC721Enumerable, IERC165)
         returns (bool)
     {
         return interfaceId == type(IProjectGrantCollection).interfaceId || super.supportsInterface(interfaceId);
