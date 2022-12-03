@@ -4,10 +4,10 @@ importers:
 
   .:
     specifiers:
-      pnpm: ^7.17.0
+      pnpm: ^7.17.1
       shx: ^0.3.4
     devDependencies:
-      pnpm: 7.17.0
+      pnpm: 7.17.1
       shx: 0.3.4
 
   packages/dataset:
@@ -16385,8 +16385,8 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: false
 
-  /pnpm/7.17.0:
-    resolution: {integrity: sha512-0oy+VI/6r248MzFrr3jBTQ5qxC1wM+wP3YoGcoohPEMk+5LfQBYHsazdu8QDtuigr2jjaDi0hfg/c8k89jxiEA==}
+  /pnpm/7.17.1:
+    resolution: {integrity: sha512-O76jPxzoeja81Z/8YyTfuXt+f7qkpsyEJsNBreWYBLHY5rJkjvNE/bIUGQ2uD/rcYPEtmrZZYox21OjAMC9EGw==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
