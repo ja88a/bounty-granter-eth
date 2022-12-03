@@ -2,7 +2,7 @@
 
 ### [onchain](./onchain)
 
-The EVM- smart contracts & the [HardHart](https://hardhat.org) development framework.
+The EVM smart contracts & the [HardHart](https://hardhat.org) development framework.
 
 ### [services](./services)
 
@@ -10,7 +10,7 @@ Backend services / nodes for local deployments: data servers & chains
 
 ### [subgraph](./subgraph)
 
-Home of [The Graph](https://thegraph.com) subgraphes.
+Home of [The Graph](https://thegraph.com) subgraphs.
 
 ### [webui](./webui)
 
