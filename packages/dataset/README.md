@@ -90,7 +90,7 @@ yarn prettier-watch
 
 ## License
 
-Distributed under the [LGPL-2.1 license][license].
+Distributed under the [GNU LGPL-3.0 license][license].
 
 <!-- license -->
 [license]: LICENSE

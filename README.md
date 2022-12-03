@@ -136,7 +136,7 @@ Refer to this [wiki page](https://github.com/ja88a/bounty-granter-eth/wiki/Techn
 
 ## License
 
-Distributed under the [LGPL-2.1 license][license].
+Distributed under the [GNU LGPL-3.0 license][license].
 
 <!-- license -->
 [license]: LICENSE

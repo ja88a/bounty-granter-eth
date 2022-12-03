@@ -75,7 +75,7 @@ Refer to [package.json](./package.json) for the complete list of dependencies th
 
 ## License
 
-Distributed under the [LGPL-2.1 license][license].
+Distributed under the [GNU LGPL-3.0 license][license].
 
 <!-- license -->
 [license]: LICENSE
