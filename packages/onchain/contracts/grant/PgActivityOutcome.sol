@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 pragma solidity 0.8.16;
 
+import "../project/IProjectGrantRegistry.sol";
 import "../project/IProjectGrantCollection.sol";
 import "../access/AccessControlRole.sol";
 
@@ -34,7 +35,7 @@ contract PgActivityOutcome is AccessControlRole {
 
     /**
      * @dev Constructor of the factory
-     * param _pgRegistry Address of the registry where project grants are reported
+     * @param _pgRegistry Address of the registry where project grants are reported
      * @param _community Address of the owning community group (DAO)
      * @param _owner Committee owner of this contract (sub-DAO)
      * @param _admin Committee with admin rights (sub-DAO)
@@ -57,12 +58,12 @@ contract PgActivityOutcome is AccessControlRole {
             _adminActions
             )
     {
-//        projectGrantRegistry = _pgRegistry;
+        projectGrantRegistry = _pgRegistry;
     }
 
     /**
      * @notice Retrieve the project grants Registry set for this factory
-     * @return address Address of the project grant registry contract
+     * @return Address of the project grant registry contract
      */
     function getProjectGrantRegistry()
         public
@@ -70,5 +71,34 @@ contract PgActivityOutcome is AccessControlRole {
         returns (address)
     {
         return projectGrantRegistry;
+    }
+
+    /**
+     * @notice Submit the processing of a Project Grant Activity Outcome in order to unlock its allowed asset transfers
+     * @param projectGrantId Target project grant ID which activity outcome is to be handled
+     * @param activityOutcome Original activity Outcome specifications, CBOR encoded
+     * @param proofs Merkle tree proofs to check for the validity of the submitted activity outcome
+     * @return Total number of unlocked assets
+     */
+    function processOutcome(
+        uint256 projectGrantId,
+        bytes calldata activityOutcome,
+        bytes32[] calldata proofs
+        )
+        public
+        returns(uint)
+    {
+        IProjectGrantRegistry.ProjectGrant memory projectGrant = IProjectGrantRegistry(projectGrantRegistry).projectGrantByIndex(projectGrantId, true);
+        
+        // CHECKS
+        IProjectGrantCollection pgCollection = IProjectGrantCollection(projectGrant.collection);
+        require(
+            pgCollection.supportsInterface(type(IProjectGrantCollection).interfaceId)
+        );
+        
+
+        // EFFECTS
+
+        // INTERACTIONS
     }
 }
