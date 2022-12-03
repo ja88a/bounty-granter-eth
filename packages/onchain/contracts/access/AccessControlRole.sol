@@ -56,6 +56,20 @@ abstract contract AccessControlRole is IAccessControlRole, AccessControlMember {
         actionsAdmin = _actionsAdmin;
     }
 
+
+    /** 
+     * @notice ERC-165 support
+     * @param interfaceId ID of the interface expected to be supported - Refer to `type(X).interfaceId`
+     */
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(AccessControlMember, IERC165)
+        returns (bool)
+    {
+        return interfaceId == type(IAccessControlRole).interfaceId || super.supportsInterface(interfaceId);
+    }
+
     function _checkActionsLength(uint32[] memory _actions) 
         private
         pure

@@ -37,6 +37,20 @@ abstract contract AccessControlMember is IAccessControlMember, AccessController 
         adminCommittee = _adminCommittee;
     }
 
+
+    /** 
+     * @notice ERC-165 support
+     * @param interfaceId ID of the interface expected to be supported - Refer to `type(X).interfaceId`
+     */
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual override(AccessControlEnumerable, IERC165)
+        returns (bool)
+    {
+        return interfaceId == type(IAccessControlMember).interfaceId || super.supportsInterface(interfaceId);
+    }
+
     /** 
      * @notice Get the module's memberships info
      * @return community The community owning the contract
