@@ -6,9 +6,10 @@
 
 [nodejs-shield]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
 [typescript-shield]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
-[jest-shield]: https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white
-[yarn-shield]: https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white
-[docker-shield]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[jest-shield]: https://img.shields.io/badge/-Jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white
+[yarn-shield]: https://img.shields.io/badge/Yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white
+[docker-shield]: https://img.shields.io/badge/Docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[hardhat-shield]: https://img.shields.io/badge/Hardhat-%230db7ed.svg?style=for-the-badge&logo=hardhat&logoColor=white
 
 [ref-nodejs]: https://nodejs.org/
 [ref-typescript]: https://www.typescriptlang.org/
