@@ -22,12 +22,12 @@
 
 ## General
 
-Home of the mono repository for the development of the Bebop Bounty Granter Web3 app.
+Home of the mono repository for the development of the Bounty Granter dApp running on Ethereum/EVM chains.
 
 
 ## Purpose
 
-Decentralized handling of contract-based activity payments following their deliverables validation via reviewers and oracles.
+Decentralized contract-based definition and handling of project activities' asset transfers following their deliverables validation via reviewers and oracles.
 
 More details are available in this project [Wiki](./wiki).
 
