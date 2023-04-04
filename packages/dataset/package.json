@@ -4,7 +4,7 @@
   "description": "Data management lib for BG",
   "main": "index.js",
   "author": "ja88a",
-  "license": "LGPL-3.0-or-later",
+  "license": "AGPL-3.0-or-later",
   "private": true,
   "scripts": {
     "prepublishOnly": "yarn build && yarn test",
