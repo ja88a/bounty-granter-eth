@@ -2,11 +2,9 @@
   "name": "@bounty-granter-eth/monorepo",
   "version": "0.1.0",
   "keywords": [
-    "ethereum",
-    "react",
-    "uniswap",
+    "scripts",
     "workspaces",
-    "yarn"
+    "monorepo"
   ],
   "private": true,
   "workspaces": {
@@ -72,7 +70,7 @@
     "reset:all": "yarn workspaces run reset && yarn reset"
   },
   "devDependencies": {
-    "pnpm": "^7.21.0",
+    "pnpm": "^8.1.1",
     "shx": "^0.3.4"
   }
 }

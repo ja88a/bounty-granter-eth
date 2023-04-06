@@ -13,11 +13,11 @@
     "reset": "yarn remove-local && yarn clean && npx shx rm -rf ./node_modules ./yarn.lock ./package-lock.json ./pnpm-lock.yaml"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.18.0",
-    "@graphprotocol/graph-ts": "0.18.0"
+    "@graphprotocol/graph-cli": "^0.45.0",
+    "@graphprotocol/graph-ts": "^0.29.3"
   },
   "devDependencies": {
-    "mustache": "^3.2.1",
+    "mustache": "^4.2.0",
     "shx": "^0.3.4"
   }
 }

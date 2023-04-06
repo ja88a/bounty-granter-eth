@@ -1,6 +1,9 @@
 packages:
+#  - "packages/*"
   - "packages/dataset"
   - "packages/onchain"
   - "packages/services"
   - "packages/subgraph"
   - "packages/webui"
+  # Exclude packages that are inside test directories
+  - '!**/test/**'
