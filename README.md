@@ -139,7 +139,7 @@ Refer to this [wiki page](https://github.com/ja88a/bounty-granter-eth/wiki/Techn
 
 ## License
 
-Distributed under the [GNU LGPL-3.0 license][license].
+Distributed under the [GNU Alfero GPL 3.0 or later][license].
 
 <!-- license -->
 [license]: LICENSE
