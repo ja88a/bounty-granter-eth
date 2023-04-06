@@ -78,7 +78,7 @@ Repository: [dethcrypto / eth-sdk](https://github.com/dethcrypto/eth-sdk)
 
 ## License
 
-Distributed under the [GNU Alfero GPL 3.0 or later][license].
+Distributed under the [Affero General Public License 3.0+ license][license].
 
 <!-- license -->
 [license]: LICENSE
