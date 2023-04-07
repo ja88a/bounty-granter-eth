@@ -9,22 +9,23 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { configureChains, chain, createClient, WagmiConfig } from 'wagmi';
+import { configureChains, createClient, goerli, WagmiConfig } from 'wagmi';
 
 import { Init as AutInit } from '@aut-protocol/d-aut';
 import ListProjectGrants from './components/ProjectGrantList';
 import { createBrowserRouter, Route, RouterProvider } from "react-router-dom";
 import ProjectGrantDetails from './components/ProjectGrantDetailsView';
+import { hardhat, polygonMumbai, optimismGoerli } from 'wagmi/chains';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
     ...(process.env.REACT_APP_TESTNETS_ENABLE === 'true'
-      ? [chain.hardhat, chain.goerli, chain.polygonMumbai, chain.optimismGoerli]
+      ? [hardhat, goerli, polygonMumbai, optimismGoerli]
       : []),
   ],
   [
     alchemyProvider({
-      apiKey: process.env.REACT_APP_ALCHEMY_APIKEY,
+      apiKey: process.env.REACT_APP_ALCHEMY_APIKEY ? process.env.REACT_APP_ALCHEMY_APIKEY : 'ENV_MISSING_ALCHEMY_APIKEY',
     }),
     publicProvider(),
   ]

@@ -1,23 +1,24 @@
 //import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import { configureChains, createClient, sepolia, WagmiConfig } from 'wagmi';
+import { polygon, mainnet, optimism, hardhat, optimismGoerli, polygonMumbai,  } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import React from 'react';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
-    chain.mainnet,
-    chain.polygon,
-    chain.optimism,
+    mainnet,
+    polygon,
+    optimism,
     ...(process.env.TESTNETS_ENABLE === 'true'
-      ? [chain.hardhat, chain.goerli, chain.polygonMumbai, chain.optimismGoerli]
+      ? [hardhat, sepolia, polygonMumbai, optimismGoerli]
       : []),
   ],
   [
     alchemyProvider({
-      apiKey: process.env.ALCHEMY_APIKEY,
+      apiKey: process.env.ALCHEMY_APIKEY ? process.env.ALCHEMY_APIKEY : 'MISSING_ENV_ALCHEMY_APIKEY',
     }),
     publicProvider(),
   ]
