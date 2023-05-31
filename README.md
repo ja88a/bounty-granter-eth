@@ -32,7 +32,7 @@ Home of the mono repository for the development of the Bounty Granter dApp runni
 
 Decentralized contract-based definition and handling of project activities' asset transfers following their deliverables validation via reviewers and oracles.
 
-More details are available in this project [Wiki](/ja88a/bounty-granter-eth/wiki).
+More details are available in this project [Wiki](https://github.com/ja88a/bounty-granter-eth/wiki).
 
 
 ## Status: *Alpha - Work in Progress*
